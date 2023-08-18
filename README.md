@@ -38,6 +38,7 @@ The following SSM parameters are passed to environment variables in the serverle
 
 ## To Do
 
+- Add API_KEY middleware
 - API Gateway
 - Add event bus, e.g. SNS
 - Emit event creation event
