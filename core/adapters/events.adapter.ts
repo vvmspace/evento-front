@@ -17,7 +17,7 @@ export class EventServiceAdapter {
     private async _request(method: RequestMethod, endpoint: string, data?: Partial<Event>) {
         const headers = {
             'Content-Type': 'application/json',
-            'X-Api-Key': this.apiKey  // добавляем ключ API в заголовок
+            'X-Api-Key': this.apiKey
         };
 
         const response = await fetch(`${this.baseURL}${endpoint}`, {
@@ -26,9 +26,9 @@ export class EventServiceAdapter {
             body: data ? JSON.stringify(data) : undefined
         });
 
-        // if (!response.ok) {
-        //     throw new Error(`API request failed with status ${response.status}`);
-        // }
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }
 
         return response.json();
     }
