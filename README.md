@@ -33,3 +33,11 @@ The following SSM parameters are passed to environment variables in the serverle
 
 - `/event-service/${opt:stage, self:provider.stage}/api-key` - API key for the Events Service
 - `/event-service/${opt:stage, self:provider.stage}/api-url` - API URL for the Events Service
+
+## To Do
+
+- API Gateway
+- Add event bus, e.g. SNS
+- Emit event creation event
+- Next.js frontend or static site generator
+- Add CI/CD
