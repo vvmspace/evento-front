@@ -2,6 +2,8 @@
 
 This is a boilerplate for building serverless microservices using the [Serverless Framework](https://serverless.com/).
 
+Boilerplate was created as a public version of main repository. Repository will be forked to private repository and used as a base for a commercial project.
+
 ## Features
 
 - Monorepo: all services are in the same repository
