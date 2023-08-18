@@ -7,15 +7,12 @@ provider:
   region: eu-south-2
   memorySize: 128
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
-    EVENTS_TABLE: ${opt:stage, self:provider.stage}-events
     API_KEY: ${ssm:/event-service/${opt:stage, self:provider.stage}/api-key}
-    EVENT_SERVICE_BASE_URL:  https://9o2hcnr4ig.execute-api.eu-south-2.amazonaws.com/dev
+    EVENT_SERVICE_BASE_URL: ${ssm:/event-service/${opt:stage, self:provider.stage}/api-url, https://9o2hcnr4ig.execute-api.eu-south-2.amazonaws.com/dev}
 
 plugins:
   - serverless-webpack
   - serverless-offline
-  - serverless-middleware
 
 package:
   individually: true
