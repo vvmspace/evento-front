@@ -1,0 +1,54 @@
+{
+  "name": "events-events-service",
+  "version": "1.0.0",
+  "description": "My webpack project",
+  "main": "serverless.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production --node-env=production",
+    "deploy": "npx serverless deploy --force",
+    "remove": "npx serverless remove",
+    "offline": "npx serverless offline start",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "serve": "webpack serve"
+  },
+  "engines": {
+    "node": ">=14.15.0"
+  },
+  "dependencies": {
+    "@middy/core": "^3.4.0",
+    "@middy/http-json-body-parser": "^3.4.0",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/uuid": "^9.0.2",
+    "aws-sdk": "^2.1439.0",
+    "serverless-offline": "^12.0.4",
+    "uuid": "^9.0.0",
+    "webpack": "^5.88.2"
+  },
+  "devDependencies": {
+    "@serverless/typescript": "^3.0.0",
+    "@types/aws-lambda": "^8.10.71",
+    "@types/node": "^14.14.25",
+    "@webpack-cli/generators": "^3.0.7",
+    "esbuild": "^0.14.11",
+    "html-webpack-plugin": "^5.5.3",
+    "json-schema-to-ts": "^1.5.0",
+    "prettier": "^3.0.2",
+    "serverless": "^3.0.0",
+    "serverless-esbuild": "^1.23.3",
+    "serverless-middleware": "^3.2.0",
+    "serverless-webpack": "^5.13.0",
+    "ts-loader": "^9.4.4",
+    "ts-node": "^10.4.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^5.1.6",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-node-externals": "^3.0.0",
+    "workbox-webpack-plugin": "^7.0.0"
+  },
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "license": "MIT"
+}

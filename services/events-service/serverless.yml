@@ -1,0 +1,96 @@
+service: event-service
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: eu-south-2
+  memorySize: 128
+  environment:
+    EVENTS_TABLE: ${opt:stage, self:provider.stage}-events
+    API_KEY: ${ssm:/event-service/${opt:stage, self:provider.stage}/api-key}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:*:*:table/*"
+
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-middleware
+
+package:
+  individually: true
+
+custom:
+  webpack:
+    webpackConfig: './webpack.config.js'
+    includeModules: true
+
+functions:
+  createEvent:
+    handler: src/handlers/create.createHandler
+#    middleware:
+#      before: ../../core/middlewares/api.auth.middleware.APIAuthMiddleware
+    events:
+      - http:
+          path: events
+          method: post
+          cors: true
+
+  getEvent:
+    handler: src/handlers/get.getHandler
+    middleware:
+      before: ../../core/middlewares/api.auth.middleware.APIAuthMiddleware
+    events:
+      - http:
+          path: events/{id}
+          method: get
+          cors: true
+
+  listEvents:
+    handler: src/handlers/list.listHandler
+    events:
+      - http:
+          path: events
+          method: get
+          cors: true
+
+  updateEvent:
+    handler: src/handlers/update.updateHandler
+    events:
+      - http:
+          path: events/{id}
+          method: put
+          cors: true
+
+  deleteEvent:
+    handler: src/handlers/delete.deleteHandler
+    events:
+      - http:
+          path: events/{id}
+          method: delete
+          cors: true
+
+resources:
+  Resources:
+    EventsTable:
+      Type: 'AWS::DynamoDB::Table'
+      Properties:
+        TableName: ${self:provider.stage}-events
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
