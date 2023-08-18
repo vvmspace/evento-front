@@ -2,8 +2,10 @@
 
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { Dynamo } from "../utils/db";
+import { ApiGuard } from "../../../../core/guards/api-guard";
 
 const updateEvent: APIGatewayProxyHandler = async (event) => {
+  ApiGuard(event);
   const data = JSON.parse(event.body as string);
   const id = event.pathParameters?.id as string;
 

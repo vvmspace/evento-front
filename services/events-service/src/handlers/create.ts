@@ -3,8 +3,10 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { Dynamo } from "../utils/db";
 import { v4 as uuid } from "uuid";
-console.log(process.env.EVENTS_TABLE);
+import { ApiGuard } from "../../../../core/guards/api-guard";
+
 const createEvent: APIGatewayProxyHandler = async (event) => {
+  ApiGuard(event);
   const data = JSON.parse(event.body as string);
   const id = uuid();
 

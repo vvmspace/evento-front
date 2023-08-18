@@ -1,4 +1,4 @@
-type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 import { Event } from '../models/event.model';
 
 export class EventServiceAdapter {
@@ -15,11 +15,11 @@ export class EventServiceAdapter {
     }
 
     private async _request(method: RequestMethod, endpoint: string, data?: Partial<Event>) {
+
         const headers = {
             'Content-Type': 'application/json',
-            'X-Api-Key': this.apiKey
+            'X-API-Key': this.apiKey
         };
-
         const response = await fetch(`${this.baseURL}${endpoint}`, {
             method: method,
             headers: headers,
@@ -27,14 +27,14 @@ export class EventServiceAdapter {
         });
 
         if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
+            throw new Error(`API request failed with status ${response.status} ${response.statusText}`);
         }
 
         return response.json();
     }
 
     public async createEvent(data: Event): Promise<Event> {
-        return this._request('POST', '/events', data);
+        return this._request('PUT', '/events', data);
     }
 
     public async getEvent(id: string) {
@@ -46,7 +46,7 @@ export class EventServiceAdapter {
     }
 
     public async updateEvent(id: string, data: Partial<Event>) {
-        return this._request('PUT', `/events/${id}`, data);
+        return this._request('PATCH', `/events/${id}`, data);
     }
 
     public async deleteEvent(id: string) {

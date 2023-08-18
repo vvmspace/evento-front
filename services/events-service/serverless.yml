@@ -24,7 +24,6 @@ provider:
 plugins:
   - serverless-webpack
   - serverless-offline
-  - serverless-middleware
 
 package:
   individually: true
@@ -37,18 +36,14 @@ custom:
 functions:
   createEvent:
     handler: src/handlers/create.createHandler
-#    middleware:
-#      before: ../../core/middlewares/api.auth.middleware.APIAuthMiddleware
     events:
       - http:
           path: events
-          method: post
+          method: put
           cors: true
 
   getEvent:
     handler: src/handlers/get.getHandler
-    middleware:
-      before: ../../core/middlewares/api.auth.middleware.APIAuthMiddleware
     events:
       - http:
           path: events/{id}
@@ -68,7 +63,7 @@ functions:
     events:
       - http:
           path: events/{id}
-          method: put
+          method: patch
           cors: true
 
   deleteEvent:
