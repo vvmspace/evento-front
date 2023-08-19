@@ -7,8 +7,8 @@ provider:
   region: eu-south-2
   memorySize: 128
   environment:
-    EVENTS_TABLE: ${opt:stage, self:provider.stage}-events
     API_KEY: ${ssm:/event-service/${opt:stage, self:provider.stage}/api-key}
+    MONGO_URI: ${ssm:/event-service/${opt:stage, self:provider.stage}/mongo-uri}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -40,6 +40,14 @@ functions:
       - http:
           path: events
           method: put
+          cors: true
+
+  upsertEvent:
+    handler: src/handlers/upsert.upsertHandler
+    events:
+      - http:
+          path: events/upsert
+          method: post
           cors: true
 
   getEvent:

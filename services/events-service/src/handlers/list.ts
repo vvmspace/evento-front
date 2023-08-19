@@ -1,11 +1,10 @@
 // src/handlers/list.ts
 
 import { APIGatewayProxyHandler } from "aws-lambda";
-import { Dynamo } from "../utils/db";
+import { EventModel } from '../models/event';
 
 export const listHandler: APIGatewayProxyHandler = async () => {
-  console.log(process.env.EVENTS_TABLE);
-  const items = await Dynamo.query(process.env.EVENTS_TABLE as string);
+  const items = await EventModel.find({});
 
   return {
     statusCode: 200,

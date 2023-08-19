@@ -1,19 +1,28 @@
 // src/handlers/update.ts
 
 import { APIGatewayProxyHandler } from "aws-lambda";
-import { Dynamo } from "../utils/db";
 import { ApiGuard } from "../../../../core/guards/api-guard";
+import { EventModel } from '../models/event';
 
 const updateEvent: APIGatewayProxyHandler = async (event) => {
   ApiGuard(event);
   const data = JSON.parse(event.body as string);
   const id = event.pathParameters?.id as string;
 
-  const item = await Dynamo.update(id, data, process.env.EVENTS_TABLE as string);
+  const updatedItem = await EventModel.findByIdAndUpdate(id, data, {
+    new: true,
+  });
+
+  if (!updatedItem) {
+    return {
+      statusCode: 404,
+      body: JSON.stringify({ message: 'Event not found' }),
+    };
+  }
 
   return {
     statusCode: 200,
-    body: JSON.stringify(item),
+    body: JSON.stringify(updatedItem),
   };
 };
 

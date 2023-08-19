@@ -37,6 +37,10 @@ export class EventServiceAdapter {
         return this._request('PUT', '/events', data);
     }
 
+    public async upsertEvent(data: Event): Promise<Event> {
+        return this._request('POST', '/events/upsert', data);
+    }
+
     public async getEvent(id: string) {
         return this._request('GET', `/events/${id}`);
     }

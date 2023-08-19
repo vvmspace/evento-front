@@ -1,21 +1,15 @@
-// src/handlers/create.ts
-
 import { APIGatewayProxyHandler } from "aws-lambda";
-import { Dynamo } from "../utils/db";
-import { v4 as uuid } from "uuid";
 import { ApiGuard } from "../../../../core/guards/api-guard";
+import { EventModel } from '../models/event';
+import {connectToDb} from "../utils/db";
 
 const createEvent: APIGatewayProxyHandler = async (event) => {
   ApiGuard(event);
+  await connectToDb();
   const data = JSON.parse(event.body as string);
-  const id = uuid();
 
-  const item = {
-    id,
-    ...data,
-  };
-
-  await Dynamo.put(item, process.env.EVENTS_TABLE as string);
+  const item = new EventModel(data);
+  await item.save();
 
   return {
     statusCode: 200,
