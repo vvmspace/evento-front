@@ -33,4 +33,5 @@ export interface Event {
     genre?: string;
     sub_genre?: string;
     venue?: string;
+    original?: any;
 }
