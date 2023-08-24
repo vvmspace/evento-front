@@ -12,4 +12,21 @@ const eventSchema = new Schema<Event & Document>(
   },
 );
 
+eventSchema.pre("save", function (next) {
+  const event = this as Event & Document;
+  event.start =
+    typeof event.start === "string" ? new Date(event.start) : event.start;
+  event.end = event.end
+    ? typeof event.end === "string"
+      ? new Date(event.end)
+      : event.end
+    : undefined;
+  event.validated_at = event.validated_at
+    ? typeof event.validated_at === "string"
+      ? new Date(event.validated_at)
+      : event.validated_at
+    : undefined;
+  next();
+});
+
 export const EventModel = mongoose.model<Event>("Event", eventSchema);
