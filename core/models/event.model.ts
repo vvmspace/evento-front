@@ -27,6 +27,7 @@ export interface Event {
     provider_internal_organizer_id?: string;
     provider_internal_venue_id?: string;
     provider_internal_category_id?: string;
+    provider_internal_subcategory_id?: string;
     provider_internal_sub_genre_id?: string;
     provider_internal_format_id?: string;
     genre?: string;

@@ -20,7 +20,6 @@ provider:
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:*:*:table/*"
 
-
 plugins:
   - serverless-webpack
   - serverless-offline
@@ -30,7 +29,7 @@ package:
 
 custom:
   webpack:
-    webpackConfig: './webpack.config.js'
+    webpackConfig: "./webpack.config.js"
     includeModules: true
 
 functions:
@@ -85,7 +84,7 @@ functions:
 resources:
   Resources:
     EventsTable:
-      Type: 'AWS::DynamoDB::Table'
+      Type: "AWS::DynamoDB::Table"
       Properties:
         TableName: ${self:provider.stage}-events
         AttributeDefinitions:

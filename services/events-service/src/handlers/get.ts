@@ -13,7 +13,7 @@ const getHandler: APIGatewayProxyHandler = async (event) => {
   if (!item) {
     return {
       statusCode: 404,
-      body: JSON.stringify({ message: 'Item not found' }),
+      body: JSON.stringify({ message: "Item not found" }),
     };
   }
 

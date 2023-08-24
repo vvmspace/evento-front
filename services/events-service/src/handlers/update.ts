@@ -3,7 +3,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { ApiGuard } from "../../../../core/guards/api-guard";
 import { EventModel } from "../models/event";
-import {connectToDb} from "../../../../core/utils/db";
+import { connectToDb } from "../../../../core/utils/db";
 
 const updateEvent: APIGatewayProxyHandler = async (event) => {
   await connectToDb();
@@ -18,7 +18,7 @@ const updateEvent: APIGatewayProxyHandler = async (event) => {
   if (!updatedItem) {
     return {
       statusCode: 404,
-      body: JSON.stringify({ message: 'Event not found' }),
+      body: JSON.stringify({ message: "Event not found" }),
     };
   }
 
