@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { ApiGuard } from "../../../../core/guards/api-guard";
-import { EventModel } from '../models/event';
-import { connectToDb } from "../utils/db";
+import { EventModel } from "../models/event";
+import { connectToDb } from "../../../../core/utils/db";
 
 const upsertEvent: APIGatewayProxyHandler = async (event) => {
   ApiGuard(event);
@@ -12,7 +12,7 @@ const upsertEvent: APIGatewayProxyHandler = async (event) => {
 
   const existingItem = await EventModel.findOne({
     provider_id,
-    provider_internal_id
+    provider_internal_id,
   });
 
   let item;

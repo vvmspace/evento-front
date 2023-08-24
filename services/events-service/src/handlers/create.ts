@@ -1,11 +1,11 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { ApiGuard } from "../../../../core/guards/api-guard";
-import { EventModel } from '../models/event';
-import {connectToDb} from "../utils/db";
+import { EventModel } from "../models/event";
+import { connectToDb } from "../../../../core/utils/db";
 
 const createEvent: APIGatewayProxyHandler = async (event) => {
-  ApiGuard(event);
   await connectToDb();
+  ApiGuard(event);
   const data = JSON.parse(event.body as string);
 
   const item = new EventModel(data);
