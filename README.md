@@ -17,6 +17,10 @@ Boilerplate was created as a public version of main repository. Repository will 
 - [Events Service](services/events-service/README.md) - Event entity CRUD, using DynamoDB and API_KEY authorization
 - [Parser Prototype Service](services/parser-proto-service/README.md) - an example of `code/adapters/event.adapter.ts` usage
 
+## Private services
+
+Private services are added to .gitignore by mask `*-private-service` and not included into public repository.
+
 ## Structure
 
 - `core` - shared code
