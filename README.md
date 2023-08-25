@@ -14,7 +14,7 @@ Boilerplate was created as a public version of main repository. Repository will 
 
 ## Services
 
-- [Events Service](services/events-service/README.md) - Event entity CRUD, using DynamoDB and API_KEY authorization
+- [Events Service](services/events-service/README.md) - Event entity CRUD, using Cloud MongoDB and API_KEY authorization
 - [Parser Prototype Service](services/parser-proto-service/README.md) - an example of `core/adapters/event.adapter.ts` usage
 
 ## Private services
