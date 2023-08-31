@@ -5,3 +5,9 @@ export const connectToDb = async () => {
 
   return mongoose.connect(process.env.MONGO_URI!);
 };
+
+export const disconnectFromDb = async () => {
+    if (mongoose.connection.readyState === 0) return;
+
+    return mongoose.disconnect();
+}
