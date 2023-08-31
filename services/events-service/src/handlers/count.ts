@@ -5,15 +5,23 @@ import { EventModel } from "../models/event";
 import { connectToDb } from "../../../../core/utils/db";
 
 const not_cancelled = {
-  "original.dates.status.code": {
-    $ne: "cancelled",
-  },
+    cancelled: {
+        $ne: true,
+    }
+};
+const active = {
+    active: {
+        $eq: true,
+    }
 };
 export const countHandler: APIGatewayProxyHandler = async () => {
   await connectToDb();
   const items = await EventModel.countDocuments({});
   const items_not_cancelled = await EventModel.countDocuments({
     ...not_cancelled,
+  });
+  const items_active = await EventModel.countDocuments({
+    ...active,
   });
   const this_year = await EventModel.countDocuments({
     start: {
@@ -83,6 +91,7 @@ export const countHandler: APIGatewayProxyHandler = async () => {
     body: JSON.stringify({
       items,
       items_not_cancelled,
+      items_active,
       this_year,
       next_year,
       with_description,
