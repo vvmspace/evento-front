@@ -3,12 +3,14 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { EventModel } from "../models/event";
 import { connectToDb, disconnectFromDb } from "../../../../core/utils/db";
+import { Event } from "../../../../core/models/event.model";
+import { Query } from "../../../../core/interfaces/search.interface";
 
 export const listHandler: APIGatewayProxyHandler = async (event) => {
   await connectToDb();
 
   const { from, size, sort } = event.queryStringParameters || {};
-  const query = event.queryStringParameters || {} as unknown;
+  const query = event.queryStringParameters || {} as Query<Event>;
   let mongoQuery = {};
   let sortQuery = {};
   ['query', 'from', 'size', 'sort'].forEach((key) => {

@@ -1,6 +1,6 @@
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 import { Event } from '../models/event.model';
-
+import { Search } from '../interfaces/search.interface'
 export class EventServiceAdapter {
     private baseURL: string;
     private apiKey: string;
@@ -45,15 +45,48 @@ export class EventServiceAdapter {
         return this._request('GET', `/events/${id}`);
     }
 
-    public async listEvents() {
-        return this._request('GET', '/events');
-    }
-
     public async updateEvent(id: string, data: Partial<Event>) {
         return this._request('PATCH', `/events/${id}`, data);
     }
 
     public async deleteEvent(id: string) {
         return this._request('DELETE', `/events/${id}`);
+    }
+
+    public async listEvents(searchParams: Search<Event> = {}) {
+        const queryString = this.createQueryString(searchParams);
+        return this._request('GET', `/events?${queryString}`);
+    }
+
+    private createQueryString(searchParams: Search<Event>): string {
+        const queryString = [];
+
+        // Параметры запроса
+        if (searchParams.query) {
+            for (const [key, value] of Object.entries(searchParams.query)) {
+                if (typeof value === 'object' && !Array.isArray(value)) {
+                    for (const [subKey, subValue] of Object.entries(value)) {
+                        queryString.push(`${key}.${subKey}=${subValue}`);
+                    }
+                } else {
+                    queryString.push(`${key}=${value}`);
+                }
+            }
+        }
+
+        // Сортировка
+        if (searchParams.sort) {
+            queryString.push(`sort=${searchParams.sort}`);
+        }
+
+        // Пагинация
+        if (searchParams.from !== undefined) {
+            queryString.push(`from=${searchParams.from}`);
+        }
+        if (searchParams.size !== undefined) {
+            queryString.push(`size=${searchParams.size}`);
+        }
+
+        return queryString.join('&');
     }
 }
