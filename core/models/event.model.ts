@@ -12,6 +12,7 @@ export interface Event {
     call_for_action_text?: {
         [language: string]: string;
     };
+    cancelled?: boolean;
     price_from?: number;
     price_to?: number;
     price_currency?: string;
