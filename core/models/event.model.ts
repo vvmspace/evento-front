@@ -1,5 +1,6 @@
 export interface Event {
     id?: string;
+    active?: boolean;
     alias: string;
     start: Date;
     end?: Date;
