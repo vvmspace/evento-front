@@ -14,8 +14,8 @@ export interface Event {
         [language: string]: string;
     };
     cancelled?: boolean;
-    price_from?: number;
-    price_to?: number;
+    price_min?: number;
+    price_max?: number;
     price_currency?: string;
     provider_id: string;
     provider_internal_id: string;
