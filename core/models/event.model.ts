@@ -24,6 +24,7 @@ export interface Event {
     validated_at?: Date;
     updated_at?: Date;
     ssr: boolean;
+    provider_internal_name?: string;
     provider_internal_facebook_event_id?: string;
     provider_internal_logo_id?: string;
     provider_internal_organizer_id?: string;
