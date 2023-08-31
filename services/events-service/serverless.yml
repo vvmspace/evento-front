@@ -64,6 +64,16 @@ functions:
           path: events
           method: get
           cors: true
+    timeout: 30
+
+  countEvents:
+    handler: src/handlers/count.countHandler
+    events:
+      - http:
+          path: events/count
+          method: get
+          cors: true
+    timeout: 30
 
   updateEvent:
     handler: src/handlers/update.updateHandler
