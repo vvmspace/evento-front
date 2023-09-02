@@ -3,6 +3,7 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { EventModel } from "../models/event";
 import { connectToDb } from "../../../../core/utils/db";
+import { defaultHeaders } from "../../../../core/headers/default.headers";
 
 const not_cancelled = {
     cancelled: {
@@ -88,6 +89,9 @@ export const countHandler: APIGatewayProxyHandler = async () => {
   });
   return {
     statusCode: 200,
+    headers: {
+      ...defaultHeaders,
+    },
     body: JSON.stringify({
       items,
       items_not_cancelled,

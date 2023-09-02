@@ -5,6 +5,7 @@ import { EventModel } from "../models/event";
 import { connectToDb, disconnectFromDb } from "../../../../core/utils/db";
 import { Event } from "../../../../core/models/event.model";
 import { Query } from "../../../../core/interfaces/search.interface";
+import { defaultHeaders } from "../../../../core/headers/default.headers";
 
 export const listHandler: APIGatewayProxyHandler = async (event) => {
   await connectToDb();
@@ -63,6 +64,9 @@ export const listHandler: APIGatewayProxyHandler = async (event) => {
 
   return {
     statusCode: 200,
+    headers: {
+      ...defaultHeaders,
+    },
     body: JSON.stringify(items),
   };
 };

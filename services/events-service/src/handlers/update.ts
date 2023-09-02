@@ -4,6 +4,7 @@ import { APIGatewayProxyHandler } from "aws-lambda";
 import { ApiGuard } from "../../../../core/guards/api-guard";
 import { EventModel } from "../models/event";
 import { connectToDb } from "../../../../core/utils/db";
+import { defaultHeaders } from "../../../../core/headers/default.headers";
 
 const updateEvent: APIGatewayProxyHandler = async (event) => {
   await connectToDb();
@@ -24,6 +25,9 @@ const updateEvent: APIGatewayProxyHandler = async (event) => {
 
   return {
     statusCode: 200,
+    headers: {
+      ...defaultHeaders,
+    },
     body: JSON.stringify(updatedItem),
   };
 };

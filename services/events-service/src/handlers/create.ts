@@ -2,6 +2,7 @@ import { APIGatewayProxyHandler } from "aws-lambda";
 import { ApiGuard } from "../../../../core/guards/api-guard";
 import { EventModel } from "../models/event";
 import { connectToDb } from "../../../../core/utils/db";
+import { defaultHeaders } from "../../../../core/headers/default.headers";
 
 const createEvent: APIGatewayProxyHandler = async (event) => {
   await connectToDb();
