@@ -3,6 +3,9 @@ import { ApiGuard } from "../../../../core/guards/api-guard";
 import { EventModel } from "../models/event";
 import { connectToDb } from "../../../../core/utils/db";
 import { defaultHeaders } from "../../../../core/headers/default.headers";
+import { NotifyServiceAdapter } from "../../../../core/adapters/notifications.adapter";
+
+const notifyService = new NotifyServiceAdapter();
 
 const upsertEvent: APIGatewayProxyHandler = async (event) => {
   ApiGuard(event);
@@ -24,6 +27,20 @@ const upsertEvent: APIGatewayProxyHandler = async (event) => {
     item = existingItem;
   } else {
     item = new EventModel(data);
+    await notifyService.sendNotification({
+      message: `New event: 
+      ${item.provider_internal_name}
+      ${item.provider_internal_description}
+      ${item.provider_internal_url}
+      
+      Info:
+      ${item.provider_internal_info}
+      
+      Price:
+      ${item.price_min} - ${item.price_max} ${item.price_currency}
+      `,
+      from: "events-service",
+    });
     await item.save();
   }
 
