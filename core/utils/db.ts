@@ -7,7 +7,7 @@ export const connectToDb = async () => {
 };
 
 export const disconnectFromDb = async () => {
-    if (mongoose.connection.readyState === 0) return;
+  if (mongoose.connection.readyState === 0) return;
 
-    return mongoose.disconnect();
-}
+  return mongoose.disconnect();
+};

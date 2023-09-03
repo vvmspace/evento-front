@@ -32,7 +32,6 @@ Private services are added to .gitignore by mask `*-private-service` and not inc
 - `services/<service-name>/src/utils` - service utils
 - `services/<service-name>/serverless.yml` - service configuration
 
-
 ## Common SSM Parameters
 
 The following SSM parameters are passed to environment variables in the serverless.yml files:

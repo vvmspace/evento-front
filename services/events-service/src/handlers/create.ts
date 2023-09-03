@@ -14,6 +14,9 @@ const createEvent: APIGatewayProxyHandler = async (event) => {
 
   return {
     statusCode: 200,
+    headers: {
+      ...defaultHeaders,
+    },
     body: JSON.stringify(item),
   };
 };
