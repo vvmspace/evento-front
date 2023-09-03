@@ -9,6 +9,7 @@ provider:
   environment:
     API_KEY: ${ssm:/event-service/${opt:stage, self:provider.stage}/api-key}
     MONGO_URI: ${ssm:/event-service/${opt:stage, self:provider.stage}/mongo-uri}
+    NOTIFY_SERVICE_BASE_URL: ${ssm:/notification-service/${opt:stage, self:provider.stage}/api-url,  'https://6s8vekl6ij.execute-api.eu-south-2.amazonaws.com/dev'}
   iamRoleStatements:
     - Effect: "Allow"
       Action:
