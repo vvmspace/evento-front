@@ -10,16 +10,6 @@ provider:
     API_KEY: ${ssm:/event-service/${opt:stage, self:provider.stage}/api-key}
     MONGO_URI: ${ssm:/event-service/${opt:stage, self:provider.stage}/mongo-uri}
     NOTIFY_SERVICE_BASE_URL: ${ssm:/notification-service/${opt:stage, self:provider.stage}/api-url,  'https://6s8vekl6ij.execute-api.eu-south-2.amazonaws.com/dev'}
-  iamRoleStatements:
-    - Effect: "Allow"
-      Action:
-        - dynamodb:Query
-        - dynamodb:Scan
-        - dynamodb:GetItem
-        - dynamodb:PutItem
-        - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
-      Resource: "arn:aws:dynamodb:*:*:table/*"
 
 plugins:
   - serverless-webpack
@@ -91,19 +81,3 @@ functions:
           path: events/{id}
           method: delete
           cors: true
-
-resources:
-  Resources:
-    EventsTable:
-      Type: "AWS::DynamoDB::Table"
-      Properties:
-        TableName: ${self:provider.stage}-events
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 1
-          WriteCapacityUnits: 1
