@@ -25,10 +25,14 @@ export interface Event {
   updated_at?: Date;
   ssr: boolean;
   provider_internal_name?: string;
+  provider_internal_description?: string;
+  provider_internal_info?: string;
   provider_internal_facebook_event_id?: string;
   provider_internal_logo_id?: string;
   provider_internal_organizer_id?: string;
   provider_internal_venue_id?: string;
+  provider_internal_venue_name?: string;
+  provider_internal_venue_address?: string;
   provider_internal_category_id?: string;
   provider_internal_subcategory_id?: string;
   provider_internal_sub_genre_id?: string;
@@ -37,4 +41,6 @@ export interface Event {
   sub_genre?: string;
   venue?: string;
   original?: any;
+  latitude?: number;
+  longitude?: number;
 }
