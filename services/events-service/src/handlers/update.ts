@@ -1,10 +1,7 @@
-// src/handlers/update.ts
-
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { ApiGuard } from "../../../../core/guards/api-guard";
 import { EventModel } from "../models/event";
-import { disconnectFromDb } from "../../../../core/utils/db";
-import { connectToDb } from "../../../../core/utils/db";
+import { disconnectFromDb, connectToDb } from "../../../../core/utils/db";
 import { defaultHeaders } from "../../../../core/headers/default.headers";
 
 const updateEvent: APIGatewayProxyHandler = async (event) => {
@@ -12,6 +9,24 @@ const updateEvent: APIGatewayProxyHandler = async (event) => {
   ApiGuard(event);
   const data = JSON.parse(event.body as string);
   const id = event.pathParameters?.id as string;
+
+  if (data.alias && data.alias.trim() !== "") {
+    const existingEvent = await EventModel.findById(id).catch((err) => {
+      console.error(err);
+      return null;
+    });
+
+    if (existingEvent?.alias !== data.alias) {
+      const eventWithSameAlias = await EventModel.findOne({
+        alias: data.alias,
+        _id: { $ne: id },
+      });
+
+      if (eventWithSameAlias) {
+        data.alias = `${data.alias}_${id}`;
+      }
+    }
+  }
 
   delete data._id;
   const updatedItem = await EventModel.findByIdAndUpdate(
