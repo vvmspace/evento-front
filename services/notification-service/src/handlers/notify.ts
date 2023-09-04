@@ -5,11 +5,14 @@ const { TELEGRAM_TOKEN, TELEGRAM_CHAT_ID } = process.env;
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
 export const handler: APIGatewayProxyHandler = async (event) => {
-  if (event.body) {
-    ApiGuard(event);
-  }
+  ApiGuard(event);
 
-  const { from, message } = event.body ? JSON.parse(event.body) : {}; // Вы можете заменить это на динамическое сообщение из вашего события или другого источника
+  const { from, message } = event.body
+    ? JSON.parse(event.body)
+    : {
+        message: "Empty message",
+        from: "Notify",
+      };
 
   try {
     const response = await fetch(TELEGRAM_API_URL, {
@@ -27,11 +30,13 @@ export const handler: APIGatewayProxyHandler = async (event) => {
     const responseData = await response.json();
 
     if (!response.ok) {
-      throw new Error(
-        `Failed to send message to Telegram. Response: ${JSON.stringify(
-          responseData,
-        )}`,
-      );
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: "Failed to send notification",
+          error: responseData,
+        }),
+      };
     }
 
     return {
