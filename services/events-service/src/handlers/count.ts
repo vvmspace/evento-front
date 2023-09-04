@@ -17,6 +17,7 @@ const active = {
 };
 export const countHandler: APIGatewayProxyHandler = async () => {
   await connectToDb();
+  const ssr = await EventModel.countDocuments({ ssr: true });
   const items = await EventModel.countDocuments({});
   const items_not_cancelled = await EventModel.countDocuments({
     ...not_cancelled,
@@ -130,6 +131,7 @@ export const countHandler: APIGatewayProxyHandler = async () => {
       ...defaultHeaders,
     },
     body: JSON.stringify({
+      ssr,
       items,
       items_not_cancelled,
       items_active,
