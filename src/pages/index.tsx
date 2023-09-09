@@ -1,5 +1,4 @@
 import styles from '../styles/Home.module.css';
-import Layout from "@/components/Layout/Layout";
 import {FC} from "react";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
