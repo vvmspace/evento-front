@@ -27,20 +27,25 @@ const upsertEvent: APIGatewayProxyHandler = async (event) => {
     item = existingItem;
   } else {
     item = new EventModel(data);
-    await notifyService.sendNotification({
-      message: `New event: 
-      ${item.provider_internal_name}
-      ${item.provider_internal_description}
-      ${item.provider_internal_url}
-      
-      Info:
-      ${item.provider_internal_info}
-      
-      Price:
-      ${item.price_min} - ${item.price_max} ${item.price_currency}
-      `,
-      from: "events-service",
-    });
+    item.active &&
+      (await notifyService.sendNotification({
+        message: `*New event:* 
+${item.provider_internal_name}
+${item.start ?? ""} - ${item.end ?? ""}
+
+${item.provider_internal_description ?? ""}
+${item.link}
+
+*Info:*
+${item.provider_internal_info ?? ""}
+
+*Note:*
+${item.provider_internal_note ?? ""}
+
+*Location:*
+${item.provider_internal_venue_name ?? ""}`,
+        from: "events-service",
+      }));
     await item.save();
   }
 
