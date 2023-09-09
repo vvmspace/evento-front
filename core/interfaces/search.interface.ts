@@ -6,12 +6,16 @@ export type Query<T extends Record<string, any>> = {
     [K in keyof T as `${string & K}_to`]?: T[K];
 }
 
-type Sort<T> =
-  | keyof T
-  | keyof { [K in keyof T as `${K}_asc`]: true }
-  | keyof { [K in keyof T as `${K}_desc`]: true };
+type StringKeys<T> = Extract<keyof T, string>;
 
-export interface Search<T> {
+type Sort<T> =
+    | StringKeys<T>
+    | `${StringKeys<T>}_asc`
+    | `${StringKeys<T>}_desc`;
+
+
+
+export interface Search<T extends Record<string, any>> {
   query?: Query<T>;
   from?: number;
   size?: number;
