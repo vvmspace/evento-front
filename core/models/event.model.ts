@@ -11,7 +11,7 @@ export interface Event {
   title: {
     [language: string]: string;
   };
-  description?: {
+  description: {
     [language: string]: string;
   };
   call_for_action_text: {
@@ -31,6 +31,7 @@ export interface Event {
   provider_internal_name?: string;
   provider_internal_description?: string;
   provider_internal_info?: string;
+  provider_internal_note?: string;
   provider_internal_facebook_event_id?: string;
   provider_internal_logo_id?: string;
   provider_internal_organizer_id?: string;

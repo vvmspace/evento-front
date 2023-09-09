@@ -13,8 +13,12 @@ export const listHandler: APIGatewayProxyHandler = async (event) => {
 
   const { from, size, sort, select } = event.queryStringParameters || {};
   const query = event.queryStringParameters || ({} as Query<Event>);
-  let mongoQuery = {};
-  let sortQuery = {};
+  let mongoQuery: {
+    [K: string]: any
+  } = {};
+  let sortQuery: {
+    [K: string]: 1 | -1
+  } = {};
   ["query", "from", "size", "sort", "select"].forEach((key) => {
     if (event.queryStringParameters && event.queryStringParameters[key]) {
       delete event.queryStringParameters[key];
@@ -38,7 +42,7 @@ export const listHandler: APIGatewayProxyHandler = async (event) => {
         const compositeKey = `${key}.${subKey}`;
 
         if (subKey.endsWith("_from")) {
-          mongoQuery[compositeKey.slice(0, -5)] = { $gte: subValue };
+          mongoQuery[compositeKey.slice(0, -5) as string] = { $gte: subValue };
         } else if (subKey.endsWith("_to")) {
           mongoQuery[compositeKey.slice(0, -3)] = { $lte: subValue };
         } else {
@@ -58,15 +62,18 @@ export const listHandler: APIGatewayProxyHandler = async (event) => {
     }
   }
 
-  let projection = {};
+  let projection: {
+    [K: string]: 1 | -1
+  } = {};
 
   if (select) {
     const fields = select.split(",");
     for (const field of fields) {
-      projection[field] = 1;
+      projection[field as string] = 1;
     }
   }
 
+  console.log(mongoQuery, sortQuery, projection);
   const items = await EventModel.find(mongoQuery)
     .select(projection)
     .sort(sortQuery)
