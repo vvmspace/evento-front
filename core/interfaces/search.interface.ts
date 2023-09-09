@@ -20,4 +20,5 @@ export interface Search<T extends Record<string, any>> {
   from?: number;
   size?: number;
   sort?: Sort<T>;
+  select?: keyof T []
 }

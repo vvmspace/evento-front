@@ -11,11 +11,11 @@ import { convertType } from "../../../../core/maps/convert-type";
 export const listHandler: APIGatewayProxyHandler = async (event) => {
   await connectToDb();
 
-  const { from, size, sort } = event.queryStringParameters || {};
+  const { from, size, sort, select } = event.queryStringParameters || {};
   const query = event.queryStringParameters || ({} as Query<Event>);
   let mongoQuery = {};
   let sortQuery = {};
-  ["query", "from", "size", "sort"].forEach((key) => {
+  ["query", "from", "size", "sort", "select"].forEach((key) => {
     if (event.queryStringParameters && event.queryStringParameters[key]) {
       delete event.queryStringParameters[key];
     }
@@ -58,7 +58,17 @@ export const listHandler: APIGatewayProxyHandler = async (event) => {
     }
   }
 
+  let projection = {};
+
+  if (select) {
+    const fields = select.split(",");
+    for (const field of fields) {
+      projection[field] = 1;
+    }
+  }
+
   const items = await EventModel.find(mongoQuery)
+    .select(projection)
     .sort(sortQuery)
     .skip(Number(from || 0))
     .limit(Number(size || 100));

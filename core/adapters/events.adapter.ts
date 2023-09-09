@@ -103,7 +103,9 @@ export class EventServiceAdapter {
     if (searchParams.size !== undefined) {
       queryString.push(`size=${searchParams.size}`);
     }
-
+    if (searchParams.select) {
+      queryString.push(`select=${searchParams.select.join(",")}`);
+    }
     return queryString.join("&");
   }
 }
