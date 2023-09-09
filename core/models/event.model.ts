@@ -1,4 +1,5 @@
 export interface Event {
+  _id: string;
   id?: string;
   active?: boolean;
   alias: string;
@@ -7,10 +8,13 @@ export interface Event {
   name: {
     [language: string]: string;
   };
+  title: {
+    [language: string]: string;
+  };
   description?: {
     [language: string]: string;
   };
-  call_for_action_text?: {
+  call_for_action_text: {
     [language: string]: string;
   };
   cancelled?: boolean;
