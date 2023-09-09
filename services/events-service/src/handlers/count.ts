@@ -2,151 +2,100 @@
 
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { EventModel } from "../models/event";
-import { connectToDb } from "../../../../core/utils/db";
+import { connectToDb, disconnectFromDb } from "../../../../core/utils/db";
 import { defaultHeaders } from "../../../../core/headers/default.headers";
 
-const not_cancelled = {
-  cancelled: {
-    $ne: true,
-  },
-};
 const active = {
   active: {
     $eq: true,
   },
 };
+const actual = {
+  start: {
+    $gte: new Date(),
+  },
+};
+const ssr = {
+  ssr: true,
+};
 export const countHandler: APIGatewayProxyHandler = async () => {
   await connectToDb();
-  const ssr = await EventModel.countDocuments({ ssr: true });
-  const items = await EventModel.countDocuments({});
-  const items_not_cancelled = await EventModel.countDocuments({
-    ...not_cancelled,
+  const SSR = await EventModel.countDocuments({
+    ...ssr,
+    ...actual,
   });
-  const items_validated = await EventModel.countDocuments({
-    validated_at: {
-      $exists: true,
-    },
-  });
-  const items_validated_future = await EventModel.countDocuments({
-    validated_at: {
-      $exists: true,
-    },
-    start: {
-      $gte: new Date(),
-    },
-  });
-  const items_active = await EventModel.countDocuments({
+  const items = await EventModel.countDocuments({
     ...active,
+    ...actual,
   });
-  const items_active_future = await EventModel.countDocuments({
+
+  const GB = await EventModel.countDocuments({
+    provider_internal_country_code: "GB",
+    ...active,
+    ...actual,
+    ...ssr,
+  });
+  const DE = await EventModel.countDocuments({
+    provider_internal_country_code: "DE",
+    ...active,
+    ...actual,
+    ...ssr,
+  });
+  const FR = await EventModel.countDocuments({
+    provider_internal_country_code: "FR",
+    ...active,
+    ...actual,
+    ...ssr,
+  });
+  const ES = await EventModel.countDocuments({
+    provider_internal_country_code: "ES",
+    ...active,
+    ...actual,
+    ...ssr,
+  });
+  const MX = await EventModel.countDocuments({
+    provider_internal_country_code: "MX",
+    ...active,
+    ...actual,
+    ...ssr,
+  });
+  const US = await EventModel.countDocuments({
+    provider_internal_country_code: "US",
+    ...active,
+    ...actual,
+    ...ssr,
+  });
+  const AR = await EventModel.countDocuments({
+    provider_internal_country_code: "AR",
+    ...active,
+    ...actual,
+    ...ssr,
+  });
+  const next_month_ssr = await EventModel.countDocuments({
+    ...ssr,
     ...active,
     start: {
-      $gte: new Date(),
+      $gte: new Date(new Date().setMonth(new Date().getMonth() + 1)),
+      $lte: new Date(new Date().setMonth(new Date().getMonth() + 2)),
     },
   });
-  const this_year = await EventModel.countDocuments({
-    start: {
-      // from now to the end of the year
-      $gte: new Date(),
-      $lte: new Date(new Date().getFullYear(), 11, 31),
-    },
-    ...not_cancelled,
-  });
-  const next_year = await EventModel.countDocuments({
-    start: {
-      $gte: new Date(new Date().getFullYear() + 1, 0, 1),
-      $lte: new Date(new Date().getFullYear() + 1, 11, 31),
-    },
-    ...active,
-  });
-  const with_description = await EventModel.countDocuments({
-    "original.description": {
-      $exists: true,
-    },
-    ...not_cancelled,
-  });
-  const this_year_with_description = await EventModel.countDocuments({
-    start: {
-      // from now to the end of the year
-      $gte: new Date(),
-      $lte: new Date(new Date().getFullYear(), 11, 31),
-    },
-    provider_internal_description: {
-      $exists: true,
-    },
-    ...not_cancelled,
-  });
-  const next_year_with_description = await EventModel.countDocuments({
-    start: {
-      // from the start of the next year to the end of the next year
-      $gte: new Date(new Date().getFullYear() + 1, 0, 1),
-      $lte: new Date(new Date().getFullYear() + 1, 11, 31),
-    },
-    provider_internal_description: {
-      $exists: true,
-    },
-    ...not_cancelled,
-  });
-  const this_month = await EventModel.countDocuments({
-    start: {
-      // from now to the end of the year
-      $gte: new Date(),
-      $lte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
-    },
-    ...not_cancelled,
-  });
-  const this_month_with_description = await EventModel.countDocuments({
-    start: {
-      // from now to the end of the year
-      $gte: new Date(),
-      $lte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
-    },
-    provider_internal_description: {
-      $exists: true,
-    },
-    ...not_cancelled,
-  });
-  const next_month = await EventModel.countDocuments({
-    start: {
-      // from now to the end of the year
-      $gte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
-      $lte: new Date(new Date().getFullYear(), new Date().getMonth() + 2, 0),
-    },
-    ...not_cancelled,
-  });
-  const next_month_with_description = await EventModel.countDocuments({
-    start: {
-      // from now to the end of the year
-      $gte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0),
-      $lte: new Date(new Date().getFullYear(), new Date().getMonth() + 2, 0),
-    },
-    provider_internal_description: {
-      $exists: true,
-    },
-    ...not_cancelled,
-  });
+  await disconnectFromDb();
   return {
     statusCode: 200,
     headers: {
       ...defaultHeaders,
     },
     body: JSON.stringify({
-      ssr,
       items,
-      items_not_cancelled,
-      items_active,
-      items_active_future,
-      items_validated,
-      items_validated_future,
-      this_year,
-      next_year,
-      with_description,
-      this_year_with_description,
-      next_year_with_description,
-      this_month,
-      this_month_with_description,
-      next_month,
-      next_month_with_description,
+      next_month_ssr,
+      SSR,
+      AR,
+      MX,
+      ES,
+      US,
+      FR,
+      DE,
+      GB,
     }),
   };
 };
