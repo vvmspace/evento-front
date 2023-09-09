@@ -1,10 +1,10 @@
-export type Query<T> = {
-  [K in keyof T]?: T[K] extends object ? Query<T[K]> : T[K];
+export type Query<T extends Record<string, any>> = {
+  [K in keyof T]?: T[K];
 } & {
-  [K in keyof T as `${K}_from`]?: T[K] extends object ? never : T[K];
+    [K in keyof T as `${string & K}_from`]?: T[K];
 } & {
-  [K in keyof T as `${K}_to`]?: T[K] extends object ? never : T[K];
-};
+    [K in keyof T as `${string & K}_to`]?: T[K];
+}
 
 type Sort<T> =
   | keyof T
