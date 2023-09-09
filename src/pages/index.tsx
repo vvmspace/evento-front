@@ -13,13 +13,15 @@ type Props = {
 const DEFAULT_LANGUAGE = process?.env?.locale ?? 'es';
 
 const HomePage: FC<Props> = ({ events }) => {
-    const { t, i18n } = useTranslation('common');
-    return (
+    const { t } = useTranslation('common');
+    return (<>
+            <h1>{t('New events')}</h1>
             <div className={styles.eventsList}>
                 {events.map(event => (
                     <EventCard event={event} key={event._id} />
                 ))}
             </div>
+        </>
     );
 }
 
