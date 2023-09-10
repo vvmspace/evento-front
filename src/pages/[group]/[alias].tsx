@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Event } from "../../models/event.model";
+import { fetch } from "next/dist/compiled/@edge-runtime/primitives";
 
 type EventPageProps = {
     event: Event;
@@ -37,15 +38,18 @@ const EventPage: FC<EventPageProps> = ({ event }) => {
 export async function getServerSideProps(context: { params: { alias: string }; locale: string }) {
     const { alias } = context.params;
 
-    const response = await fetch(`${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`);
+    const response = await fetch(`${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`, {
+        next: {
+            revalidate: 7200
+        }
+    });
     const [event] = await response.json();
 
     return {
         props: {
             event,
             ...await serverSideTranslations(context.locale, ['common'])
-        },
-        revalidate: 7200
+        }
     };
 }
 

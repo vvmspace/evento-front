@@ -25,7 +25,11 @@ const HomePage: FC<Props> = ({ events }) => {
 }
 
 export async function getServerSideProps() {
-    const response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=20&sort=createdAt_desc`);
+    const response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=20&sort=createdAt_desc`, {
+        next: {
+            revalidate: 7200
+        }
+    });
     const events: Event[] = await response.json();
 
     return {
