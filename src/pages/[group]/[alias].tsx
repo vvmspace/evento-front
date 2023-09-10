@@ -67,7 +67,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group }) => {
     );
 }
 
-export async function getServerSideProps(context: { params: { alias: string, group: string }; locale: string }) {
+export async function getStaticProps(context: { params: { alias: string, group: string }; locale: string }) {
     const { alias, group } = context.params;
 
     const response = await fetch(`${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`, {
