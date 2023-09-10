@@ -1,0 +1,22 @@
+/* Global.module.css */
+.eventCardsList {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.eventCardItem {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+}
+
+.eventCardImage {
+    max-width: 100%;
+    height: auto;
+}

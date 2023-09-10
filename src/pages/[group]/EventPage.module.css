@@ -1,0 +1,163 @@
+.eventWrapper {
+    /* По желанию, можно добавить дополнительные стили для обертки */
+}
+
+.eventTitle {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.eventContent {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.description {
+    width: 100%;
+    text-align: center;
+}
+
+.description p {
+    margin-bottom: 20px;
+}
+
+.venue {
+    /* По желанию, можно добавить дополнительные стили для места проведения */
+}
+
+.ticketTitle {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ticketPrice {
+    /* По желанию, можно добавить дополнительные стили для цены билетов */
+}
+
+.buyButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buyButton:hover {
+    background-color: #0056b3;
+}
+
+@media (min-width: 768px) {
+    .card {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .image {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+    }
+
+    .description {
+        flex: 0 0 66.67%;
+        max-width: 66.67%;
+    }
+}
+
+.relatedEvents {
+    /* По желанию, можно добавить дополнительные стили для блока похожих событий */
+}
+
+.groupTitle {
+    /* По желанию, можно добавить дополнительные стили для заголовка группы */
+}
+
+
+/* ... (предыдущие стили) */
+
+.eventTitle {
+    text-align: left;
+    font-size: 24px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+}
+
+.description {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 20px; /* Используем margin вместо padding */
+}
+
+.ticketTitle {
+    font-size: 20px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.ticketPrice {
+    margin-bottom: 10px;
+}
+
+.buttonWrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buyButton {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buyButton:hover {
+    background-color: #0056b3;
+}
+
+@media (min-width: 768px) {
+    .card {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .image {
+        flex: 0 0 33.33%;
+        max-width: 33.33%;
+    }
+
+    .description {
+        flex: 0 0 66.67%;
+        max-width: calc(66.67% - 40px); /* Учет отступов */
+        margin: 0 40px;
+    }
+}

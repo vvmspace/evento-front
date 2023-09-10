@@ -9,7 +9,14 @@ type EventCardProps = {
 };
 
 const performUrlFromEvent = (event: Event) => {
-    return `/event/${event.alias}`;
+    return `/${`${
+        event.provider_internal_country_name
+        || event.genre
+        || event.provider_city_name
+        || event.provider_internal_venue_name
+        || 'event'}`.toLowerCase().replaceAll(' ', '%20').replaceAll('&',
+            '%26'
+        )}/${event.alias}`;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {

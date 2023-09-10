@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.css';
+import globalStyles from '../styles/Global.module.css';
 import {FC} from "react";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
@@ -22,13 +22,13 @@ const HomePage: FC<Props> = ({ latest, top, title }) => {
                 <title>{title}</title>
             </Head>
             <h1>{t('New events')}</h1>
-            <div className={styles.eventsList}>
+            <div className={globalStyles.eventCardsList}>
                 {latest.map(event => (
                     <EventCard event={event} key={event._id} />
                 ))}
             </div>
             <h2>{t('Top events')}</h2>
-            <div className={styles.eventsList}>
+            <div className={globalStyles.eventCardsList}>
                 {top.map(event => (
                     <EventCard event={event} key={event._id} />
                 ))}
@@ -38,14 +38,14 @@ const HomePage: FC<Props> = ({ latest, top, title }) => {
 }
 
 export async function getServerSideProps() {
-    const latest_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=9&sort=createdAt_desc`, {
+    const latest_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=9&sort=createdAt_desc`, {
         next: {
             revalidate: 7200
         }
     });
     const latest: Event[] = await latest_response.json();
 
-    const top_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=3&price_currency=EUR&sort=price_max_desc`, {
+    const top_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=3&price_currency=EUR&sort=price_max_desc`, {
         next: {
             revalidate: 7200
         }
