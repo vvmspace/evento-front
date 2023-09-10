@@ -39,7 +39,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 </div>
                 <div className={styles.cardFooter}>
                     <p className={styles.cardPrice}>
-                        {event.price_min && event.price_min !== event.price_max && `${event.price_min} - `}{event.price_max} {event.price_currency}
+                        {event.price_min && event.price_min !== event.price_max && `${event.price_min} - ` || ''}{event.price_max} {event.price_currency}
                     </p>
                 </div>
             </div>
