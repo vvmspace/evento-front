@@ -45,7 +45,7 @@ export async function getServerSideProps() {
             revalidate: 7200
         }
     });
-    const top: Event[] = await latest_response.json();
+    const top: Event[] = await top_response.json();
 
     return {
         props: {
