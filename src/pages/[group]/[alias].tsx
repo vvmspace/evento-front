@@ -4,7 +4,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Event } from "../../models/event.model";
 import { fetch } from "next/dist/compiled/@edge-runtime/primitives";
 import Head from "next/head";
-import EventCard from "@/components/EventCard/EventCard";
+import EventCard, {performGroupAliasFromEvent} from "@/components/EventCard/EventCard";
 import styles from './EventPage.module.css';
 import globalStyles from '../../styles/Global.module.css';
 
@@ -67,6 +67,25 @@ const EventPage: FC<EventPageProps> = ({ event, related, group }) => {
     );
 }
 
+export async function getStaticPaths() {
+    const response = await fetch(`${process.env.API_PREFIX}/events?select=provider_internal_country_name,provider_internal_state_name,sub_genre,genre,provider_city_name,provider_internal_venue_name,provider_internal_country_code&ssr=true&size=10000&sort=createdAt_desc`, {
+        next: {
+            revalidate: 7200
+        }
+    });
+
+    const events: Partial<Event>[] = await response.json();
+
+    return {
+        paths: events.map(event => ({
+            params: {
+                alias: event.alias,
+                group: performGroupAliasFromEvent(event as Event)
+            }
+        })),
+        fallback: true
+    };
+}
 export async function getStaticProps(context: { params: { alias: string, group: string }; locale: string }) {
     const { alias, group } = context.params;
 
@@ -102,7 +121,8 @@ export async function getStaticProps(context: { params: { alias: string, group: 
             ...await serverSideTranslations(context.locale, ['common']),
             title: event.title[context.locale],
             description: event.description[context.locale]
-        }
+        },
+        revalidate: 7200
     };
 }
 

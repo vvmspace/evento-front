@@ -8,15 +8,20 @@ type EventCardProps = {
     event: Event
 };
 
-const performUrlFromEvent = (event: Event) => {
-    return `/${`${
-        event.provider_internal_country_name
+export const performGroupAliasFromEvent = (event: Event) => {
+    return (event.provider_internal_country_name
+        || event.provider_internal_state_name
+        || event.sub_genre
         || event.genre
         || event.provider_city_name
         || event.provider_internal_venue_name
-        || 'event'}`.toLowerCase().replaceAll(' ', '%20').replaceAll('&',
+        || event.provider_internal_country_code
+        || 'event').toLowerCase().replaceAll(' ', '%20').replaceAll('&',
             '%26'
-        )}/${event.alias}`;
+        );
+}
+const performUrlFromEvent = (event: Event) => {
+    return `${performGroupAliasFromEvent(event)}/${event.alias}`;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
