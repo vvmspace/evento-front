@@ -16,7 +16,7 @@ type EventPageProps = {
     group: string;
 };
 
-let cachedRelated: {
+const cachedRelated: {
     [key: string]: Event[]
 } = {}
 
