@@ -51,7 +51,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
     };
 
     if (!event && alias.includes('20')) {
-        const fake_title = alias.split('').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        const fake_title = alias ? alias.split('').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' ' + group : '';
         return (<div className={styles.eventWrapper}>
             <Head>
                 <title>{fake_title}</title>
