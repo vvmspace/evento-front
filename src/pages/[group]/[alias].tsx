@@ -132,26 +132,22 @@ export async function getStaticPaths() {
 export async function getStaticProps(context: { params: { alias: string, group: string }; locale: string }) {
     const { alias, group } = context.params;
 
-    const response = await fetch(`${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`, {
-        next: {
-            revalidate: 7200
-        }
-    });
+    console.log('alias', alias, 'group', group);
+
+    const response = await fetch(`${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`);
 
     let event = null;
     event = (await response.json())[0];
+    console.log('event', event)
 
     if (!event) {
         // if not by alias, try by everywhere & alias
         const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&size=1&everywhere=${alias}&sort=start_asc`;
-        const everywhere_response = await fetch(everywhere_url, {
-            next: {
-                revalidate: 7200
-            }
-        });
+        const everywhere_response = await fetch(everywhere_url);
         event = (await everywhere_response.json())[0];
     }
 
+    console.log('event', event)
     const related = await getRelated(group);
 
 
