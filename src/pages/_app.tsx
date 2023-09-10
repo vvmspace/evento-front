@@ -1,7 +1,9 @@
 import { appWithTranslation, useTranslation } from 'next-i18next';
-import React, {FC, useState} from 'react';
+import React, { FC, useState } from 'react';
 import styles from './../components/Layout/Layout.module.css';
-import {AppProps} from "next/app";
+import { AppProps } from "next/app";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type Language = {
     code: string;
@@ -19,16 +21,28 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     const [currentLang, setCurrentLang]
         = useState(languages
         .find(lang => lang.code === i18n.language) || languages[1]);
+    const router = useRouter();
 
     const changeLanguage = (lng: Language) => {
         i18n.changeLanguage(lng.code);
         setCurrentLang(lng);
     };
 
+    const renderSiteName = () => {
+        if (router.pathname === '/') {
+            return <span>{t('site_name')}</span>;
+        }
+        return (
+            <Link href="/">
+                <a>{t('site_name')}</a>
+            </Link>
+        );
+    }
+
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <h1>{t('site_name')}</h1>
+                <h1>{renderSiteName()}</h1>
                 <div>
                     {languages.map(lang => (
                         <button key={lang.code} onClick={() => changeLanguage(lang)}>
