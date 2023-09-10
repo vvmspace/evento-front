@@ -116,8 +116,7 @@ export async function getStaticPaths() {
                 alias: event.alias,
                 group: performGroupAliasFromEvent(event as Event)
             }
-        })),
-        fallback: true
+        }))
     };
 }
 export async function getStaticProps(context: { params: { alias: string, group: string }; locale: string }) {
