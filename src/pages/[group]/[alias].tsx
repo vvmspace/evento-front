@@ -16,6 +16,28 @@ type EventPageProps = {
     group: string;
 };
 
+let cachedRelated: {
+    [key: string]: Event[]
+} = {}
+
+const getRelated = async (group: string) => {
+    if (cachedRelated[group]) {
+        console.log('related from cache', group, cachedRelated[group].length, 'events');
+        return cachedRelated[group];
+    }
+    const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
+    const group_response = await fetch(everywhere_url, {
+        next: {
+            revalidate: 7200
+        }
+    });
+    console.log('everywhere_url', everywhere_url);
+    const related: Event[] = await group_response.json();
+    cachedRelated[group] = related;
+    return related;
+
+}
+
 const EventPage: FC<EventPageProps> = ({ event, related, group }) => {
     const { t, i18n } = useTranslation('common');
 
@@ -101,14 +123,7 @@ export async function getStaticProps(context: { params: { alias: string, group: 
     });
     const [event] = await response.json();
 
-    const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
-    const group_response = await fetch(everywhere_url, {
-        next: {
-            revalidate: 7200
-        }
-    });
-    console.log('everywhere_url', everywhere_url);
-    const related: Event[] = await group_response.json();
+    const related = await getRelated(group);
 
     if (!event) {
         console.log('event not found', alias);
