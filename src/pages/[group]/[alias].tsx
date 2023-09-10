@@ -49,7 +49,8 @@ export async function getServerSideProps(context: { params: { alias: string }; l
         props: {
             event,
             ...await serverSideTranslations(context.locale, ['common']),
-            title: event.title[context.locale]
+            title: event.title[context.locale],
+            description: event.description[context.locale]
         }
     };
 }
