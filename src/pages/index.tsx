@@ -8,13 +8,14 @@ import {LOCALES} from "@/constants/locales.constants";
 import Head from "next/head";
 
 type Props = {
-    events: Event[];
+    top: Event[];
+    latest: Event[];
     title: string;
 };
 
 const DEFAULT_LANGUAGE = process?.env?.locale ?? 'es';
 
-const HomePage: FC<Props> = ({ events, title }) => {
+const HomePage: FC<Props> = ({ latest, top, title }) => {
     const { t } = useTranslation('common');
     return (<>
             <Head>
@@ -22,26 +23,35 @@ const HomePage: FC<Props> = ({ events, title }) => {
             </Head>
             <h1>{t('New events')}</h1>
             <div className={styles.eventsList}>
-                {events.map(event => (
+                {latest.map(event => (
                     <EventCard event={event} key={event._id} />
                 ))}
             </div>
+            <h2></h2>
         </>
     );
 }
 
 export async function getServerSideProps() {
-    const response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=20&sort=createdAt_desc`, {
+    const latest_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=9&sort=createdAt_desc`, {
         next: {
             revalidate: 7200
         }
     });
-    const events: Event[] = await response.json();
+    const latest: Event[] = await latest_response.json();
+
+    const top_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=3&price_currency=eur&sort=price_min_desc`, {
+        next: {
+            revalidate: 7200
+        }
+    });
+    const top: Event[] = await latest_response.json();
 
     return {
         props: {
             ...await serverSideTranslations(DEFAULT_LANGUAGE, ['common']),
-            events,
+            latest,
+            top,
             title: LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr"]?.front_title
         }
     };
