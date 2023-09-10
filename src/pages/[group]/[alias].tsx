@@ -7,6 +7,7 @@ import Head from "next/head";
 import EventCard, {performGroupAliasFromEvent} from "@/components/EventCard/EventCard";
 import styles from './EventPage.module.css';
 import globalStyles from '../../styles/Global.module.css';
+import {redirect} from "next/navigation";
 
 type EventPageProps = {
     event: Event;
@@ -26,6 +27,10 @@ const EventPage: FC<EventPageProps> = ({ event, related, group }) => {
             window.open(link, '_blank');
         }
     };
+
+    if (!event) {
+        return redirect('/404');
+    }
 
     return (
         <div className={styles.eventWrapper}>
