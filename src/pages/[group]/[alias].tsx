@@ -123,9 +123,24 @@ export async function getStaticProps(context: { params: { alias: string, group: 
             revalidate: 7200
         }
     });
-    const [event] = await response.json();
+
+    let event = null;
+    event = (await response.json())[0];
+
+    if (!event) {
+        // if not by alias, try by everywhere & alias
+        const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&size=1&everywhere=${alias}&sort=start_asc`;
+        const everywhere_response = await fetch(everywhere_url, {
+            next: {
+                revalidate: 7200
+            }
+        });
+        event = (await everywhere_response.json())[0];
+    }
 
     const related = await getRelated(group);
+
+
 
     if (!event) {
         console.log('event not found', alias);
