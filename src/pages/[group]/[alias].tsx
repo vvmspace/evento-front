@@ -49,6 +49,12 @@ export async function getServerSideProps(context: { params: { alias: string }; l
         }
     });
     const [event] = await response.json();
+    if (!event) {
+        console.log('event not found', alias);
+        return {
+            notFound: true,
+        }
+    }
 
     return {
         props: {
