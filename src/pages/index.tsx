@@ -4,6 +4,7 @@ import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import EventCard from "../components/EventCard/EventCard";
 import {Event} from "../models/event.model";
+import {LOCALES} from "@/constants/locales.constants";
 
 type Props = {
     events: Event[];
@@ -35,7 +36,8 @@ export async function getServerSideProps() {
     return {
         props: {
             ...await serverSideTranslations(DEFAULT_LANGUAGE, ['common']),
-            events
+            events,
+            title: LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr"]?.front_title
         }
     };
 }
