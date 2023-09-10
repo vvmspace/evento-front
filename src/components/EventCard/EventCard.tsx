@@ -22,6 +22,19 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 <div className={styles.cardContent}>
                     <img src={event.image} alt={event.name[currentLanguage]} className={styles.cardImage} />
                     <h2 className={styles.cardTitle}>{event.name[currentLanguage]}</h2>
+                    <p className={styles.cardStartDate}>
+                        {new Date(event.start).toLocaleDateString(currentLanguage, {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        })}
+                    </p>
+                    <p className={styles.cardStartTime}>{
+                        new Date(event.start).toLocaleTimeString(currentLanguage, {
+                            hour: 'numeric',
+                            minute: 'numeric',
+                        })
+                    }</p>
                     <p className={styles.cardAddress}>{event.venue || event.provider_internal_venue_name || event.provider_city_name}</p>
                 </div>
                 <div className={styles.cardFooter}>
