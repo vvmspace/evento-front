@@ -22,8 +22,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 <div className={styles.cardContent}>
                     <img src={event.image} alt={event.name[currentLanguage]} className={styles.cardImage} />
                     <h2 className={styles.cardTitle}>{event.name[currentLanguage]}</h2>
-                    <p className={styles.cardAddress}>{event.venue}</p>
-                    <p className={styles.cardAddress}>{event.provider_id}</p>
+                    <p className={styles.cardAddress}>{event.venue || event.provider_internal_venue_name || event.provider_city_name}</p>
                 </div>
                 <div className={styles.cardFooter}>
                     <p className={styles.cardPrice}>
