@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import styles from './EventCard.module.css';
 import { useTranslation } from "next-i18next";
-import { Event } from "@/models/event.model";
+import { Event } from "../../models/event.model";
 
 type EventCardProps = {
     event: Event

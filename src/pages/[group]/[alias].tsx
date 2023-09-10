@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Event } from "@/models/event.model";
+import { Event } from "../../models/event.model";
 
 type EventPageProps = {
     event: Event;

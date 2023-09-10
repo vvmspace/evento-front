@@ -2,8 +2,8 @@ import styles from '../styles/Home.module.css';
 import {FC} from "react";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
-import EventCard from "@/components/EventCard/EventCard";
-import {Event} from "@/models/event.model";
+import EventCard from "../components/EventCard/EventCard";
+import {Event} from "../models/event.model";
 
 type Props = {
     events: Event[];
