@@ -68,7 +68,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group }) => {
 }
 
 export async function getStaticPaths() {
-    const response = await fetch(`${process.env.API_PREFIX}/events?select=provider_internal_country_name,provider_internal_state_name,sub_genre,genre,provider_city_name,provider_internal_venue_name,provider_internal_country_code&ssr=true&size=10000&sort=createdAt_desc`, {
+    const response = await fetch(`${process.env.API_PREFIX}/events?select=provider_internal_country_name,provider_internal_state_name,sub_genre,genre,provider_city_name,provider_internal_venue_name,provider_internal_country_code,alias&ssr=true&size=10000&sort=createdAt_desc`, {
         next: {
             revalidate: 7200
         }
