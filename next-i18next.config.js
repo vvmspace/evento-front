@@ -4,6 +4,6 @@ module.exports = {
     i18n: {
         defaultLocale: process.env.locale ?? 'es', // Испанский по умолчанию
         locales: ['en', 'es', 'fr'],
+        localePath: path.resolve('./public/locales'),
     },
-    localePath: path.resolve('./public/locales'),
 };
