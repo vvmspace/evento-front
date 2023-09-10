@@ -104,7 +104,9 @@ export async function getStaticPaths() {
     const events: Partial<Event>[] = await response.json();
 
     return {
-        paths: events.map(event => ({
+        paths: events
+            .filter(event => event.alias)
+            .map(event => ({
             params: {
                 alias: event.alias,
                 group: performGroupAliasFromEvent(event as Event)
