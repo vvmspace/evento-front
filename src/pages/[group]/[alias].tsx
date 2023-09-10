@@ -7,7 +7,7 @@ import Head from "next/head";
 import EventCard, {performGroupAliasFromEvent} from "@/components/EventCard/EventCard";
 import styles from './EventPage.module.css';
 import globalStyles from '../../styles/Global.module.css';
-import {redirect} from "next/navigation";
+import NotFound from "next/dist/client/components/not-found-error";
 
 type EventPageProps = {
     event: Event;
@@ -50,7 +50,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
         }
     };
 
-    if (!event) {
+    if (!event && alias.includes('20')) {
         const fake_title = alias.split('').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
         return (<div className={styles.eventWrapper}>
             <Head>
@@ -61,7 +61,11 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
                 <p>{t('Event is expired or will be available later')}</p>
             </div>
             )
-        </div>)
+        </div>);
+    }
+
+    if (!event) {
+        return NotFound();
     }
 
     return (
