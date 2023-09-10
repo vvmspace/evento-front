@@ -27,7 +27,12 @@ const HomePage: FC<Props> = ({ latest, top, title }) => {
                     <EventCard event={event} key={event._id} />
                 ))}
             </div>
-            <h2></h2>
+            <h2>{t('Top events')}</h2>
+            <div className={styles.eventsList}>
+                {top.map(event => (
+                    <EventCard event={event} key={event._id} />
+                ))}
+            </div>
         </>
     );
 }
@@ -40,12 +45,12 @@ export async function getServerSideProps() {
     });
     const latest: Event[] = await latest_response.json();
 
-    const top_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=3&price_currency=eur&sort=price_min_desc`, {
+    const top_response = await fetch(`${process.env.API_PREFIX}/events?active=true&select=updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=3&price_currency=EUR&sort=price_max_desc`, {
         next: {
             revalidate: 7200
         }
     });
-    const top: Event[] = await latest_response.json();
+    const top: Event[] = await top_response.json();
 
     return {
         props: {
