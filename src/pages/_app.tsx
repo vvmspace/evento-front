@@ -4,6 +4,7 @@ import styles from './../components/Layout/Layout.module.css';
 import { AppProps } from "next/app";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import globalStyles from '../styles/Global.module.css';
 
 type Language = {
     code: string;
@@ -30,11 +31,11 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
 
     const renderSiteName = () => {
         if (router.pathname === '/') {
-            return <span>{t('site_name')}</span>;
+            return <span className={globalStyles.logoWrapper}>{t('site_name')}</span>;
         }
         return (
-            <Link href="/">
-                <a>{t('site_name')}</a>
+            <Link className={globalStyles.logoWrapper} href="/">
+                {t('site_name')}
             </Link>
         );
     }

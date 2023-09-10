@@ -6,5 +6,12 @@
   "New events": "Nouveaux événements",
   "Buy tickets": "Acheter des billets",
   "Buy tickets to": "Acheter des billets pour",
-  "Event is expired or will be available later": "L'événement est expiré ou sera disponible plus tard"
+  "Event is expired or will be available later": "L'événement est expiré ou sera disponible plus tard",
+  "Where?" : "Où?",
+  "When?" : "Quand?",
+  "Date" : "Date",
+  "Start" : "Début",
+  "Tickets price from" : "Prix des billets à partir de",
+  "Tickets price to" : "Prix des billets à"
+
 }

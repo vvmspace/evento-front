@@ -7,5 +7,11 @@
   "New events": "New events",
   "Buy tickets": "Buy tickets",
   "Buy tickets to": "Buy tickets to",
-  "Event is expired or will be available later": "Event is expired or will be available later"
+  "Event is expired or will be available later": "Event is expired or will be available later",
+  "Where?" : "Where?",
+  "When?" : "When?",
+  "Date" : "Date:",
+  "Start" : "Start:",
+  "Tickets price from" : "Tickets price from",
+  "Tickets price to" : "Tickets price to"
 }

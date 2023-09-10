@@ -5,7 +5,7 @@ import { Event } from "../../models/event.model";
 import { fetch } from "next/dist/compiled/@edge-runtime/primitives";
 import Head from "next/head";
 import EventCard, {performGroupAliasFromEvent} from "@/components/EventCard/EventCard";
-import styles from './EventPage.module.css';
+import styles from '../../styles/EventPage.module.css';
 import globalStyles from '../../styles/Global.module.css';
 import NotFound from "next/dist/client/components/not-found-error";
 
@@ -91,9 +91,21 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
                     </div>
                     <div className={styles.description}>
                         <p>{event.description[i18n.language]}</p>
-                        {event.venue && <p className={styles.venue}>{t('venue')}: {event.venue}</p>}
-                        <h2 className={styles.ticketTitle}>{t('Buy tickets to')} {event.name[i18n.language]}</h2>
-                        <p className={styles.ticketPrice}>{t('price')}: {event.price_min} - {event.price_max} {event.price_currency}</p>
+                        {event.start && (<><h2 className={styles.subTitle}>{t('When?')}</h2>
+                        <p className={styles.date}>{t('Date')}: {new Date(event.start).toDateString()}</p>
+                        <p className={styles.date}>{t('Start')}: {new Date(event.start).toLocaleTimeString(i18n.language, {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        })}</p>
+                        </>)}
+                        {(event.provider_internal_venue_address || event.provider_city_name || event.venue)  && (<>
+                        <h2 className={styles.subTitle}>{t('Where?')}</h2>
+                        <p className={styles.address}>{event.provider_internal_venue_address ? event.provider_internal_venue_address + ', ' : ''}{event.provider_city_name ? event.provider_city_name + ', ' : ''} {event.venue ? event.venue : ''}
+                        </p>
+                        </>)}
+                        <h2 className={styles.subTitle}>{t('Buy tickets to')} {event.name[i18n.language]}</h2>
+                        <p className={styles.ticketPrice}>{t('Tickets price from')}: {event.price_min} {event.price_currency}</p>
+                        <p className={styles.ticketPrice}>{t('Tickets price to')}: {event.price_max} {event.price_currency}</p>
                         <div className={styles.buttonWrapper}>
                             <button onClick={handleAffiliateClick} className={styles.buyButton}>
                                 {t('Buy tickets')}

@@ -81,3 +81,10 @@
 .cardPrice:hover {
     background-color: #DA291C; /* BMW Red */
 }
+
+@media (max-width: 1000px) {
+    .card {
+        width: 100%;
+        margin: 1rem 0;
+    }
+}
