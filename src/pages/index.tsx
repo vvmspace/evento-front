@@ -32,7 +32,8 @@ export async function getServerSideProps() {
         props: {
             ...await serverSideTranslations(DEFAULT_LANGUAGE, ['common']),
             events
-        }
+        },
+        revalidate: 7200
     };
 }
 

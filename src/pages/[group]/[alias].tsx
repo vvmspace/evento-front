@@ -44,7 +44,8 @@ export async function getServerSideProps(context: { params: { alias: string }; l
         props: {
             event,
             ...await serverSideTranslations(context.locale, ['common'])
-        }
+        },
+        revalidate: 7200
     };
 }
 
