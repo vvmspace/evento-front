@@ -26,11 +26,7 @@ const getRelated = async (group: string) => {
         return cachedRelated[group];
     }
     const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
-    const group_response = await fetch(everywhere_url, {
-        next: {
-            revalidate: 7200
-        }
-    });
+    const group_response = await fetch(everywhere_url);
     console.log('everywhere_url', everywhere_url);
     const related: Event[] = await group_response.json();
     cachedRelated[group] = related;
@@ -109,12 +105,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
 }
 
 export async function getStaticPaths() {
-    const response = await fetch(`${process.env.API_PREFIX}/events?select=provider_internal_country_name,provider_internal_state_name,sub_genre,genre,provider_city_name,provider_internal_venue_name,provider_internal_country_code,alias&ssr=true&size=10000&sort=createdAt_desc`, {
-        next: {
-            revalidate: 7200
-        }
-    });
-
+    const response = await fetch(`${process.env.API_PREFIX}/events?select=provider_internal_country_name,provider_internal_state_name,sub_genre,genre,provider_city_name,provider_internal_venue_name,provider_internal_country_code,alias&ssr=true&size=10000&sort=createdAt_desc`);
     const events: Partial<Event>[] = await response.json();
 
     return {
@@ -168,8 +159,7 @@ export async function getStaticProps(context: { params: { alias: string, group: 
             ...await serverSideTranslations(context.locale, ['common']),
             title: event.title[context.locale],
             description: event.description[context.locale]
-        },
-        revalidate: 7200
+        }
     };
 }
 
