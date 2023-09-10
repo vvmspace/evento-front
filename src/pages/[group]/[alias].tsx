@@ -77,7 +77,7 @@ export async function getServerSideProps(context: { params: { alias: string, gro
     });
     const [event] = await response.json();
 
-    const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=3&everywhere=${group}&sort=start_asc`;
+    const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
     const group_response = await fetch(everywhere_url, {
         next: {
             revalidate: 7200
