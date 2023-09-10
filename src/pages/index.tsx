@@ -3,7 +3,7 @@ import {FC} from "react";
 import {useTranslation} from "next-i18next";
 import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import EventCard from "@/components/EventCard/EventCard";
-import {Event} from "../../../core/models/event.model";
+import {Event} from "@/models/event.model";
 
 type Props = {
     events: Event[];
