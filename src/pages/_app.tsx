@@ -1,18 +1,26 @@
 import { appWithTranslation, useTranslation } from 'next-i18next';
-import React, { useState } from 'react';
+import React, {FC, useState} from 'react';
 import styles from './../components/Layout/Layout.module.css';
+import {AppProps} from "next/app";
 
+type Language = {
+    code: string;
+    name: string;
+    footerText: string;
+}
 const languages = [
     { code: 'en', name: 'EN', footerText: '© Event Show 2023' },
     { code: 'es', name: 'ES', footerText: '© Evento Show 2023' },
     { code: 'fr', name: 'FR', footerText: '© Spectacle Événement 2023' },
 ];
 
-const MyApp = ({ Component, pageProps }) => {
+const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     const { t, i18n } = useTranslation('common');
-    const [currentLang, setCurrentLang] = useState(languages.find(lang => lang.code === i18n.language) || languages[1]);
+    const [currentLang, setCurrentLang]
+        = useState(languages
+        .find(lang => lang.code === i18n.language) || languages[1]);
 
-    const changeLanguage = (lng) => {
+    const changeLanguage = (lng: Language) => {
         i18n.changeLanguage(lng.code);
         setCurrentLang(lng);
     };
