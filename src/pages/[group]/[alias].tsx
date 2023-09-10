@@ -38,7 +38,7 @@ const getRelated = async (group: string) => {
 
 }
 
-const EventPage: FC<EventPageProps> = ({ event, related, group }) => {
+const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
     const { t, i18n } = useTranslation('common');
 
     const affiliateLink = (event: Event): string => event.link;
@@ -51,7 +51,17 @@ const EventPage: FC<EventPageProps> = ({ event, related, group }) => {
     };
 
     if (!event) {
-        return redirect('/404');
+        const fake_title = alias.split('').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        return (<div className={styles.eventWrapper}>
+            <Head>
+                <title>{fake_title}</title>
+            </Head>
+            <h1>{fake_title} {group}</h1>
+            <div>
+                <p>{t('Event is expired or will be available later')}</p>
+            </div>
+            )
+        </div>)
     }
 
     return (
