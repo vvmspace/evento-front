@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Event } from "../../models/event.model";
 import { fetch } from "next/dist/compiled/@edge-runtime/primitives";
+import Head from "next/head";
 
 type EventPageProps = {
     event: Event;
@@ -22,6 +23,10 @@ const EventPage: FC<EventPageProps> = ({ event }) => {
 
     return (
         <div>
+            <Head>
+                <title>{event.title[i18n.language]} | {event?.call_for_action_text?.[i18n.language] ?? ''}</title>
+                <meta name="description" content={event.description[i18n.language] ?? ''} />
+            </Head>
             <h1>{event.name[i18n.language]}</h1>
             <img src={event.image} alt={event.name[i18n.language]} />
             <p>{event.description[i18n.language]}</p>

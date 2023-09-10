@@ -5,16 +5,21 @@ import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 import EventCard from "../components/EventCard/EventCard";
 import {Event} from "../models/event.model";
 import {LOCALES} from "@/constants/locales.constants";
+import Head from "next/head";
 
 type Props = {
     events: Event[];
+    title: string;
 };
 
 const DEFAULT_LANGUAGE = process?.env?.locale ?? 'es';
 
-const HomePage: FC<Props> = ({ events }) => {
+const HomePage: FC<Props> = ({ events, title }) => {
     const { t } = useTranslation('common');
     return (<>
+            <Head>
+                <title>{title}</title>
+            </Head>
             <h1>{t('New events')}</h1>
             <div className={styles.eventsList}>
                 {events.map(event => (
