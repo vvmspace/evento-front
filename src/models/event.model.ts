@@ -6,6 +6,7 @@ export interface Event {
   alias: string;
   start: Date;
   end?: Date;
+  updatedAt?: Date;
   name: {
     [language: string]: string;
   };

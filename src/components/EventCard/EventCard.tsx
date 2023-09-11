@@ -8,7 +8,7 @@ type EventCardProps = {
     event: Event
 };
 
-export const performGroupAliasFromEvent = (event: Event) => {
+export const performGroupAliasFromEvent = (event: Event): string => {
     return (event.provider_internal_country_name
         || event.provider_internal_state_name
         || event.sub_genre
