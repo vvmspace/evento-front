@@ -1,2 +1,3 @@
 Allow: *
+Host: evento.show
 Sitemap: /sitemap.xml
