@@ -82,6 +82,9 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
             <Head>
                 <title>{event.title[i18n.language]} | {event?.call_for_action_text?.[i18n.language] ?? ''}</title>
                 <meta name="description" content={event.description[i18n.language] ?? ''} />
+                <meta property="og:title" content={event.title[i18n.language]} />
+                <meta property="og:description" content={event.call_for_action_text?.[i18n.language] ?? ''} />
+                <meta property="og:image" content={event.image} />
             </Head>
             <h1 className={styles.eventTitle}>{event.name[i18n.language]}</h1>
             <div className={styles.eventContent}>
