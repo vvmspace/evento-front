@@ -22,14 +22,14 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, res }) =>
         const group = performGroupAliasFromEvent(event);
         const alias = event.alias;
         return `<url>
-                <loc>${process.env.NEXT_PUBLIC_BASE_URL}/${group}/${alias}</loc>
+                <loc>${process.env.URL_PREFIX}/${group}/${alias}</loc>
                 <lastmod>${event.updatedAt}</lastmod>
             </url>`;
     }
 
     const renderGroupUrl = (group: string) => {
         return `<url>
-                <loc>${process.env.NEXT_PUBLIC_BASE_URL}/${group}</loc>
+                <loc>${process.env.URL_PREFIX}/${group}</loc>
             </url>`;
     }
 
