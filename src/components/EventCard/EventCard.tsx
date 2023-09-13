@@ -23,7 +23,8 @@ export const performGroupAliasFromEvent = (event: Event): string => {
     return group;
 }
 const performUrlFromEvent = (event: Event) => {
-    const url = (process.env.URL_PREFIX ?? window?.location?.origin) + '/'
+    const url = (typeof window === 'undefined' ?
+    process.env.URL_PREFIX : window?.location?.origin) + '/'
          + `${performGroupAliasFromEvent(event)}/${event.alias}`;
     return url;
 }
