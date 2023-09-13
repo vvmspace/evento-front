@@ -9,7 +9,7 @@ type EventCardProps = {
 };
 
 export const performGroupAliasFromEvent = (event: Event): string => {
-    return (event.provider_internal_country_name
+    const group = (event.provider_internal_country_name
         || event.provider_internal_state_name
         || event.sub_genre
         || event.genre
@@ -19,9 +19,13 @@ export const performGroupAliasFromEvent = (event: Event): string => {
         || 'event').toLowerCase().replaceAll(' ', '%20').replaceAll('&',
             '%26'
         );
+    console.log('group', group);
+    return group;
 }
 const performUrlFromEvent = (event: Event) => {
-    return `${performGroupAliasFromEvent(event)}/${event.alias}`;
+    const url = (process.env.URL_PREFIX ?? window?.location?.origin) + '/'
+         + `${performGroupAliasFromEvent(event)}/${event.alias}`;
+    return url;
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
@@ -33,7 +37,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             <div className={styles.card}>
                 <div className={styles.cardContent}>
                     <img src={event.image} alt={event.name[currentLanguage]} className={styles.cardImage} />
-                    <h2 className={styles.cardTitle}>{event.name[currentLanguage]}</h2>
+                    <h2 className={styles.cardTitle}>{event.name[currentLanguage] ?? event.name['en']}</h2>
                     <p className={styles.cardStartDate}>
                         {new Date(event.start).toLocaleDateString(currentLanguage, {
                             year: 'numeric',

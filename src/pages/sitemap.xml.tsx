@@ -1,14 +1,9 @@
 // sitemap.xml.tsx
 
-import React from 'react';
 import { GetServerSideProps } from 'next';
 import { fetch } from "next/dist/compiled/@edge-runtime/primitives";
-import { Event } from "../models/event.model";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
+import { Event } from "@/models/event.model";
 import { performGroupAliasFromEvent } from "@/components/EventCard/EventCard";
-import group from "@/pages/[group]";
 
 type SitemapProps = {
     events: Event[];

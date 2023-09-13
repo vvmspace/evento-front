@@ -5,6 +5,7 @@ import { AppProps } from "next/app";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import globalStyles from '../styles/Global.module.css';
+import Head from "next/head";
 
 type Language = {
     code: string;
@@ -40,7 +41,10 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         );
     }
 
-    return (
+    return (<>
+        <Head>
+            <link rel="canonical" href={`https://evento.show/${router.asPath}`} />
+        </Head>
         <div className={styles.container}>
             <header className={styles.header}>
                 <h1>{renderSiteName()}</h1>
@@ -59,7 +63,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
                 {currentLang.footerText}
             </footer>
         </div>
-    );
+        </>);
 }
 
 export default appWithTranslation(MyApp);
