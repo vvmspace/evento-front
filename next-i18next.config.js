@@ -5,5 +5,23 @@ module.exports = {
         defaultLocale: process.env.locale ?? 'es', // Испанский по умолчанию
         locales: ['en', 'es', 'fr'],
         localePath: path.resolve('./public/locales'),
+        domainLocales: [
+            {
+                domain: 'evento.show',
+                defaultLocale: 'es',
+            },
+            {
+                domain: 'fr.event.show',
+                defaultLocale: 'fr',
+            },
+            {
+                domain: 'en.event.show',
+                defaultLocale: 'en',
+            },
+            {
+                domain: 'it.event.show',
+                defaultLocale: 'it',
+            }
+        ]
     },
 };
