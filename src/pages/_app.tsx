@@ -11,11 +11,12 @@ type Language = {
     code: string;
     name: string;
     footerText: string;
+    flag: string;
 }
 const languages = [
-    { code: 'en', name: 'EN', footerText: '© Event Show 2023' },
-    { code: 'es', name: 'ES', footerText: '© Evento Show 2023' },
-    { code: 'fr', name: 'FR', footerText: '© Spectacle Événement 2023' },
+    { code: 'en', name: 'EN', footerText: '© Event Show 2023', flag: '🇺🇸' },
+    { code: 'es', name: 'ES', footerText: '© Evento Show 2023', flag: '🇪🇸' },
+    { code: 'fr', name: 'FR', footerText: '© Spectacle Événement 2023', flag: '🇫🇷' }
 ];
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
@@ -50,7 +51,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
                 <h1>{renderSiteName()} {pageProps.events?.[0]?.name[i18n.language]}</h1>
                 <div>
                     {languages.map(lang => (
-                        <button className={[styles.langButton, lang.code === currentLang.code ? styles.active : ''].join(' ')} key={lang.code} onClick={() => changeLanguage(lang)}>{lang.code}</button>
+                        <button className={[styles.langButton, lang.code === currentLang.code ? styles.active : ''].join(' ')} key={lang.code} onClick={() => changeLanguage(lang)}>{lang.flag}{lang.code}</button>
                     ))}
                 </div>
             </header>
