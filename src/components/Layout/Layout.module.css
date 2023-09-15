@@ -18,3 +18,13 @@
     border-top: 1px solid #ddd;
     text-align: center;
 }
+
+.langButton {
+    margin: 3px;
+    padding: 3px;
+}
+
+.langButton:hover, .langButton:focus, .langButton:active {
+    cursor: pointer;
+    color: #1890ff;
+}

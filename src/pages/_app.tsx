@@ -47,12 +47,10 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         </Head>
         <div className={styles.container}>
             <header className={styles.header}>
-                <h1>{renderSiteName()}</h1>
+                <h1>{renderSiteName()} {pageProps.events?.[0]?.name[i18n.language]}</h1>
                 <div>
                     {languages.map(lang => (
-                        <button key={lang.code} onClick={() => changeLanguage(lang)}>
-                            {lang.name}
-                        </button>
+                        <button className={[styles.langButton, lang.code === currentLang.code ? styles.active : ''].join(' ')} key={lang.code} onClick={() => changeLanguage(lang)}>{lang.code}</button>
                     ))}
                 </div>
             </header>
