@@ -36,7 +36,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           const flag = flags[lang.code];
           if (lang.code === currentLang) {
             return (
-                <span key={lang.code} className={styles.active}>
+                <span key={lang.code} className={styles.langButtonActive}>
               {flag} {lang.code}
             </span>
             );
@@ -47,8 +47,9 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                     href={`https://${lang.domain}${router.asPath}`}
                     passHref
                     title={titles[lang.code]}
+                    className={styles.langButton}
                 >
-                  <span title={titles[lang.code]} className={styles.langButton}>
+                  <span title={titles[lang.code]}>
                     {flag} {lang.code}
                   </span>
                 </Link>

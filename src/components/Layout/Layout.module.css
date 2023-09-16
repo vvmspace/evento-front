@@ -19,14 +19,20 @@
   text-align: center;
 }
 
-.langButton {
+.langButton, .langButtonActive {
   margin: 3px;
   padding: 3px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-decoration-line: none;
+}
+
+.langButton {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .langButton:hover,
 .langButton:focus,
 .langButton:active {
   cursor: pointer;
-  color: #1890ff;
 }
