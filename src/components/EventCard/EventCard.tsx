@@ -35,7 +35,7 @@ const performUrlFromEvent = (event: Event) => {
 };
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
-  const currentLanguage = process?.env?.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
+  const currentLanguage = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   return (
     <Link

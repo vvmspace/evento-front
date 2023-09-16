@@ -12,7 +12,7 @@ type Props = {
   title: string;
 };
 
-const DEFAULT_LANGUAGE = process?.env?.locale ?? "es";
+const DEFAULT_LANGUAGE = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
 const HomePage: FC<Props> = ({ latest, top, title }) => {
   return (
