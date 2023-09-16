@@ -15,7 +15,7 @@ type Props = {
 const DEFAULT_LANGUAGE = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
 const HomePage: FC<Props> = ({ latest, top, title }) => {
-    console.log(process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE);
+  console.log(process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE);
   return (
     <>
       <Head>
@@ -49,7 +49,11 @@ export async function getStaticProps() {
   const latest: Event[] = await latest_response.json();
 
   const top_response = await fetch(
-    `${process.env.API_PREFIX}/events?active=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&price_currency=EUR&sort=price_max_desc`,
+    `${
+      process.env.API_PREFIX
+    }/events?active=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&price_currency=EUR&price_min_from=200&start_from=${
+      new Date().toISOString().split("T")[0]
+    }&sort=start_asc`,
     {
       next: {
         revalidate: 7200,
