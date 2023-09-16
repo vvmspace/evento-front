@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "./EventCard.module.css";
 import { Event } from "@/models/event.model";
+import EventJSONLd from "@/components/EventJSONLd";
 
 type EventCardProps = {
   event: Event;
@@ -24,7 +25,7 @@ export const performGroupAliasFromEvent = (event: Event): string => {
   console.log("group", group);
   return group;
 };
-const performUrlFromEvent = (event: Event) => {
+export const performUrlFromEvent = (event: Event) => {
   return (
     (typeof window === "undefined"
       ? process.env.URL_PREFIX
@@ -81,6 +82,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             {event.price_max} {event.price_currency}
           </p>
         </div>
+        <EventJSONLd event={event} />
       </div>
     </Link>
   );

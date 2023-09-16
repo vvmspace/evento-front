@@ -7,6 +7,7 @@ import styles from "../../styles/EventPage.module.css";
 import globalStyles from "../../styles/Global.module.css";
 import NotFound from "next/dist/client/components/not-found-error";
 import {t} from "@/libs/t";
+import EventJSONLd from "@/components/EventJSONLd";
 
 type EventPageProps = {
   event: Event;
@@ -113,6 +114,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
       </Head>
       <h1 className={styles.eventTitle}>{event.name[language]}</h1>
       <div className={styles.eventContent}>
+        <EventJSONLd event={event} />
         <div className={styles.card}>
           <div className={styles.image}>
             <img src={event.image} alt={event.name[language]} />
