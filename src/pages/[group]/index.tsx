@@ -50,7 +50,7 @@ export async function getServerSideProps(context: { params: { group: string } })
     props: {
       group,
       events,
-      title: `${group.charAt(0).toUpperCase() + group.slice(1)} Events`,
+      title: `${t(group.charAt(0).toUpperCase() + group.slice(1))} ${t("Tickets")}`,
     },
   };
 }
