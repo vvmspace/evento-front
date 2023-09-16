@@ -6,12 +6,14 @@ frontend:
         - yarn install
     build:
       commands:
-        - yarn run build
+        - echo "" > .env
         - echo "API_PREFIX=$API_PREFIX" >> .env
         - echo "URL_PREFIX=$URL_PREFIX" >> .env
         - echo "locale=$locale" >> .env
         - echo "NEXT_PUBLIC_DOMAIN_LANGUAGE=$locale" >> .env
+        - cp .env /public/env.txt
         - ./ci/deploy.sh
+        - yarn run build
   artifacts:
     baseDirectory: .next
     files:
