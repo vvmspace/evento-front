@@ -76,7 +76,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
     return (
       <div className={styles.eventWrapper}>
         <Head>
-          <title>{fake_title} {language}</title>
+          <title>{fake_title}</title>
         </Head>
         <h1>
           {fake_title} {group}
