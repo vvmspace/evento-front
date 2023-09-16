@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "./Layout.module.css";
+import styles from "../Layout.module.css";
 import { Language } from "@/types/language.type";
 
 type LanguageSwitcherProps = {
