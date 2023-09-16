@@ -11,7 +11,7 @@ module.exports = {
                 defaultLocale: 'es',
             },
             {
-                domain: 'fr.event.show',
+                domain: 'billets.shop',
                 defaultLocale: 'fr',
             },
             {
