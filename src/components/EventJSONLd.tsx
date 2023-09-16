@@ -19,7 +19,7 @@ const EventJSONLd =  ({event}: {event: Event}) => {
             url: performUrlFromEvent(event),
         },
         image: event.image,
-        description: event.description[currentLanguage],
+        description: event.description?.[currentLanguage] ?? '',
         offers: {
             "@type": "Offer",
             url: performUrlFromEvent(event),
