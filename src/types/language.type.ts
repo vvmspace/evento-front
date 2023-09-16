@@ -1,7 +1,7 @@
 export type Language = {
-    code: string;
-    name: string;
-    footerText: string;
-    flags: string[];
-    domain: string;
+  code: string;
+  name: string;
+  footerText: string;
+  flags: string[];
+  domain: string;
 };
