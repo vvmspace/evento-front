@@ -9,5 +9,5 @@ const LANGUAGES: Record<string, Record<string, string>> = {
 };
 
 export const t = (key: string, lang: string = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es") => {
-  return LANGUAGES[lang][key];
+  return LANGUAGES[lang][key] ?? key
 };

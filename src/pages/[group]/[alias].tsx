@@ -189,65 +189,6 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
   );
 };
 
-// export async function getStaticPaths() {
-//     const response = await fetch(`${process.env.API_PREFIX}/events?select=provider_internal_country_name,provider_internal_state_name,sub_genre,genre,provider_city_name,provider_internal_venue_name,provider_internal_country_code,alias&ssr=true&size=10000&sort=createdAt_desc`);
-//     const events: Partial<Event>[] = await response.json();
-//
-//     return {
-//         paths: events
-//             .filter(event => event.alias)
-//             .map(event => ({
-//             params: {
-//                 alias: event.alias,
-//                 group: performGroupAliasFromEvent(event as Event)
-//             }
-//         })),
-//         fallback: true
-//     };
-// }
-// export async function getStaticProps(context: { params: { alias: string, group: string }; locale: string }) {
-//     const { alias, group } = context.params;
-//
-//     console.log('alias', alias, 'group', group);
-//
-//     const response = await fetch(`${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`);
-//
-//     let event = null;
-//     event = (await response.json())[0];
-//     console.log('event', event)
-//
-//     if (!event) {
-//         // if not by alias, try by everywhere & alias
-//         const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&size=1&everywhere=${alias}&sort=start_asc`;
-//         const everywhere_response = await fetch(everywhere_url);
-//         event = (await everywhere_response.json())[0];
-//     }
-//
-//     console.log('event', event)
-//     const related = await getRelated(group);
-//
-//
-//
-//     if (!event) {
-//         console.log('event not found', alias);
-//         return {
-//             notFound: true,
-//         }
-//     }
-//
-//     return {
-//         props: {
-//             event,
-//             related,
-//             group,
-//             alias,
-//             ...await serverSideTranslations(context.locale, ['common']),
-//             title: event.title[context.locale],
-//             description: event.description[context.locale]
-//         }
-//     };
-// }
-
 export async function getServerSideProps(context: {
   params: { alias: string; group: string };
   locale: string;
