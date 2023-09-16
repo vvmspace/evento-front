@@ -1,11 +1,10 @@
 import globalStyles from "../styles/Global.module.css";
 import { FC } from "react";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import EventCard from "../components/EventCard/EventCard";
 import { Event } from "@/models/event.model";
 import { LOCALES } from "@/constants/locales.constants";
 import Head from "next/head";
+import { t } from "@/libs/t";
 
 type Props = {
   top: Event[];
@@ -16,7 +15,6 @@ type Props = {
 const DEFAULT_LANGUAGE = process?.env?.locale ?? "es";
 
 const HomePage: FC<Props> = ({ latest, top, title }) => {
-  const { t } = useTranslation("common");
   return (
     <>
       <Head>
@@ -61,7 +59,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      ...(await serverSideTranslations(DEFAULT_LANGUAGE, ["common"])),
+      locale: DEFAULT_LANGUAGE,
       latest,
       top,
       title: LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr"]?.front_title,

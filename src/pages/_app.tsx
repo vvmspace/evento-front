@@ -1,4 +1,3 @@
-import { appWithTranslation, useTranslation } from "next-i18next";
 import React, { FC, useState } from "react";
 import styles from "./../components/Layout/Layout.module.css";
 import { AppProps } from "next/app";
@@ -7,6 +6,7 @@ import { useRouter } from "next/router";
 import globalStyles from "../styles/Global.module.css";
 import Head from "next/head";
 import LanguageSwitcher from "@/components/Layout/LanguageSwitcher/LanguageSwitcher";
+import {t} from "@/libs/t";
 
 const languages = [
   {
@@ -33,9 +33,8 @@ const languages = [
 ];
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
-  const { t, i18n } = useTranslation("common");
   const [currentLang] = useState(
-    languages.find((lang) => lang.code === i18n.language) || languages[1],
+    languages.find((lang) => lang.code === process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE) || languages[1],
   );
   const router = useRouter();
 
@@ -85,4 +84,4 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   );
 };
 
-export default appWithTranslation(MyApp);
+export default MyApp;

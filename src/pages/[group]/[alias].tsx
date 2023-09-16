@@ -1,6 +1,4 @@
 import { FC } from "react";
-import { useTranslation } from "next-i18next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Event } from "@/models/event.model";
 import { fetch } from "next/dist/compiled/@edge-runtime/primitives";
 import Head from "next/head";
@@ -8,6 +6,7 @@ import EventCard from "@/components/EventCard/EventCard";
 import styles from "../../styles/EventPage.module.css";
 import globalStyles from "../../styles/Global.module.css";
 import NotFound from "next/dist/client/components/not-found-error";
+import {t} from "@/libs/t";
 
 type EventPageProps = {
   event: Event;
@@ -54,7 +53,7 @@ const getEvent = async (alias: string) => {
 };
 
 const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
-  const { t, i18n } = useTranslation("common");
+  const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const affiliateLink = (event: Event): string => event.link;
 
@@ -98,28 +97,28 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
     <div className={styles.eventWrapper}>
       <Head>
         <title>
-          {event.title[i18n.language]} |{" "}
-          {event?.call_for_action_text?.[i18n.language] ?? ""}
+          {event.title[language]} |{" "}
+          {event?.call_for_action_text?.[language] ?? ""}
         </title>
         <meta
           name="description"
-          content={event.description[i18n.language] ?? ""}
+          content={event.description[language] ?? ""}
         />
-        <meta property="og:title" content={event.title[i18n.language]} />
+        <meta property="og:title" content={event.title[language]} />
         <meta
           property="og:description"
-          content={event.call_for_action_text?.[i18n.language] ?? ""}
+          content={event.call_for_action_text?.[language] ?? ""}
         />
         <meta property="og:image" content={event.image} />
       </Head>
-      <h1 className={styles.eventTitle}>{event.name[i18n.language]}</h1>
+      <h1 className={styles.eventTitle}>{event.name[language]}</h1>
       <div className={styles.eventContent}>
         <div className={styles.card}>
           <div className={styles.image}>
-            <img src={event.image} alt={event.name[i18n.language]} />
+            <img src={event.image} alt={event.name[language]} />
           </div>
           <div className={styles.description}>
-            <p>{event.description[i18n.language]}</p>
+            <p>{event.description[language]}</p>
             {event.start && (
               <>
                 <h2 className={styles.subTitle}>{t("When?")}</h2>
@@ -128,7 +127,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
                 </p>
                 <p className={styles.date}>
                   {t("Start")}:{" "}
-                  {new Date(event.start).toLocaleTimeString(i18n.language, {
+                  {new Date(event.start).toLocaleTimeString(language, {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
@@ -152,7 +151,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
               </>
             )}
             <h2 className={styles.subTitle}>
-              {t("Buy tickets to")} {event.name[i18n.language]}
+              {t("Buy tickets to")} {event.name[language]}
             </h2>
             <p className={styles.ticketPrice}>
               {t("Tickets price from")}: {event.price_min}{" "}
@@ -252,6 +251,7 @@ export async function getServerSideProps(context: {
   locale: string;
 }) {
   const { alias, group } = context.params;
+  const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const event = await getEvent(alias);
 
@@ -270,7 +270,7 @@ export async function getServerSideProps(context: {
       related,
       group,
       alias,
-      ...(await serverSideTranslations(context.locale, ["common"])),
+      locale: language,
     },
   };
 }

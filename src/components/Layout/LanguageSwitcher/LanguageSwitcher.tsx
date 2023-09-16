@@ -1,8 +1,8 @@
 // components/Layout/LanguageSwitcher.tsx
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "../Layout.module.css";
+import styles from "@/components/Layout/Layout.module.css";
 import { Language } from "@/types/language.type";
 
 type LanguageSwitcherProps = {
@@ -12,44 +12,50 @@ type LanguageSwitcherProps = {
 };
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
-  currentLang,
-  languages,
-  titles,
-}) => {
+                                                             currentLang,
+                                                             languages,
+                                                             titles,
+                                                           }) => {
   const router = useRouter();
+  const [flags, setFlags] = useState<{ [key: string]: string }>({});
 
-  const getFlag = (code: string) => {
-    const flags = languages.find((lang) => lang.code === code)?.flags;
-    if (flags) {
-      return flags[Math.floor(Math.random() * flags.length)];
-    }
-    return "";
-  };
+  useEffect(() => {
+    const newFlags: { [key: string]: string } = {};
+    languages.forEach(lang => {
+      const flagsForLang = lang.flags;
+      if (flagsForLang) {
+        newFlags[lang.code] = flagsForLang[Math.floor(Math.random() * flagsForLang.length)];
+      }
+    });
+    setFlags(newFlags);
+  }, [languages]);
 
   return (
-    <div>
-      {languages.map((lang) => {
-        if (lang.code === currentLang) {
-          return (
-            <span key={lang.code} className={styles.active}>
-              {getFlag(lang.code)} {lang.code}
+      <div>
+        {languages.map((lang) => {
+          const flag = flags[lang.code];
+          if (lang.code === currentLang) {
+            return (
+                <span key={lang.code} className={styles.active}>
+              {flag} {lang.code}
             </span>
-          );
-        } else {
-          return (
-            <Link
-              key={lang.code}
-              href={`https://${lang.domain}${router.asPath}`}
-              passHref
-            >
-              <a title={titles[lang.code]} className={styles.langButton}>
-                {getFlag(lang.code)} {lang.code}
-              </a>
-            </Link>
-          );
-        }
-      })}
-    </div>
+            );
+          } else {
+            return (
+                <Link
+                    key={lang.code}
+                    href={`https://${lang.domain}${router.asPath}`}
+                    passHref
+                    title={titles[lang.code]}
+                >
+                  <span title={titles[lang.code]} className={styles.langButton}>
+                    {flag} {lang.code}
+                  </span>
+                </Link>
+            );
+          }
+        })}
+      </div>
   );
 };
 
