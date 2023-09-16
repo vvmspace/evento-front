@@ -48,10 +48,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                     passHref
                     title={titles[lang.code]}
                     className={styles.langButton}
-                >
-                  <span title={titles[lang.code]}>
-                    {flag}<span className={styles.langCode}>{lang.code}</span>
-                  </span>
+                >{flag}<span className={styles.langCode}>{lang.code}</span>
                 </Link>
             );
           }

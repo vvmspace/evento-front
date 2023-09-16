@@ -52,7 +52,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <link rel="canonical" href={`https://evento.show/${router.asPath}`} />
+        <link rel="canonical" href={`${process.env.URL_PREFIX}/${router.asPath}`} />
       </Head>
       <div className={styles.container}>
         <header className={styles.header}>
@@ -63,13 +63,13 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
               languages={languages}
               titles={{
                 en:
-                  pageProps.events?.[0]?.title?.en ||
+                  pageProps.event?.title?.en ||
                   "Tickets for Concerts, Festivals, Sports, Theatre and More",
                 es:
-                  pageProps.events?.[0]?.title?.es ||
+                  pageProps.event?.title?.es ||
                   "Entradas para Conciertos, Festivales, Deportes, Teatro y Más",
                 fr:
-                  pageProps.events?.[0]?.title?.fr ||
+                  pageProps.event?.title?.fr ||
                   "Billets pour Concerts, Festivals, Sports, Théâtre et Plus",
               }}
             />

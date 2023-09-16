@@ -59,9 +59,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
               year: "numeric",
               month: "long",
               day: "numeric",
-            })}
-          </p>
-          <p className={styles.cardStartTime}>
+            })},{" "}
             {new Date(event.start).toLocaleTimeString(currentLanguage, {
               hour: "numeric",
               minute: "numeric",
@@ -70,7 +68,8 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <p className={styles.cardAddress}>
             {event.venue ||
               event.provider_internal_venue_name ||
-              event.provider_city_name}
+                event.provider_internal_venue_address ||
+                event.provider_city_name}
           </p>
         </div>
         <div className={styles.cardFooter}>
