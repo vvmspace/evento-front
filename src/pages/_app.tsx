@@ -1,87 +1,80 @@
-import { appWithTranslation, useTranslation } from 'next-i18next';
-import React, { FC, useState } from 'react';
-import styles from './../components/Layout/Layout.module.css';
+import { appWithTranslation, useTranslation } from "next-i18next";
+import React, { FC, useState } from "react";
+import styles from "./../components/Layout/Layout.module.css";
 import { AppProps } from "next/app";
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import globalStyles from '../styles/Global.module.css';
+import Link from "next/link";
+import { useRouter } from "next/router";
+import globalStyles from "../styles/Global.module.css";
 import Head from "next/head";
+import LanguageSwitcher from "@/components/Layout/LanguageSwitcher/LanguageSwitcher";
 
-type Language = {
-    code: string;
-    name: string;
-    footerText: string;
-    flags: string[];
-}
 const languages = [
-    { code: 'en', name: 'EN', footerText: '© Event Show 2023', flags: [
-        '🇺🇸',
-        '🇬🇧',
-        ] },
-    { code: 'es', name: 'ES', footerText: '© Evento Show 2023', flags: [
-        '🇪🇸',
-        '🇲🇽', '🇦🇷',
-        ] },
-    { code: 'fr', name: 'FR', footerText: '© Spectacle Événement 2023', flags: [
-        '🇫🇷',
-
-        ]}
+  {
+    code: "en",
+    name: "EN",
+    footerText: "© Event Show 2023",
+    flags: ["🇺🇸", "🇬🇧"],
+    domain: "en.evento.show",
+  },
+  {
+    code: "es",
+    name: "ES",
+    footerText: "© Evento Show 2023",
+    flags: ["🇪🇸", "🇲🇽", "🇦🇷"],
+    domain: "evento.show",
+  },
+  {
+    code: "fr",
+    name: "FR",
+    footerText: "© Spectacle Événement 2023",
+    flags: ["🇫🇷"],
+    domain: "billets.shop",
+  },
 ];
 
-const getFlag = (code: string) => {
-    const flags = languages.find(lang => lang.code === code)?.flags;
-    if (flags) {
-        return flags[Math.floor(Math.random() * flags.length)];
-    }
-    return '';
-}
-
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
-    const { t, i18n } = useTranslation('common');
-    const [currentLang, setCurrentLang]
-        = useState(languages
-        .find(lang => lang.code === i18n.language) || languages[1]);
-    const router = useRouter();
+  const { t, i18n } = useTranslation("common");
+  const [currentLang, ] = useState(
+    languages.find((lang) => lang.code === i18n.language) || languages[1],
+  );
+  const router = useRouter();
 
-    const changeLanguage = async (lng: Language) => {
-        await i18n.changeLanguage(lng.code);
-        setCurrentLang(lng);
-    };
-
-    const renderSiteName = () => {
-        if (router.pathname === '/') {
-            return <span className={globalStyles.logoWrapper}>{t('site_name')}</span>;
-        }
-        return (
-            <Link className={globalStyles.logoWrapper} href="/">
-                {t('site_name')}
-            </Link>
-        );
+  const renderSiteName = () => {
+    if (router.pathname === "/") {
+      return <span className={globalStyles.logoWrapper}>{t("site_name")}</span>;
     }
+    return (
+      <Link className={globalStyles.logoWrapper} href="/">
+        {t("site_name")}
+      </Link>
+    );
+  };
 
-    return (<>
-        <Head>
-            <link rel="canonical" href={`https://evento.show/${router.asPath}`} />
-        </Head>
-        <div className={styles.container}>
-            <header className={styles.header}>
-                <h1>{renderSiteName()} {pageProps.events?.[0]?.name[i18n.language]}</h1>
-                <div>
-                    {languages.map(lang => (
-                        <button className={[styles.langButton, lang.code === currentLang.code ? styles.active : ''].join(' ')} key={lang.code} onClick={() => changeLanguage(lang)}>{
-                            getFlag(lang.code)
-                        }{lang.code}</button>
-                    ))}
-                </div>
-            </header>
-            <main>
-                <Component {...pageProps} />
-            </main>
-            <footer className={styles.footer}>
-                {currentLang.footerText}
-            </footer>
-        </div>
-        </>);
-}
+  return (
+    <>
+      <Head>
+        <link rel="canonical" href={`https://evento.show/${router.asPath}`} />
+      </Head>
+      <div className={styles.container}>
+        <header className={styles.header}>
+          <h1>
+            {renderSiteName()}
+          </h1>
+          <div>
+            <LanguageSwitcher currentLang={currentLang.code} languages={languages} titles={{
+              en: pageProps.events?.[0]?.title?.en || "Tickets for Concerts, Festivals, Sports, Theatre and More",
+                es: pageProps.events?.[0]?.title?.es || "Entradas para Conciertos, Festivales, Deportes, Teatro y Más",
+                fr: pageProps.events?.[0]?.title?.fr || "Billets pour Concerts, Festivals, Sports, Théâtre et Plus",
+            }} />
+          </div>
+        </header>
+        <main>
+          <Component {...pageProps} />
+        </main>
+        <footer className={styles.footer}>{currentLang.footerText}</footer>
+      </div>
+    </>
+  );
+};
 
 export default appWithTranslation(MyApp);
