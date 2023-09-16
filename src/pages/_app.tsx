@@ -11,13 +11,30 @@ type Language = {
     code: string;
     name: string;
     footerText: string;
-    flag: string;
+    flags: string[];
 }
 const languages = [
-    { code: 'en', name: 'EN', footerText: '© Event Show 2023', flag: '🇺🇸' },
-    { code: 'es', name: 'ES', footerText: '© Evento Show 2023', flag: '🇪🇸' },
-    { code: 'fr', name: 'FR', footerText: '© Spectacle Événement 2023', flag: '🇫🇷' }
+    { code: 'en', name: 'EN', footerText: '© Event Show 2023', flags: [
+        '🇺🇸',
+        '🇬🇧',
+        ] },
+    { code: 'es', name: 'ES', footerText: '© Evento Show 2023', flags: [
+        '🇪🇸',
+        '🇲🇽', '🇦🇷',
+        ] },
+    { code: 'fr', name: 'FR', footerText: '© Spectacle Événement 2023', flags: [
+        '🇫🇷',
+
+        ]}
 ];
+
+const getFlag = (code: string) => {
+    const flags = languages.find(lang => lang.code === code)?.flags;
+    if (flags) {
+        return flags[Math.floor(Math.random() * flags.length)];
+    }
+    return '';
+}
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
     const { t, i18n } = useTranslation('common');
@@ -26,8 +43,8 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         .find(lang => lang.code === i18n.language) || languages[1]);
     const router = useRouter();
 
-    const changeLanguage = (lng: Language) => {
-        i18n.changeLanguage(lng.code);
+    const changeLanguage = async (lng: Language) => {
+        await i18n.changeLanguage(lng.code);
         setCurrentLang(lng);
     };
 
@@ -51,7 +68,9 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
                 <h1>{renderSiteName()} {pageProps.events?.[0]?.name[i18n.language]}</h1>
                 <div>
                     {languages.map(lang => (
-                        <button className={[styles.langButton, lang.code === currentLang.code ? styles.active : ''].join(' ')} key={lang.code} onClick={() => changeLanguage(lang)}>{lang.flag}{lang.code}</button>
+                        <button className={[styles.langButton, lang.code === currentLang.code ? styles.active : ''].join(' ')} key={lang.code} onClick={() => changeLanguage(lang)}>{
+                            getFlag(lang.code)
+                        }{lang.code}</button>
                     ))}
                 </div>
             </header>
