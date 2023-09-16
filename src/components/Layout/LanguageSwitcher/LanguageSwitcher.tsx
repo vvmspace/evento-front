@@ -37,7 +37,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           if (lang.code === currentLang) {
             return (
                 <span key={lang.code} className={styles.langButtonActive}>
-              {flag} {lang.code}
+                    {flag}<span className={styles.langCode}>{lang.code}</span>
             </span>
             );
           } else {
@@ -50,7 +50,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
                     className={styles.langButton}
                 >
                   <span title={titles[lang.code]}>
-                    {flag} {lang.code}
+                    {flag}<span className={styles.langCode}>{lang.code}</span>
                   </span>
                 </Link>
             );

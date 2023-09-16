@@ -36,3 +36,9 @@
 .langButton:active {
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+  .langCode {
+    display: none;
+  }
+}
