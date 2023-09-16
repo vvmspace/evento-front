@@ -1,42 +1,41 @@
 /* Global.module.css */
 
 .logoWrapper {
-    text-transform: uppercase;
-    font-weight: bold;
-    text-decoration: none;
-    color: #006FBB;
+  text-transform: uppercase;
+  font-weight: bold;
+  text-decoration: none;
+  color: #006fbb;
 }
 
 .logoWrapper:hover {
-    color: #D1251A;
-    cursor: pointer;
+  color: #d1251a;
+  cursor: pointer;
 }
 
 .eventCardsList {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
 .eventCardItem {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
 }
 
 .eventCardImage {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 @media (max-width: 1000px) {
-    .eventCardItem {
-        width: 100%;
-    }
+  .eventCardItem {
+    width: 100%;
+  }
 }

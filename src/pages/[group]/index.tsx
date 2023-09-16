@@ -1,5 +1,5 @@
 const GroupPage = () => {
-    return <div>Group Page</div>;
-}
+  return <div>Group Page</div>;
+};
 
 export default GroupPage;
