@@ -34,6 +34,20 @@
   height: auto;
 }
 
+a.tag {
+  text-decoration: none;
+  color: #006fbb;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid #006fbb;
+  transition: background-color 0.3s ease;
+  margin: 14px 0;
+  display: inline-block;
+}
+
 @media (max-width: 1000px) {
   .eventCardItem {
     width: 100%;

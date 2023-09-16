@@ -8,6 +8,7 @@ import globalStyles from "../../styles/Global.module.css";
 import NotFound from "next/dist/client/components/not-found-error";
 import {t} from "@/libs/t";
 import EventJSONLd from "@/components/EventJSONLd";
+import Link from "next/link";
 
 type EventPageProps = {
   event: Event;
@@ -120,7 +121,8 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
             <img src={event.image} alt={event.name[language]} />
           </div>
           <div className={styles.description}>
-            <p>{event.description[language]}</p>
+            <div>{event.description[language]}</div>
+            <div><Link className={globalStyles.tag} href={`/${group}`}>{group}</Link></div>
             {event.start && (
               <>
                 <h2 className={styles.subTitle}>{t("When?")}</h2>
