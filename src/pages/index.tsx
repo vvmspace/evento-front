@@ -15,12 +15,13 @@ type Props = {
 const DEFAULT_LANGUAGE = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
 const HomePage: FC<Props> = ({ latest, top, title }) => {
+    console.log(process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE);
   return (
     <>
       <Head>
         <title>{title}</title>
       </Head>
-      <h1>{t("New events")} {DEFAULT_LANGUAGE} {process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}</h1>
+      <h1>{t("New events")} ({DEFAULT_LANGUAGE}) ({process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE})</h1>
       <div className={globalStyles.eventCardsList}>
         {latest.map((event) => (
           <EventCard event={event} key={event._id} />
