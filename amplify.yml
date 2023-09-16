@@ -11,7 +11,7 @@ frontend:
         - echo "URL_PREFIX=$URL_PREFIX" >> .env
         - echo "locale=$locale" >> .env
         - echo "NEXT_PUBLIC_DOMAIN_LANGUAGE=$locale" >> .env
-        - cp .env /public/env.txt
+        - cat .env
         - ./ci/deploy.sh
         - yarn run build
   artifacts:
