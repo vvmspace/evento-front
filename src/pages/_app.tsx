@@ -34,7 +34,7 @@ const languages = [
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   const { t, i18n } = useTranslation("common");
-  const [currentLang, ] = useState(
+  const [currentLang] = useState(
     languages.find((lang) => lang.code === i18n.language) || languages[1],
   );
   const router = useRouter();
@@ -57,15 +57,23 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <div className={styles.container}>
         <header className={styles.header}>
-          <h1>
-            {renderSiteName()}
-          </h1>
+          <h1>{renderSiteName()}</h1>
           <div>
-            <LanguageSwitcher currentLang={currentLang.code} languages={languages} titles={{
-              en: pageProps.events?.[0]?.title?.en || "Tickets for Concerts, Festivals, Sports, Theatre and More",
-                es: pageProps.events?.[0]?.title?.es || "Entradas para Conciertos, Festivales, Deportes, Teatro y Más",
-                fr: pageProps.events?.[0]?.title?.fr || "Billets pour Concerts, Festivals, Sports, Théâtre et Plus",
-            }} />
+            <LanguageSwitcher
+              currentLang={currentLang.code}
+              languages={languages}
+              titles={{
+                en:
+                  pageProps.events?.[0]?.title?.en ||
+                  "Tickets for Concerts, Festivals, Sports, Theatre and More",
+                es:
+                  pageProps.events?.[0]?.title?.es ||
+                  "Entradas para Conciertos, Festivales, Deportes, Teatro y Más",
+                fr:
+                  pageProps.events?.[0]?.title?.fr ||
+                  "Billets pour Concerts, Festivals, Sports, Théâtre et Plus",
+              }}
+            />
           </div>
         </header>
         <main>

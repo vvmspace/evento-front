@@ -1,8 +1,8 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./EventCard.module.css";
-import {useTranslation} from "next-i18next";
-import {Event} from "@/models/event.model";
+import { useTranslation } from "next-i18next";
+import { Event } from "@/models/event.model";
 
 type EventCardProps = {
   event: Event;
@@ -26,11 +26,13 @@ export const performGroupAliasFromEvent = (event: Event): string => {
   return group;
 };
 const performUrlFromEvent = (event: Event) => {
-  return (typeof window === "undefined"
-          ? process.env.URL_PREFIX
-          : window?.location?.origin) +
-      "/" +
-      `${performGroupAliasFromEvent(event)}/${event.alias}`;
+  return (
+    (typeof window === "undefined"
+      ? process.env.URL_PREFIX
+      : window?.location?.origin) +
+    "/" +
+    `${performGroupAliasFromEvent(event)}/${event.alias}`
+  );
 };
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
