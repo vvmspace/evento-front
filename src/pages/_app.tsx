@@ -61,7 +61,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
       <div className={globalStyles.container}>
         <header className={styles.header}>
-          <h1>{renderSiteName()}</h1>
+          <div>{renderSiteName()}</div>
           <div>
             <LanguageSwitcher
               currentLang={currentLang.code}
