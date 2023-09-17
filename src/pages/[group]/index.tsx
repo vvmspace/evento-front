@@ -19,7 +19,7 @@ const getEvents = async (group: string) => {
     console.log("group from cache", group);
     return cachedGroups[group] as Event[];
   }
-  const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=country,provider_city_name,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=12&everywhere=${group}&sort=start_asc`;
+  const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=provider_city_name,country,provider_city_name,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=12&everywhere=${group}&sort=start_asc`;
   const group_response = await fetch(everywhere_url);
   console.log("everywhere_url", everywhere_url);
   const events: Event[] = await group_response.json();
@@ -33,7 +33,7 @@ const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName }) => {
         <title>{title}</title>
       </Head>
       <h1>
-        {groupName ? t(groupName) : t(`${group.charAt(0).toUpperCase() + group.slice(1)}`)} {t("Events")}
+        {groupName ? t(groupName) : t(`${group.charAt(0).toUpperCase() + group.slice(1)}`)} {t("Events")} {new Date().getFullYear()}, {new Date().getFullYear() + 1}
       </h1>
       <div className={globalStyles.eventCardsList}>
         {events.map((event) => (
