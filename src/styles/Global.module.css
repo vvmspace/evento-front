@@ -1,11 +1,23 @@
 /* Global.module.css */
 
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@font-face {
+  font-family: "Bebas Neue";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../public/fonts/BebasNeue.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../../public/fonts/OpenSans.ttf) format("truetype");
+}
 
 .container {
-  font-family: Roboto, sans-serif;
-  /* Mac Air 13 */
+  font-family: "Open Sans", sans-serif;
   max-width: 1516px;
   margin: auto;
 }
@@ -74,7 +86,6 @@ a.tag {
 .container h4,
 .container h5,
 .container h6,
-.container button
-{
+.container button {
   font-family: "Bebas Neue", sans-serif;
 }

@@ -124,19 +124,33 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
             <div>
               <Link className={globalStyles.tag} href={`/${group}`}>
                 {group}
-              </Link>{event.provider_city_name ? <>{" "}
-              <Link
-                className={globalStyles.tag}
-                href={`/${event.provider_city_name?.toLowerCase()}`}
-              >
-                {event.provider_city_name}
-              </Link></> : ""}{event.provider_internal_country_name ? <>{" "}
-              <Link
-                className={globalStyles.tag}
-                href={`/${event.provider_internal_country_name?.toLowerCase()}`}
-              >
-                {event.provider_city_name}
-              </Link></> : ""}
+              </Link>
+              {event.provider_city_name ? (
+                <>
+                  {" "}
+                  <Link
+                    className={globalStyles.tag}
+                    href={`/${event.provider_city_name?.toLowerCase()}`}
+                  >
+                    {event.provider_city_name}
+                  </Link>
+                </>
+              ) : (
+                ""
+              )}
+              {event.provider_internal_country_name ? (
+                <>
+                  {" "}
+                  <Link
+                    className={globalStyles.tag}
+                    href={`/${event.provider_internal_country_name?.toLowerCase()}`}
+                  >
+                    {event.provider_city_name}
+                  </Link>
+                </>
+              ) : (
+                ""
+              )}
             </div>
             {event.start && (
               <>
