@@ -35,9 +35,14 @@
   font-weight: 500;
 }
 
-.cardAddress {
+.cardStartDate {
   font-size: 0.95rem;
   color: #666;
+  font-weight: 400;
+}
+.cardAddress {
+  font-size: 0.95rem;
+  color: #333;
   font-weight: 400;
 }
 
