@@ -46,22 +46,7 @@
   font-weight: 400;
 }
 
-.cardPrice {
-  font-size: 0.95rem;
-  color: #fff;
-  background-color: #006fbb; /* BMW Blue */
-  padding: 8px 12px;
-  border-radius: 4px;
-  display: inline-block;
-  text-align: center;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
-  font-family: "Bebas Neue", sans-serif;
-}
 
-.cardPrice:hover {
-  background-color: #da291c; /* BMW Red */
-}
 
 .fullCardLink {
   text-decoration: none;
@@ -72,20 +57,22 @@
 }
 
 .cardPrice {
-  font-size: 0.95rem;
   color: #fff;
-  background-color: #006fbb; /* BMW Blue */
+  background-color: #006fbb;
   padding: 8px 12px;
   border-radius: 4px;
   display: inline-block;
   text-align: center;
+  float: right;
   transition: background-color 0.3s ease;
   cursor: pointer;
-  float: right;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .cardPrice:hover {
-  background-color: #da291c; /* BMW Red */
+  background-color: #da291c;
 }
 
 @media (max-width: 1000px) {

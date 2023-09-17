@@ -51,20 +51,7 @@
   /* По желанию, можно добавить дополнительные стили для цены билетов */
 }
 
-.buyButton {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-.buyButton:hover {
-  background-color: #0056b3;
-}
 
 @media (min-width: 768px) {
   .card {
@@ -126,14 +113,15 @@
 }
 
 .buyButton {
-  padding: 15px 25px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #006fbb;
   color: #fff;
-  font-size: 18px;
+  font-size: 2rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  background-color: #006fbb;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .buyButton:hover {
