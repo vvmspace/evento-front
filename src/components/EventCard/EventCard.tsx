@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./EventCard.module.css";
 import { Event } from "@/models/event.model";
 import EventJSONLd from "@/components/EventJSONLd";
+import Image from "next/image";
 
 type EventCardProps = {
   event: Event;
@@ -47,10 +48,13 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
     >
       <div className={styles.card}>
         <div className={styles.cardContent}>
-          <img
-            src={event.image}
+          <Image
+            src={event.image as string}
             alt={event.name[currentLanguage]}
             className={styles.cardImage}
+            width={400}
+            height={300}
+            layout="responsive"
           />
           <h2 className={styles.cardTitle}>
             {event.name[currentLanguage] ?? event.name["en"]}
