@@ -55,6 +55,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             height={225}
             layout="responsive"
             loading={"lazy"}
+            placeholder={"blur"}
           />
           <h2 className={styles.cardTitle}>
             {event.name[currentLanguage] ?? event.name["en"]}
