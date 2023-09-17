@@ -47,14 +47,11 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
     >
       <div className={styles.card}>
         <div className={styles.cardContent}>
-          <Image
-            src={event.image as string}
-            alt={event.name[currentLanguage]}
-            className={styles.cardImage}
-            width={300}
-            height={225}
-            layout="responsive"
-          />
+          <div>
+            <img className={styles.cardImage} src={
+                event.image as string
+            }/>
+            </div>
           <h2 className={styles.cardTitle}>
             {event.name[currentLanguage] ?? event.name["en"]}
           </h2>
