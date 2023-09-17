@@ -120,7 +120,9 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
             <img src={event.image} alt={event.name[language]} />
           </div>
           <div className={styles.description}>
-            <div>{event.description[language]}</div>
+            {event.description[language]?.split("\n\n").map((paragraph, key) => (<p key={key} className={styles.paragraph}>{
+              paragraph.split("\n").map((line, key) => (<>{line}<br /></>))
+            }</p>))}
             <div>
               <Link className={globalStyles.tag} href={`/${group}`}>
                 {group}
