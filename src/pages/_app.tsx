@@ -56,7 +56,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
       <Head>
         <link
           rel="canonical"
-          href={`${process.env.URL_PREFIX}/${router.asPath}`}
+          href={`${process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX}/${router.asPath}`}
         />
       </Head>
       <div className={globalStyles.container}>

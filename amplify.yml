@@ -10,6 +10,7 @@ frontend:
         - echo "API_PREFIX=$API_PREFIX" >> .env
         - echo "URL_PREFIX=$URL_PREFIX" >> .env
         - echo "locale=$locale" >> .env
+        - echo "NEXT_PUBLIC_URL_PREFIX=$URL_PREFIX" >> .env
         - echo "NEXT_PUBLIC_DOMAIN_LANGUAGE=$locale" >> .env
         - cat .env
         - ./ci/deploy.sh

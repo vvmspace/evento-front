@@ -28,7 +28,7 @@ export const performGroupAliasFromEvent = (event: Event): string => {
 export const performUrlFromEvent = (event: Event) => {
   return (
     (typeof window === "undefined"
-      ? process.env.URL_PREFIX
+      ? process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX
       : window?.location?.origin) +
     "/" +
     `${performGroupAliasFromEvent(event)}/${event.alias}`
