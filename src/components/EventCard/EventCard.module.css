@@ -51,6 +51,7 @@
   text-align: center;
   transition: background-color 0.3s ease;
   cursor: pointer;
+  font-family: "Bebas Neue", sans-serif;
 }
 
 .cardPrice:hover {

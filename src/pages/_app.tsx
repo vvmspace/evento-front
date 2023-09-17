@@ -59,7 +59,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           href={`${process.env.URL_PREFIX}/${router.asPath}`}
         />
       </Head>
-      <div className={styles.container}>
+      <div className={globalStyles.container}>
         <header className={styles.header}>
           <h1>{renderSiteName()}</h1>
           <div>

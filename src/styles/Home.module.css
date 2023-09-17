@@ -1,8 +1,7 @@
-.container {
-  /* вы можете добавить здесь стили для container, если они нужны */
-}
-
 .heading {
   text-align: center;
   padding: 20px 0;
+  font-family:
+    Bebas Neue,
+    sans-serif;
 }

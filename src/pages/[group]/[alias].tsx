@@ -124,10 +124,19 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
             <div>
               <Link className={globalStyles.tag} href={`/${group}`}>
                 {group}
-              </Link>{" "}
-              <Link className={globalStyles.tag} href={`/${event.provider_city_name?.toLowerCase()}`}>
+              </Link>{event.provider_city_name ? <>{" "}
+              <Link
+                className={globalStyles.tag}
+                href={`/${event.provider_city_name?.toLowerCase()}`}
+              >
                 {event.provider_city_name}
-              </Link>
+              </Link></> : ""}{event.provider_internal_country_name ? <>{" "}
+              <Link
+                className={globalStyles.tag}
+                href={`/${event.provider_internal_country_name?.toLowerCase()}`}
+              >
+                {event.provider_city_name}
+              </Link></> : ""}
             </div>
             {event.start && (
               <>
@@ -202,7 +211,10 @@ export async function getServerSideProps(context: {
   locale: string;
 }) {
   const { alias, group } = context.params;
-  const groupName = group.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  const groupName = group
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
   const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const event = await getEvent(alias);

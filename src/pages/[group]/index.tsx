@@ -33,7 +33,10 @@ const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName }) => {
         <title>{title}</title>
       </Head>
       <h1>
-        {groupName ? t(groupName) : t(`${group.charAt(0).toUpperCase() + group.slice(1)}`)} {t("Events")} {new Date().getFullYear()}, {new Date().getFullYear() + 1}
+        {groupName
+          ? t(groupName)
+          : t(`${group.charAt(0).toUpperCase() + group.slice(1)}`)}{" "}
+        {t("Events")} {new Date().getFullYear()}, {new Date().getFullYear() + 1}
       </h1>
       <div className={globalStyles.eventCardsList}>
         {events.map((event) => (
@@ -51,16 +54,17 @@ export async function getServerSideProps(context: {
 
   const events: Event[] = await getEvents(group);
 
-  const groupName = group.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+  const groupName = group
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 
   return {
     props: {
       group,
       events,
       groupName,
-      title: `${t(groupName)} ${t(
-        "Tickets",
-      )}`,
+      title: `${t(groupName)} ${t("Tickets")}`,
     },
   };
 }

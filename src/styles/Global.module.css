@@ -1,10 +1,23 @@
 /* Global.module.css */
 
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.container {
+  font-family: Roboto, sans-serif;
+  /* Mac Air 13 */
+  max-width: 1516px;
+  margin: auto;
+}
+
 .logoWrapper {
   text-transform: uppercase;
-  font-weight: bold;
+  /*font-weight: bold;*/
   text-decoration: none;
   color: #006fbb;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 60px;
+  font-weight: bolder;
 }
 
 .logoWrapper:hover {
@@ -52,4 +65,15 @@ a.tag {
   .eventCardItem {
     width: 100%;
   }
+}
+
+.container h1,
+.container h2,
+.container h3,
+.container h4,
+.container h5,
+.container h6,
+.container button
+{
+  font-family: "Bebas Neue", sans-serif;
 }
