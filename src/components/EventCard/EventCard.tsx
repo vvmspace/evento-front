@@ -51,8 +51,8 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             src={event.image as string}
             alt={event.name[currentLanguage]}
             className={styles.cardImage}
-            width={400}
-            height={300}
+            width={300}
+            height={225}
             layout="responsive"
             loading={"lazy"}
           />
