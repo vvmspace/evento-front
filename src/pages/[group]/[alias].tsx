@@ -6,7 +6,7 @@ import EventCard from "@/components/EventCard/EventCard";
 import styles from "../../styles/EventPage.module.css";
 import globalStyles from "../../styles/Global.module.css";
 import NotFound from "next/dist/client/components/not-found-error";
-import {t} from "@/libs/t";
+import { t } from "@/libs/t";
 import EventJSONLd from "@/components/EventJSONLd";
 import Link from "next/link";
 
@@ -15,6 +15,7 @@ type EventPageProps = {
   related: Event[];
   alias: string;
   group: string;
+  cityName: string;
 };
 
 const cachedRelated: {
@@ -31,7 +32,7 @@ const getRelated = async (group: string) => {
     );
     return cachedRelated[group];
   }
-  const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
+  const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
   const group_response = await fetch(everywhere_url);
   console.log("everywhere_url", everywhere_url);
   const related: Event[] = await group_response.json();
@@ -47,7 +48,7 @@ const getEvent = async (alias: string) => {
     return cachedEvents[alias];
   }
   const response = await fetch(
-    `${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`,
+    `${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`,
   );
   const event = (await response.json())[0];
   cachedEvents[alias] = event;
@@ -100,12 +101,10 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
       <Head>
         <title>
           {event.title[language]} |{" "}
+          {event.provider_city_name ? `${t(event.provider_city_name)} | ` : ""}
           {event?.call_for_action_text?.[language] ?? ""}
         </title>
-        <meta
-          name="description"
-          content={event.description[language] ?? ""}
-        />
+        <meta name="description" content={event.description[language] ?? ""} />
         <meta property="og:title" content={event.title[language]} />
         <meta
           property="og:description"
@@ -122,7 +121,14 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
           </div>
           <div className={styles.description}>
             <div>{event.description[language]}</div>
-            <div><Link className={globalStyles.tag} href={`/${group}`}>{group}</Link></div>
+            <div>
+              <Link className={globalStyles.tag} href={`/${group}`}>
+                {group}
+              </Link>{" "}
+              <Link className={globalStyles.tag} href={`/${event.provider_city_name?.toLowerCase()}`}>
+                {event.provider_city_name}
+              </Link>
+            </div>
             {event.start && (
               <>
                 <h2 className={styles.subTitle}>{t("When?")}</h2>
@@ -196,6 +202,7 @@ export async function getServerSideProps(context: {
   locale: string;
 }) {
   const { alias, group } = context.params;
+  const groupName = group.split(" ").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
   const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const event = await getEvent(alias);

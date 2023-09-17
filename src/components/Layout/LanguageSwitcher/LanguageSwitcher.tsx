@@ -12,48 +12,52 @@ type LanguageSwitcherProps = {
 };
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
-                                                             currentLang,
-                                                             languages,
-                                                             titles,
-                                                           }) => {
+  currentLang,
+  languages,
+  titles,
+}) => {
   const router = useRouter();
   const [flags, setFlags] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const newFlags: { [key: string]: string } = {};
-    languages.forEach(lang => {
+    languages.forEach((lang) => {
       const flagsForLang = lang.flags;
       if (flagsForLang) {
-        newFlags[lang.code] = flagsForLang[Math.floor(Math.random() * flagsForLang.length)];
+        newFlags[lang.code] =
+          flagsForLang[Math.floor(Math.random() * flagsForLang.length)];
       }
     });
     setFlags(newFlags);
   }, [languages]);
 
   return (
-      <div>
-        {languages.map((lang) => {
-          const flag = flags[lang.code];
-          if (lang.code === currentLang) {
-            return (
-                <span key={lang.code} className={styles.langButtonActive}>
-                    {flag}<span className={styles.langCode}>{lang.code}</span>
+    <div>
+      {languages.map((lang) => {
+        const flag = flags[lang.code];
+        if (lang.code === currentLang) {
+          return (
+            <span key={lang.code} className={styles.langButtonActive}>
+              {flag}
+              <span className={styles.langCode}>{lang.code}</span>
             </span>
-            );
-          } else {
-            return (
-                <Link
-                    key={lang.code}
-                    href={`https://${lang.domain}${router.asPath}`}
-                    passHref
-                    title={titles[lang.code]}
-                    className={styles.langButton}
-                >{flag}<span className={styles.langCode}>{lang.code}</span>
-                </Link>
-            );
-          }
-        })}
-      </div>
+          );
+        } else {
+          return (
+            <Link
+              key={lang.code}
+              href={`https://${lang.domain}${router.asPath}`}
+              passHref
+              title={titles[lang.code]}
+              className={styles.langButton}
+            >
+              {flag}
+              <span className={styles.langCode}>{lang.code}</span>
+            </Link>
+          );
+        }
+      })}
+    </div>
   );
 };
 

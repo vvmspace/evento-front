@@ -19,7 +19,8 @@
   text-align: center;
 }
 
-.langButton, .langButtonActive {
+.langButton,
+.langButtonActive {
   margin: 3px;
   padding: 3px;
   border: 1px solid #ddd;

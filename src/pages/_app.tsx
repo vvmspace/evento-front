@@ -6,13 +6,13 @@ import { useRouter } from "next/router";
 import globalStyles from "../styles/Global.module.css";
 import Head from "next/head";
 import LanguageSwitcher from "@/components/Layout/LanguageSwitcher/LanguageSwitcher";
-import {t} from "@/libs/t";
+import { t } from "@/libs/t";
 
 const languages = [
   {
     code: "en",
     name: "EN",
-    footerText: "© Event Show 2023",
+    footerText: "© Evento Show 2023",
     flags: ["🇺🇸", "🇬🇧"],
     domain: "en.evento.show",
   },
@@ -34,7 +34,9 @@ const languages = [
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   const [currentLang] = useState(
-    languages.find((lang) => lang.code === process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE) || languages[1],
+    languages.find(
+      (lang) => lang.code === process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE,
+    ) || languages[1],
   );
   const router = useRouter();
 
@@ -52,7 +54,10 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <link rel="canonical" href={`${process.env.URL_PREFIX}/${router.asPath}`} />
+        <link
+          rel="canonical"
+          href={`${process.env.URL_PREFIX}/${router.asPath}`}
+        />
       </Head>
       <div className={styles.container}>
         <header className={styles.header}>
