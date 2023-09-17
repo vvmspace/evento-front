@@ -23,7 +23,6 @@ export const performGroupAliasFromEvent = (event: Event): string => {
     .toLowerCase()
     .replaceAll(" ", "%20")
     .replaceAll("&", "%26");
-  console.log("group", group);
   return group;
 };
 export const performUrlFromEvent = (event: Event) => {

@@ -24,12 +24,6 @@ const cachedRelated: {
 
 const getRelated = async (group: string) => {
   if (cachedRelated[group]) {
-    console.log(
-      "related from cache",
-      group,
-      cachedRelated[group].length,
-      "events",
-    );
     return cachedRelated[group];
   }
   const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
@@ -44,7 +38,6 @@ const cachedEvents: Record<string, Partial<Event>> = {};
 
 const getEvent = async (alias: string) => {
   if (cachedEvents[alias]) {
-    console.log("event from cache", alias);
     return cachedEvents[alias];
   }
   const response = await fetch(
@@ -236,7 +229,6 @@ export async function getServerSideProps(context: {
   const event = await getEvent(alias);
 
   if (!event) {
-    console.log("event not found", alias);
     return {
       notFound: true,
     };
