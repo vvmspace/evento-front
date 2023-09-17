@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Event } from "@/models/event.model";
 import { fetch } from "next/dist/compiled/@edge-runtime/primitives";
 import Head from "next/head";
-import EventCard from "@/components/EventCard/EventCard";
+import EventCard, {performGroupAliasFromEvent} from "@/components/EventCard/EventCard";
 import styles from "../../styles/EventPage.module.css";
 import globalStyles from "../../styles/Global.module.css";
 import NotFound from "next/dist/client/components/not-found-error";
@@ -215,36 +215,83 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
   );
 };
 
-export async function getServerSideProps(context: {
-  params: { alias: string; group: string };
-  locale: string;
-}) {
-  const { alias, group } = context.params;
-  const groupName = group
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-  const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
+export const getStaticPaths = async () => {
 
-  const event = await getEvent(alias);
-
-  if (!event) {
+    const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&size=10000&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc`;
+    const response = await fetch(everywhere_url);
+    const events: Event[] = await response.json();
+    // const group =
+    const paths = events.map((event) => ({
+        params: { alias: event.alias, group: performGroupAliasFromEvent(event) },
+    }));
     return {
-      notFound: true,
+        paths,
+        fallback: true,
     };
-  }
-
-  const related = await getRelated(group);
-
-  return {
-    props: {
-      event,
-      related,
-      group,
-      alias,
-      locale: language,
-    },
-  };
 }
+
+export const getStaticProps = async (context: {
+    params: { alias: string; group: string };
+}
+) => {
+    const { alias, group } = context.params;
+    const groupName = group
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
+
+    const event = await getEvent(alias);
+
+    if (!event) {
+        return {
+            notFound: true,
+        };
+    }
+
+    const related = await getRelated(group);
+
+    return {
+        props: {
+            event,
+            related,
+            group,
+            alias,
+            groupName,
+            locale: language,
+        },
+    };
+}
+// export async function getServerSideProps(context: {
+//   params: { alias: string; group: string };
+//   locale: string;
+// }) {
+//   const { alias, group } = context.params;
+//   const groupName = group
+//     .split(" ")
+//     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+//     .join(" ");
+//   const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
+//
+//   const event = await getEvent(alias);
+//
+//   if (!event) {
+//     return {
+//       notFound: true,
+//     };
+//   }
+//
+//   const related = await getRelated(group);
+//
+//   return {
+//     props: {
+//       event,
+//       related,
+//       group,
+//       alias,
+//       locale: language,
+//     },
+//   };
+// }
 
 export default EventPage;
