@@ -7,10 +7,10 @@ import EventCard, {
 } from "@/components/EventCard/EventCard";
 import styles from "../../styles/EventPage.module.css";
 import globalStyles from "../../styles/Global.module.css";
-import NotFound from "next/dist/client/components/not-found-error";
 import { t } from "@/libs/t";
 import EventJSONLd from "@/components/EventJSONLd";
 import Link from "next/link";
+const { event:gEvent } = require("nextjs-google-analytics");
 
 type EventPageProps = {
   event: Event;
@@ -45,9 +45,9 @@ const getEvent = async (alias: string) => {
   const response = await fetch(
     `${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`,
   );
-  const event = (await response.json())[0];
-  cachedEvents[alias] = event;
-  return event;
+  const fetchedEvent = (await response.json())[0];
+  cachedEvents[alias] = fetchedEvent;
+  return fetchedEvent;
 };
 
 const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
@@ -56,6 +56,12 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
   const affiliateLink = (event: Event): string => event.link;
 
   const handleAffiliateClick = () => {
+    gEvent("event", {
+        action: "click",
+        category: group,
+        label: event.name[language],
+        value: event.price_min
+    });
     const link = affiliateLink(event);
     if (link) {
       window.open(link, "_blank");
@@ -115,7 +121,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
               ?.split("\n\n")
               .map((paragraph, key) => (
                 <p key={key} className={styles.paragraph}>
-                  {paragraph.split("\n").map((line, key) => (
+                  {paragraph.split("\n").map((line) => (
                     <>
                       {line}
                       <br />

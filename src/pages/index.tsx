@@ -68,7 +68,12 @@ export async function getStaticProps() {
       top,
       title: LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr"]?.front_title,
     },
-    revalidate: 7200,
+  };
+}
+export async function getStaticPaths() {
+  // ignore locales, just generate home page, home page have no params and I don't know what to return there
+  return {
+    paths: [],
   };
 }
 

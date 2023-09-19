@@ -1,29 +1,27 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./EventCard.module.css";
-import { Event } from "@/models/event.model";
+import {Event} from "@/models/event.model";
 import EventJSONLd from "@/components/EventJSONLd";
-import Image from "next/image";
 
 type EventCardProps = {
   event: Event;
 };
 
 export const performGroupAliasFromEvent = (event: Event): string => {
-  const group = (
-    event.provider_internal_country_name ||
-    event.provider_internal_state_name ||
-    event.sub_genre ||
-    event.genre ||
-    event.provider_city_name ||
-    event.provider_internal_venue_name ||
-    event.provider_internal_country_code ||
-    "event"
+  return (
+      event.provider_internal_country_name ||
+      event.provider_internal_state_name ||
+      event.sub_genre ||
+      event.genre ||
+      event.provider_city_name ||
+      event.provider_internal_venue_name ||
+      event.provider_internal_country_code ||
+      "event"
   )
-    .toLowerCase()
-    .replaceAll(" ", "%20")
-    .replaceAll("&", "%26");
-  return group;
+      .toLowerCase()
+      .replaceAll(" ", "%20")
+      .replaceAll("&", "%26");
 };
 export const performUrlFromEvent = (event: Event) => {
   return (
@@ -48,10 +46,12 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
       <div className={styles.card}>
         <div className={styles.cardContent}>
           <div>
-            <img className={styles.cardImage} src={
-                event.image as string
-            } alt={event.title[currentLanguage] ?? event.name["en"]} />
-            </div>
+            <img
+              className={styles.cardImage}
+              src={event.image as string}
+              alt={event.title[currentLanguage] ?? event.name["en"]}
+            />
+          </div>
           <h2 className={styles.cardTitle}>
             {event.name[currentLanguage] ?? event.name["en"]}
           </h2>
@@ -69,7 +69,9 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           </p>
           <p className={styles.cardAddress}>
             <strong>{event.provider_city_name}</strong>{" "}
-            {event.venue || event.provider_internal_venue_name || event.provider_internal_venue_address}
+            {event.venue ||
+              event.provider_internal_venue_name ||
+              event.provider_internal_venue_address}
           </p>
         </div>
         <div className={styles.cardFooter}>

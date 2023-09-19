@@ -29,7 +29,28 @@ const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName }) => {
     <>
       <Head>
         <title>{title}</title>
-        <meta name={"description"} content={t("Buy tickets for") + " " + groupName + " " + t("events") + " " + t("in") + " " + new Date().getFullYear() + " " + t("and") + " " + (new Date().getFullYear() + 1) + " " + t("at") + " " + t("site_name")} />
+        <meta
+          name={"description"}
+          content={
+            t("Buy tickets for") +
+            " " +
+            groupName +
+            " " +
+            t("events") +
+            " " +
+            t("in") +
+            " " +
+            new Date().getFullYear() +
+            " " +
+            t("and") +
+            " " +
+            (new Date().getFullYear() + 1) +
+            " " +
+            t("at") +
+            " " +
+            t("site_name")
+          }
+        />
       </Head>
       <h1>
         {groupName
