@@ -70,11 +70,5 @@ export async function getStaticProps() {
     },
   };
 }
-export async function getStaticPaths() {
-  // ignore locales, just generate home page, home page have no params and I don't know what to return there
-  return {
-    paths: [],
-  };
-}
 
 export default HomePage;
