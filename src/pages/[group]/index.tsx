@@ -56,7 +56,7 @@ const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName }) => {
         {groupName
           ? t(groupName)
           : t(`${group.charAt(0).toUpperCase() + group.slice(1)}`)}{" "}
-        {t("Events")} {new Date().getFullYear()}, {new Date().getFullYear() + 1}
+        {t("events")} {new Date().getFullYear()}, {new Date().getFullYear() + 1}
       </h1>
       <div className={globalStyles.eventCardsList}>
         {events.map((event) => (
