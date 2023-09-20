@@ -1,6 +1,6 @@
 import globalStyles from "../../styles/Global.module.css";
 import { FC } from "react";
-import EventCard from "@/components/EventCard/EventCard";
+import EventCard, {performGroupAliasFromEvent} from "@/components/EventCard/EventCard";
 import { Event } from "@/models/event.model";
 import Head from "next/head";
 import { t } from "@/libs/t";
@@ -9,6 +9,7 @@ type GroupPageProps = {
   events: Event[];
   group: string;
   title: string;
+  description?: string;
   groupName: string;
 };
 
@@ -24,14 +25,14 @@ const getEvents = async (group: string) => {
   cachedGroups[group] = events;
   return events as Event[];
 };
-const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName }) => {
+const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName, description }) => {
   return (
     <>
       <Head>
         <title>{title}</title>
         <meta
           name={"description"}
-          content={
+          content={description ??
             t("Buy tickets for") +
             " " +
             groupName +
@@ -67,6 +68,44 @@ const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName }) => {
   );
 };
 
+export async function getStaticPaths() {
+    const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&size=10000&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc`;
+    const response = await fetch(everywhere_url);
+    const events: Event[] = await response.json();
+
+    const groups: string[] = events.map((event) => performGroupAliasFromEvent(event));
+
+    const paths = groups.map((group) => ({
+        params: { group },
+    }));
+
+    return { paths, fallback: true };
+}
+
+export async function getStaticProps(context: {
+    params: { group: string };
+}) {
+    const { group } = context.params;
+
+    const events: Event[] = await getEvents(group);
+
+    const groupName = group
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
+    return {
+        props: {
+            group,
+            events,
+            groupName,
+            title: `${t(groupName)} ${t("Tickets")}`,
+            description: `${t(groupName ?? group)} ${t("Tickets")} ${new Date().getFullYear()}, ${new Date().getFullYear() + 1}: ${events.map((event) => event.name[
+                process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es"
+                ]).join(", ")} ${t("and more")}}`,
+        },
+    };
+}
 export async function getServerSideProps(context: {
   params: { group: string };
 }) {
