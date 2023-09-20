@@ -87,7 +87,7 @@ export async function getStaticProps(context: {
 }) {
     const { group } = context.params;
 
-    const events: Event[] = await getEvents(group);
+    const events: Event[] = await getEvents(group).catch(() => []);
 
     const groupName = group
         .split(" ")
