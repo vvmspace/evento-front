@@ -75,7 +75,9 @@ export async function getStaticPaths() {
 
     const groups: string[] = events.map((event) => performGroupAliasFromEvent(event));
 
-    const paths = groups.map((group) => ({
+    const paths = groups
+        .filter((group) => !group.includes('['))
+        .map((group) => ({
         params: { group },
     }));
 
