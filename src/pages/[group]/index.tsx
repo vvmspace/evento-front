@@ -26,7 +26,11 @@ const getEvents = async (group: string) => {
   return events as Event[];
 };
 const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName, description }) => {
-  return (
+
+    if (!group) {
+        return <>Loading ...</>
+    }
+    return (
     <>
       <Head>
         <title>{title}</title>
@@ -91,8 +95,7 @@ export async function getStaticProps(context: {
 
     const events: Event[] = await getEvents(group).catch(() => []);
 
-    const groupName = group
-        .split(" ")
+    const groupName = group?.split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
 
