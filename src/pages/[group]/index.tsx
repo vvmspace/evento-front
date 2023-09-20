@@ -106,26 +106,26 @@ export async function getStaticProps(context: {
         },
     };
 }
-export async function getServerSideProps(context: {
-  params: { group: string };
-}) {
-  const { group } = context.params;
-
-  const events: Event[] = await getEvents(group);
-
-  const groupName = group
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-
-  return {
-    props: {
-      group,
-      events,
-      groupName,
-      title: `${t(groupName)} ${t("Tickets")}`,
-    },
-  };
-}
+// export async function getServerSideProps(context: {
+//   params: { group: string };
+// }) {
+//   const { group } = context.params;
+//
+//   const events: Event[] = await getEvents(group);
+//
+//   const groupName = group
+//     .split(" ")
+//     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+//     .join(" ");
+//
+//   return {
+//     props: {
+//       group,
+//       events,
+//       groupName,
+//       title: `${t(groupName)} ${t("Tickets")}`,
+//     },
+//   };
+// }
 
 export default GroupPage;
