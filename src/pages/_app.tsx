@@ -13,9 +13,9 @@ const languages = [
   {
     code: "en",
     name: "EN",
-    footerText: "© Evento Show 2023",
+    footerText: "© Some Ticket 2023",
     flags: ["🇺🇸", "🇬🇧"],
-    domain: "en.evento.show",
+    domain: "someticket.com",
   },
   {
     code: "es",
