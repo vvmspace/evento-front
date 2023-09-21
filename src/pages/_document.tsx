@@ -16,7 +16,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="es">
+      <Html lang={process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es"}>
         <Head />
         <body>
           <Main />
