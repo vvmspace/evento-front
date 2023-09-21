@@ -15,4 +15,9 @@ export const LOCALES = {
     front_title:
       "Billets pour concerts, festivals, événements et plus: Berlin, Paris, Madrid, Mexique, etc.",
   },
+  am: {
+  events: "Միջոցառումներ",
+  front_title:
+      "Միջոցառումների համար մոտակա միջոցառումների համար: Բեռլին, Փարիզ, Մադրիդ, Մեքսիկա, այլն",
+  }
 };

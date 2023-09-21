@@ -66,7 +66,7 @@ export async function getStaticProps() {
       locale: DEFAULT_LANGUAGE,
       latest,
       top,
-      title: LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr"]?.front_title,
+      title: LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr" | "am"]?.front_title,
     },
   };
 }
