@@ -28,7 +28,7 @@ const getRelated = async (group: string) => {
   if (cachedRelated[group]) {
     return cachedRelated[group];
   }
-  const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc`;
+  const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const group_response = await fetch(everywhere_url);
   console.log("everywhere_url", everywhere_url);
   const related: Event[] = await group_response.json();
@@ -43,7 +43,7 @@ const getEvent = async (alias: string) => {
     return cachedEvents[alias];
   }
   const response = await fetch(
-    `${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}`,
+    `${process.env.API_PREFIX}/events?select=updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`,
   );
   const fetchedEvent = (await response.json())[0];
   cachedEvents[alias] = fetchedEvent;
@@ -231,7 +231,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
 };
 
 export const getStaticPaths = async () => {
-  const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&size=10000&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc`;
+  const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&size=10000&select=country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const response = await fetch(everywhere_url);
   const events: Event[] = await response.json();
   const paths = events.map((event) => ({

@@ -1,0 +1,23 @@
+{
+  "site_name": "someticket.am",
+  "footer_text": "someticket.am 2023.",
+  "language": "Հայերեն",
+  "what": "ինչու",
+  "events": "միջոցառումներ",
+  "details": "մանրամասներ",
+  "call_to_action": "գնել հիմա",
+  "New events": "Նոր միջոցառումներ",
+  "Buy tickets": "Գնել տոմսեր",
+  "Buy tickets to": "Գնել տոմսեր",
+  "Event is expired or will be available later": "Միջոցառումը ավարտված է կամ հասանելի է հետագա ժամանակ",
+  "Where?": "Որտեղ?",
+  "When?": "Երբ?",
+  "Date": "Ամսաթիվ",
+  "Start": "Սկիզբ",
+  "Tickets price from": "Գինը սկսած",
+  "Tickets price to": "Գինը մինչև",
+  "Top events": "Թոփ միջոցառումներ",
+  "Buy tickets for": "Գնել տոմսեր համար",
+  "and": "և",
+  "at": "մեկնարկին"
+}

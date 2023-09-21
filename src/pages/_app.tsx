@@ -18,6 +18,13 @@ const languages = [
     domain: "someticket.com",
   },
   {
+    code: "am",
+    name: "AM",
+    footerText: "© Միայն տոմսեր 2023",
+    flags: ["🇦🇲"],
+    domain: "am.someticket.com"
+  },
+  {
     code: "es",
     name: "ES",
     footerText: "© Evento Show 2023",
