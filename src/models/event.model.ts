@@ -4,6 +4,7 @@ export interface Event {
   active?: boolean;
   age_restriction?: string;
   alias: string;
+  group_alias?: string;
   start: Date;
   end?: Date;
   updatedAt?: Date;
