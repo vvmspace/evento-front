@@ -37,6 +37,12 @@
   cursor: pointer;
 }
 
+@media (max-width: 1000px) {
+  .logoWrapper {
+    font-size: 40px;
+  }
+}
+
 .eventCardsList {
   list-style: none;
   padding: 0;
