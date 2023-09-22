@@ -114,7 +114,9 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
         <EventJSONLd event={event} />
         <div className={styles.card}>
           <div className={styles.image}>
-            <img src={event.image} alt={event.name[language]} />
+            <img src={event.image ??
+                `/images/placeholder_${process.env.NEXT_DOMAIN_DEFAULT_LANGUAGE}.jpg`
+            } alt={event.name[language]} />
           </div>
           <div className={styles.description}>
             {event.description[language]
