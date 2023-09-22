@@ -57,7 +57,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
 
   const handleAffiliateClick = () => {
     gEvent("event", {
-      action: "click",
+      action: "click_order",
       category: group,
       label: event.name[language],
       value: event.price_min,
