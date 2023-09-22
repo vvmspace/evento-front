@@ -107,7 +107,7 @@ export async function getStaticProps(context: { params: { group: string } }) {
 
   const events: Event[] = (await getEvents(group).catch(() => [])) ?? [];
 
-  const eventsWithGroup = events.filter((e) => !!e?.group_name);
+  const eventsWithGroup = events.filter((e) => !!e?.group_name && e.group_alias === group);
 
   const groupName =
     eventsWithGroup?.[0]?.group_name?.[
