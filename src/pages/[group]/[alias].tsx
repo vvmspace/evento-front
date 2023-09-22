@@ -10,7 +10,7 @@ import globalStyles from "../../styles/Global.module.css";
 import { t } from "@/libs/t";
 import EventJSONLd from "@/components/EventJSONLd";
 import Link from "next/link";
-const { event:gEvent } = require("nextjs-google-analytics");
+const { event: gEvent } = require("nextjs-google-analytics");
 
 type EventPageProps = {
   event: Event;
@@ -57,10 +57,10 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
 
   const handleAffiliateClick = () => {
     gEvent("event", {
-        action: "click",
-        category: group,
-        label: event.name[language],
-        value: event.price_min
+      action: "click",
+      category: group,
+      label: event.name[language],
+      value: event.price_min,
     });
     const link = affiliateLink(event);
     if (link) {

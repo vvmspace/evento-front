@@ -5,6 +5,15 @@ export interface Event {
   age_restriction?: string;
   alias: string;
   group_alias?: string;
+  group_name?: {
+    [language: string]: string;
+  };
+  group_description?: {
+    [language: string]: string;
+  };
+  city_name?: {
+    [language: string]: string;
+  };
   start: Date;
   end?: Date;
   updatedAt?: Date;
