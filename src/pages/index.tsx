@@ -50,7 +50,7 @@ export async function getStaticProps() {
   const top_response = await fetch(
     `${
       process.env.API_PREFIX
-    }/events?use_cache=true&active=true&select=group_alias,country,genre,updatedAt,image,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&price_currency=EUR&price_max_from=120&use_cache=true&distinct=group_alias&start_from=${
+    }/events?use_cache=true&active=true&select=group_alias,city_name,country,genre,updatedAt,image,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&price_currency=EUR&price_max_from=120&use_cache=true&distinct=group_alias&start_from=${
       new Date().toISOString().split("T")[0]
     }&sort=start_asc&locale=${DEFAULT_LANGUAGE}`,
     {
@@ -66,7 +66,8 @@ export async function getStaticProps() {
       locale: DEFAULT_LANGUAGE,
       latest,
       top,
-      title: LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr" | "am"]?.front_title,
+      title:
+        LOCALES[DEFAULT_LANGUAGE as "es" | "en" | "fr" | "am"]?.front_title,
     },
   };
 }

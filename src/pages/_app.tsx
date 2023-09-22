@@ -7,7 +7,7 @@ import globalStyles from "../styles/Global.module.css";
 import Head from "next/head";
 import LanguageSwitcher from "@/components/Layout/LanguageSwitcher/LanguageSwitcher";
 import { t } from "@/libs/t";
-import { GoogleAnalytics} from "nextjs-google-analytics";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 
 const languages = [
   {
@@ -22,7 +22,7 @@ const languages = [
     name: "AM",
     footerText: "© Միայն տոմսեր 2023",
     flags: ["🇦🇲"],
-    domain: "am.someticket.com"
+    domain: "am.someticket.com",
   },
   {
     code: "es",
@@ -91,8 +91,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           </div>
         </header>
         <main>
-            <GoogleAnalytics
-              trackPageViews />
+          <GoogleAnalytics trackPageViews />
           <Component {...pageProps} />
         </main>
         <footer className={styles.footer}>{currentLang.footerText}</footer>

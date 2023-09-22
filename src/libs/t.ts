@@ -7,7 +7,7 @@ const LANGUAGES: Record<string, Record<string, string>> = {
   en,
   es,
   fr,
-  am
+  am,
 };
 
 export const t = (

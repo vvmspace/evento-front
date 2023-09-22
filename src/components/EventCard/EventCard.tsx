@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./EventCard.module.css";
-import {Event} from "@/models/event.model";
+import { Event } from "@/models/event.model";
 import EventJSONLd from "@/components/EventJSONLd";
 
 type EventCardProps = {
@@ -10,19 +10,19 @@ type EventCardProps = {
 
 export const performGroupAliasFromEvent = (event: Event): string => {
   return (
-      event.group_alias ||
-      event.provider_internal_country_name ||
-      event.provider_internal_state_name ||
-      event.sub_genre ||
-      event.genre ||
-      event.provider_city_name ||
-      event.provider_internal_venue_name ||
-      event.provider_internal_country_code ||
-      "event"
+    event.group_alias ||
+    event.provider_internal_country_name ||
+    event.provider_internal_state_name ||
+    event.sub_genre ||
+    event.genre ||
+    event.provider_city_name ||
+    event.provider_internal_venue_name ||
+    event.provider_internal_country_code ||
+    "event"
   )
-      .toLowerCase()
-      .replaceAll(" ", "%20")
-      .replaceAll("&", "%26");
+    .toLowerCase()
+    .replaceAll(" ", "%20")
+    .replaceAll("&", "%26");
 };
 export const performUrlFromEvent = (event: Event) => {
   return (
