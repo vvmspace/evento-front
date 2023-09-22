@@ -89,9 +89,19 @@ export async function getStaticPaths() {
   const response = await fetch(everywhere_url);
   const events: Event[] = await response.json();
 
-  const groups: string[] = events.map((event) =>
+  const groups: string[] = [...new Set(events.map((event) =>
     performGroupAliasFromEvent(event),
-  );
+  )),
+      ...new Set(events.map((event) =>
+            event.provider_city_name?.toLowerCase().replaceAll(
+                " ",
+                "%20",
+            ).replaceAll(
+                "&",
+                "%26",
+            ) as string,
+        ))
+  ];
 
   const paths = groups
     .filter((group) => !group.includes("["))
@@ -107,7 +117,9 @@ export async function getStaticProps(context: { params: { group: string } }) {
 
   const events: Event[] = (await getEvents(group).catch(() => [])) ?? [];
 
-  const eventsWithGroup = events.filter((e) => !!e?.group_name && e.group_alias === group);
+  const eventsWithGroup = events.filter(
+    (e) => !!e?.group_name && e.group_alias === group,
+  );
 
   const groupName =
     eventsWithGroup?.[0]?.group_name?.[
