@@ -38,6 +38,12 @@ export const getServerSideProps: GetServerSideProps = async ({
                       (event) => performGroupAliasFromEvent(event) as string,
                     ),
                   ),
+                  ...new Set(
+                    events.map(
+                      (event) =>
+                        event.provider_city_name?.toLowerCase() as string,
+                    ),
+                  ),
                 ].map((group) => renderGroupUrl(group))}
                 ${events.map((event) => renderEventUrl(event))}
             </urlset>`;
