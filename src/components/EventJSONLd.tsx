@@ -19,10 +19,12 @@ const EventJSONLd = ({ event }: { event: Event }) => {
       "@type": "VirtualLocation",
       url: performUrlFromEvent(event),
     },
-    image: event.image ??
-        (typeof window === "undefined"
-            ? process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX
-            : window?.location?.origin) + `/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png`,
+    image:
+      event.image ??
+      (typeof window === "undefined"
+        ? process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX
+        : window?.location?.origin) +
+        `/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png`,
     description: event.description?.[currentLanguage] ?? "",
     offers: {
       "@type": "Offer",
