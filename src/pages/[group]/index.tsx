@@ -14,6 +14,7 @@ type GroupPageProps = {
   description?: string;
   groupName: string;
   groupDescription?: string;
+  link: string;
 };
 
 let cachedGroups: Record<string, Partial<Event>[]> = {};
@@ -35,6 +36,7 @@ const GroupPage: FC<GroupPageProps> = ({
   groupName,
   description,
   groupDescription,
+  link,
 }) => {
   if (!group) {
     return <>Loading ...</>;
@@ -65,6 +67,33 @@ const GroupPage: FC<GroupPageProps> = ({
               " " +
               t("site_name")
           }
+        />
+        <meta
+          property="og:title"
+            content={title}
+        />
+        <meta
+            property="og:description"
+            content={
+                description ??
+                t("Buy tickets for") +
+                " " +
+                groupName +
+                " " +
+                t("events") +
+                " " +
+                t("in") +
+                " " +
+                new Date().getFullYear() +
+                " " +
+                t("and") +
+                " " +
+                (new Date().getFullYear() + 1) +
+                " " +
+                t("at") +
+                " " +
+                t("site_name")
+            }
         />
       </Head>
       <h1>
@@ -139,6 +168,7 @@ export async function getStaticProps(context: { params: { group: string } }) {
   return {
     props: {
       group,
+      link: `/${group}`,
       events,
       groupName,
       groupDescription,

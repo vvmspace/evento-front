@@ -9,14 +9,15 @@ type LanguageSwitcherProps = {
   currentLang: string;
   languages: Language[];
   titles: { [key: string]: string };
+  link?: string;
 };
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   currentLang,
   languages,
   titles,
+    link
 }) => {
-  const router = useRouter();
   const [flags, setFlags] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           return (
             <Link
               key={lang.code}
-              href={`https://${lang.domain}${router.asPath}`}
+              href={`https://${lang.domain}${link ?? ""}`}
               passHref
               title={titles[lang.code]}
               className={styles.langButton}

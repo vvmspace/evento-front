@@ -66,7 +66,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           rel="canonical"
           href={`${
             process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX
-          }${router.asPath}`}
+          }${pageProps.link ?? router.asPath}`}
         />
       </Head>
       <div className={globalStyles.container}>
@@ -76,6 +76,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
             <LanguageSwitcher
               currentLang={currentLang.code}
               languages={languages}
+              link={pageProps.link ?? router.asPath}
               titles={{
                 en:
                   pageProps.event?.title?.en ||
