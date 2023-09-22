@@ -99,13 +99,13 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
         <title>
           {event.title[language]} |{" "}
           {event.provider_city_name ? `${t(event.provider_city_name)} | ` : ""}
-          {event?.call_for_action_text?.[language] ?? ""}
+          {event?.call_for_action?.[language] ?? ""}
         </title>
         <meta name="description" content={event.description[language] ?? ""} />
         <meta property="og:title" content={event.title[language]} />
         <meta
           property="og:description"
-          content={event.call_for_action_text?.[language] ?? ""}
+          content={event.call_for_action?.[language] ?? ""}
         />
         <meta property="og:image" content={event.image} />
       </Head>

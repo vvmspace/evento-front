@@ -57,7 +57,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             {event.name[currentLanguage] ?? event.name["en"]}
           </h2>
           <p className={styles.cardDescription}>
-              {event.call_for_action_text[currentLanguage] ?? event.call_for_action_text["en"]}
+            {event?.call_for_action[currentLanguage] ?? event?.call_for_action["en"] ?? ""}
           </p>
           <p className={styles.cardStartDate}>
             {new Date(event.start).toLocaleDateString(currentLanguage, {

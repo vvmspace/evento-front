@@ -26,7 +26,7 @@ export interface Event {
   description: {
     [language: string]: string;
   };
-  call_for_action_text: {
+  call_for_action: {
     [language: string]: string;
   };
   cancelled?: boolean;
