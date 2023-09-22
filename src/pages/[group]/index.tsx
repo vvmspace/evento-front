@@ -19,7 +19,7 @@ const getEvents = async (group: string) => {
   if (cachedGroups[group]) {
     return cachedGroups[group] as Event[];
   }
-  const everywhere_url = `${process.env.API_PREFIX}/events?active=true&ssr=true&select=group_alias,provider_city_name,country,provider_city_name,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=12&everywhere=${group}&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
+  const everywhere_url = `${process.env.API_PREFIX}/events?use_cache=true&active=true&ssr=true&select=group_alias,provider_city_name,country,provider_city_name,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=12&everywhere=${group}&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const group_response = await fetch(everywhere_url);
   const events: Event[] = await group_response.json();
   cachedGroups[group] = events;
@@ -73,7 +73,7 @@ const GroupPage: FC<GroupPageProps> = ({ events, group, title, groupName, descri
 };
 
 export async function getStaticPaths() {
-    const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&size=10000&select=group_alias,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc`;
+    const everywhere_url = `${process.env.API_PREFIX}/events?use_cache=true&ssr=true&size=10000&select=group_alias,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc`;
     const response = await fetch(everywhere_url);
     const events: Event[] = await response.json();
 
