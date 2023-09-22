@@ -49,7 +49,8 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <div>
             <img
               className={styles.cardImage}
-              src={event.image as string}
+              src={event.image ??
+                  `/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png` as string}
               alt={event.title[currentLanguage] ?? event.name["en"]}
             />
           </div>
