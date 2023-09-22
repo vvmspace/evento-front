@@ -101,7 +101,7 @@ export async function getStaticPaths() {
                 "%26",
             ) as string,
         ))
-  ];
+  ].filter(group => !!group);
 
   const paths = groups
     .filter((group) => !group.includes("["))
