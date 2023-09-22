@@ -75,7 +75,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
             })}
           </p>
           <p className={styles.cardAddress}>
-            <strong>{event.provider_city_name}</strong>{" "}
+            <strong>{event?.city_name?.[currentLanguage] ?? event.provider_city_name}</strong>{" "}
             {event.venue ||
               event.provider_internal_venue_name ||
               event.provider_internal_venue_address}
