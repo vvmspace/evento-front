@@ -122,7 +122,7 @@ export async function getStaticProps(context: { params: { group: string } }) {
   const groupDescription =
     eventsWithGroup?.[0]?.group_description?.[
       process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es"
-    ];
+    ] ?? "";
 
   return {
     props: {
