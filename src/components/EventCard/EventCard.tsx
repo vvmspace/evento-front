@@ -76,7 +76,6 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           </p>
           <p className={styles.cardAddress}>
             <strong>{event.city_name?.[currentLanguage] ?? event.provider_city_name}</strong>{" "}
-            {JSON.stringify(event.city_name?.[currentLanguage])}
             {event.venue ||
               event.provider_internal_venue_name ||
               event.provider_internal_venue_address}
