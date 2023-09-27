@@ -24,7 +24,11 @@ const getEvents = async (group: string) => {
     return cachedGroups[group] as Event[];
   }
   const everywhere_url = `${process.env.API_PREFIX}/events?use_cache=true&active=true&ssr=true&select=group_alias,group_description,group_name,city_name,provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=12&start_from=${new  Date().toISOString().split("T")[0]}&everywhere=${group}&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
-  const group_response = await fetch(everywhere_url);
+  const group_response = await fetch(everywhere_url, {
+    next: {
+        revalidate: 24 * 60 * 60,
+    }
+  });
   const events: Event[] = await group_response.json();
   cachedGroups[group] = events;
   return events as Event[];
