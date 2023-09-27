@@ -172,7 +172,11 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
               <>
                 <h2 className={styles.subTitle}>{t("When?")}</h2>
                 <p className={styles.date}>
-                  {t("Date")}: {new Date(event.start).toDateString()}
+                  {t("Date")}: {new Date(event.start).toLocaleDateString(language, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
                 </p>
                 <p className={styles.date}>
                   {t("Start")}:{" "}
