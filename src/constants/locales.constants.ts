@@ -5,7 +5,7 @@ export const LOCALES: Record<string, Record<string, string>> = {
     front_title:
       "Tickets for concerts, festivals, events and more: Berlin, Paris, Madrid, Mexico, etc.",
     top_sort: "price_min_desc",
-    currency: "EUR",
+    currency: "EUR|USD",
   },
   es: {
     events: "Eventos",
@@ -26,7 +26,7 @@ export const LOCALES: Record<string, Record<string, string>> = {
     front_title:
       "Միջոցառումների համար մոտակա միջոցառումների համար: Բեռլին, Փարիզ, Մադրիդ, Մեքսիկա, այլն",
     top_sort: "price_max_desc",
-    currency: "EUR",
+    currency: "EUR|USD",
     locale: "hy",
   },
 };
