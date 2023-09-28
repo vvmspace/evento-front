@@ -213,3 +213,4 @@ export async function getStaticProps(context: { params: { group: string } }) {
 // }
 
 export default GroupPage;
+export const config = { amp: "hybrid" };
