@@ -57,12 +57,50 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
 
   const affiliateLink = (event: Event): string => event.link;
 
+  const ABCD: Record<string, () => Record<string, string | number | boolean | Record<string, any> | undefined>> = {
+    "en": () => ({
+      "action": "click",
+      "actionCategory": "click",
+      "action2": "click",
+      "category": group,
+      "label": event.name[language],
+      "value": event.price_min,
+    }),
+    "es": () => ({
+        "action": "event_click",
+        "actionCategory": "click",
+        "action2": "event_click",
+        "category": group,
+        "label": event.name[language],
+        "value": event.price_min,
+    }),
+    "fr": () => ({
+        "action": "click",
+        "actionCategory": "click",
+        "action2": "event_click",
+        "category": group,
+        "label": event.name[language],
+        "value": event.price_min,
+      ...event
+    }),
+    "am": () => ({
+        "action": "event_click",
+        "actionCategory": "click",
+        "action2": "click",
+        "category": group,
+        "label": event.name[language],
+        "value": event.price_min,
+        ...event
+    })
+  }
+
   const handleAffiliateClick = () => {
-    gEvent("event", {
-      action: "click_order",
-      category: group,
-      label: event.name[language],
-      value: event.price_min,
+    gEvent(ABCD[language]().action, {
+        action: ABCD[language]().action2,
+        actionCategory: ABCD[language]().actionCategory,
+        category: ABCD[language]().category,
+        label: ABCD[language]().label,
+        value: ABCD[language]().value,
     });
     const link = affiliateLink(event);
     if (link) {
