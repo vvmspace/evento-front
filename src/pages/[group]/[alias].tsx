@@ -19,7 +19,8 @@ type EventPageProps = {
   alias: string;
   group: string;
   cityName: string;
-    groupName: string;
+  groupName: string;
+  localeDate: string;
 };
 
 const cachedRelated: {
@@ -54,7 +55,7 @@ const getEvent = async (alias: string) => {
   return fetchedEvent;
 };
 
-const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName }) => {
+const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName, localeDate, cityName }) => {
   const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const affiliateLink = (event: Event): string => event.link;
@@ -147,7 +148,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
       <Head>
         <title>
           {event.title[language]} |{" "}
-          {event.city_name?.[language] ?? event.provider_city_name ? `${t(event.provider_city_name as string)} | ` : ""}
+          {cityName} | {localeDate}
           {event?.call_for_action?.[language] ?? ""}
         </title>
         <meta name="description" content={event.description[language] ?? ""} />
@@ -219,11 +220,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
               <>
                 <h2 className={styles.subTitle}>{t("When?")}</h2>
                 <p className={styles.date}>
-                  {t("Date")}: {new Date(event.start).toLocaleDateString(LOCALES[language as string]?.locale ?? language, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                  {t("Date")}: {localeDate}
                 </p>
                 <p className={styles.date}>
                   {t("Start")}:{" "}
@@ -234,7 +231,6 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
                 </p>
               </>
             )}
-              {JSON.stringify(event)}
             {(event.provider_internal_venue_address ||
               event.provider_city_name ||
               event.venue) && (
@@ -334,6 +330,11 @@ export const getStaticProps = async (context: {
       groupName,
       locale: language,
         cityName: event.city_name?.[language] ?? event.provider_city_name,
+        localeDate: new Date(event.start).toLocaleDateString(LOCALES[language as string]?.locale ?? language, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        })
     },
   };
 };

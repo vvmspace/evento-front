@@ -37,6 +37,11 @@ export const performUrlFromEvent = (event: Event) => {
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
   const currentLanguage = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
+  const localeDate = new Date(event.start).toLocaleDateString(LOCALES[currentLanguage as string]?.locale ?? currentLanguage, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <Link
@@ -54,7 +59,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
                 event.image ??
                 (`/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png` as string)
               }
-              alt={event.title[currentLanguage] ?? event.name["en"]}
+              alt={`${event.title[currentLanguage] ?? event.name["en"]} ${localeDate}`}
             />
           </div>
           <h2 className={styles.cardTitle}>
@@ -64,11 +69,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           {/*  {event?.call_for_action[currentLanguage] ?? event?.call_for_action["en"] ?? ""}*/}
           {/*</p>*/}
           <p className={styles.cardStartDate}>
-            {new Date(event.start).toLocaleDateString(LOCALES[currentLanguage as string]?.locale ?? currentLanguage, {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {localeDate}
             ,{" "}
             {new Date(event.start).toLocaleTimeString(LOCALES[currentLanguage as string]?.locale ?? currentLanguage, {
               hour: "numeric",
