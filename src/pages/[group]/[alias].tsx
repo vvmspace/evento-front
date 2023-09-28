@@ -317,7 +317,7 @@ export const getStaticProps = async (context: {
 
   const related = await getRelated(group);
 
-    const groupName = event?.group_name[language] ?? group
+    const groupName = event?.group_name?.[language] ?? group
         .replaceAll("-", " ")
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
