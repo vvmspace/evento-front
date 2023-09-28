@@ -18,6 +18,7 @@ type EventPageProps = {
   alias: string;
   group: string;
   cityName: string;
+    groupName: string;
 };
 
 const cachedRelated: {
@@ -45,14 +46,14 @@ const getEvent = async (alias: string) => {
     return cachedEvents[alias];
   }
   const response = await fetch(
-    `${process.env.API_PREFIX}/events?use_cache=true&select=city_name,provider_internal_venue_name,updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`,
+    `${process.env.API_PREFIX}/events?use_cache=true&select=city_name,provider_internal_venue_name,group_name,updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`,
   );
   const fetchedEvent = (await response.json())[0];
   cachedEvents[alias] = fetchedEvent;
   return fetchedEvent;
 };
 
-const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
+const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName }) => {
   const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const affiliateLink = (event: Event): string => event.link;
@@ -184,7 +185,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
               ))}
             <div>
               <Link className={globalStyles.tag} href={`/${group}`}>
-                {group}
+                {event?.group_name?.[language] ?? group}
               </Link>
               {event.provider_city_name ? (
                 <>
@@ -206,7 +207,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
                     className={globalStyles.tag}
                     href={`/${event.provider_internal_country_name?.toLowerCase()}`}
                   >
-                    {event.provider_city_name}
+                    {event.provider_internal_country_name}
                   </Link>
                 </>
               ) : (
@@ -242,9 +243,9 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
                     ? event.provider_internal_venue_address + ", "
                     : ""}
                   <strong>{event.city_name?.[language] ?? event.provider_city_name
-                    ? event.provider_city_name + ", "
+                    ? event.provider_city_name
                       : ""}</strong>{" "}
-                  {event.venue ?? event.provider_internal_venue_name ?? ""}
+                  {event.venue || event.provider_internal_venue_name ?`, ${event.venue || event.provider_internal_venue_name}` : ''}
                 </p>
               </>
             )}
@@ -272,7 +273,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
       {related.length > 0 && (
         <div className={styles.relatedEvents}>
           <h2 className={styles.groupTitle}>
-            {group.charAt(0).toUpperCase() + group.slice(1)}
+            {groupName} {t("tickets")} {new Date().getFullYear()},{" "}{new Date().getFullYear() + 1}
           </h2>
           <div className={globalStyles.eventCardsList}>
             {related.map((event) => (
@@ -304,11 +305,6 @@ export const getStaticProps = async (context: {
   params: { alias: string; group: string };
 }) => {
   const { alias, group } = context.params;
-  const groupName = group
-    .replaceAll("-", " ")
-    .split(" ")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
   const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const event = await getEvent(alias);
@@ -321,7 +317,13 @@ export const getStaticProps = async (context: {
 
   const related = await getRelated(group);
 
-  return {
+    const groupName = event?.group_name[language] ?? group
+        .replaceAll("-", " ")
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
+    return {
     props: {
       event,
       related,
@@ -329,6 +331,7 @@ export const getStaticProps = async (context: {
       alias,
       groupName,
       locale: language,
+        cityName: event.city_name?.[language] ?? event.provider_city_name,
     },
   };
 };
