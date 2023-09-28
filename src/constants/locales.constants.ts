@@ -28,5 +28,6 @@ export const LOCALES: Record<string, Record<string, string>> = {
       "Միջոցառումների համար մոտակա միջոցառումների համար: Բեռլին, Փարիզ, Մադրիդ, Մեքսիկա, այլն",
     top_sort: "price_max_desc",
     currency: "EUR",
+    locale: "hy",
   },
 };

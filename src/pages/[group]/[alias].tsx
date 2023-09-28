@@ -10,6 +10,7 @@ import globalStyles from "../../styles/Global.module.css";
 import { t } from "@/libs/t";
 import EventJSONLd from "@/components/EventJSONLd";
 import Link from "next/link";
+import {LOCALES} from "@/constants/locales.constants";
 const { event: gEvent } = require("nextjs-google-analytics");
 
 type EventPageProps = {
@@ -194,7 +195,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
                     className={globalStyles.tag}
                     href={`/${event.provider_city_name?.toLowerCase()}`}
                   >
-                    {event.provider_city_name}
+                    {event?.city_name?.[language] || event.provider_city_name}
                   </Link>
                 </>
               ) : (
@@ -218,7 +219,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
               <>
                 <h2 className={styles.subTitle}>{t("When?")}</h2>
                 <p className={styles.date}>
-                  {t("Date")}: {new Date(event.start).toLocaleDateString(language, {
+                  {t("Date")}: {new Date(event.start).toLocaleDateString(LOCALES[language as string]?.locale ?? language, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -226,13 +227,14 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
                 </p>
                 <p className={styles.date}>
                   {t("Start")}:{" "}
-                  {new Date(event.start).toLocaleTimeString(language, {
+                  {new Date(event.start).toLocaleTimeString(LOCALES[language as string]?.locale ?? language, {
                     hour: "2-digit",
                     minute: "2-digit",
                   })}
                 </p>
               </>
             )}
+              {JSON.stringify(event)}
             {(event.provider_internal_venue_address ||
               event.provider_city_name ||
               event.venue) && (
@@ -242,9 +244,9 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
                   {event.provider_internal_venue_address
                     ? event.provider_internal_venue_address + ", "
                     : ""}
-                  <strong>{event.city_name?.[language] ?? event.provider_city_name
-                    ? event.provider_city_name
-                      : ""}</strong>{" "}
+                  <strong>{event.city_name && event.city_name[language] || event.provider_city_name
+                    && event.provider_city_name
+                      || ""}</strong>{" "}
                   {event.venue || event.provider_internal_venue_name ?`, ${event.venue || event.provider_internal_venue_name}` : ''}
                 </p>
               </>

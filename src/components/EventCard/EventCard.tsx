@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./EventCard.module.css";
 import { Event } from "@/models/event.model";
 import EventJSONLd from "@/components/EventJSONLd";
+import {LOCALES} from "@/constants/locales.constants";
 
 type EventCardProps = {
   event: Event;
@@ -63,13 +64,13 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           {/*  {event?.call_for_action[currentLanguage] ?? event?.call_for_action["en"] ?? ""}*/}
           {/*</p>*/}
           <p className={styles.cardStartDate}>
-            {new Date(event.start).toLocaleDateString(currentLanguage, {
+            {new Date(event.start).toLocaleDateString(LOCALES[currentLanguage as string]?.locale ?? currentLanguage, {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}
             ,{" "}
-            {new Date(event.start).toLocaleTimeString(currentLanguage, {
+            {new Date(event.start).toLocaleTimeString(LOCALES[currentLanguage as string]?.locale ?? currentLanguage, {
               hour: "numeric",
               minute: "numeric",
             })}
