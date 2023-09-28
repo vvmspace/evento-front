@@ -45,7 +45,7 @@ const getEvent = async (alias: string) => {
     return cachedEvents[alias];
   }
   const response = await fetch(
-    `${process.env.API_PREFIX}/events?use_cache=true&select=updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`,
+    `${process.env.API_PREFIX}/events?use_cache=true&select=city_name,provider_internal_venue_name,updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`,
   );
   const fetchedEvent = (await response.json())[0];
   cachedEvents[alias] = fetchedEvent;
@@ -100,7 +100,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
       <Head>
         <title>
           {event.title[language]} |{" "}
-          {event.provider_city_name ? `${t(event.provider_city_name)} | ` : ""}
+          {event.city_name?.[language] ?? event.provider_city_name ? `${t(event.provider_city_name as string)} | ` : ""}
           {event?.call_for_action?.[language] ?? ""}
         </title>
         <meta name="description" content={event.description[language] ?? ""} />
@@ -196,10 +196,10 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
                   {event.provider_internal_venue_address
                     ? event.provider_internal_venue_address + ", "
                     : ""}
-                  {event.provider_city_name
+                  <strong>{event.city_name?.[language] ?? event.provider_city_name
                     ? event.provider_city_name + ", "
-                    : ""}{" "}
-                  {event.venue ? event.venue : ""}
+                      : ""}</strong>{" "}
+                  {event.venue ?? event.provider_internal_venue_name ?? ""}
                 </p>
               </>
             )}
