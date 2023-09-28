@@ -88,6 +88,12 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
             process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX
           }${pageProps.link ?? router.asPath}`}
         />
+        <link
+          rel="amphtml"
+          href={`${
+            process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX
+          }${pageProps.link ?? router.asPath}?amp=1`}
+        />
       </Head>
       <div className={globalStyles.container}>
         <header className={styles.header}>
