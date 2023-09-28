@@ -296,25 +296,23 @@ const EventPage: FC<EventPageProps> = ({
               {t("Tickets price to")}: {event.price_max} {event.price_currency}
             </p>
             <div className={styles.buttonWrapper}>
-              <button
+
+              {isAmp ? (<Link href={event?.link} rel={'nofollow'} style={{
+                width: "100%",
+                height: "3.5rem",
+                lineHeight: "3.5rem",
+                fontSize: "2rem",
+                backgroundColor: "#006fbb",
+                color: "#fff",
+                cursor: "pointer",
+                textAlign: "center",
+                textDecoration: "none",
+              }}/>) : (<button
                 onClick={handleAffiliateClick}
                 className={styles.buyButton}
-                style={
-                  isAmp
-                    ? {
-                        width: "100%",
-                        height: "3.5rem",
-                        lineHeight: "3.5rem",
-                        fontSize: "2rem",
-                        backgroundColor: "#006fbb",
-                        color: "#fff",
-                        cursor: "pointer",
-                      }
-                    : {}
-                }
               >
                 {t("Buy tickets")}
-              </button>
+              </button>)}
             </div>
           </div>
         </div>
