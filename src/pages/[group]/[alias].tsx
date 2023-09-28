@@ -102,6 +102,13 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias }) => {
         label: ABCD[language]().label,
         value: ABCD[language]().value,
     });
+    gEvent("purchase", {
+        action: "purchase",
+        actionCategory: "purchase",
+        category: ABCD[language]().category,
+      value: ABCD[language]().value,
+      currency: event.price_currency,
+    })
     const link = affiliateLink(event);
     if (link) {
       window.open(link, "_blank");
