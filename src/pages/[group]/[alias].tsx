@@ -39,7 +39,7 @@ const getRelated = async (group: string) => {
     new Date().toISOString().split("T")[0]
   }&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const group_response = await fetch(everywhere_url);
-  console.log("everywhere_url", everywhere_url);
+  // console.log("everywhere_url", everywhere_url);
   const related: Event[] = await group_response.json();
   cachedRelated[group] = related;
   return related;
@@ -54,7 +54,11 @@ const getEvent = async (alias: string) => {
   const response = await fetch(
     `${process.env.API_PREFIX}/events?use_cache=true&select=city_name,provider_internal_venue_name,group_name,updatedAt,image,description,name,alias,start,provider_city_name,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency,link&ssr=true&alias=${alias}&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`,
   );
-  const fetchedEvent = (await response.json())[0];
+  const fetchedEvents = await response.json().catch(() => {
+    console.log("Error fetching event", alias);
+    return [];
+  });
+  const fetchedEvent = fetchedEvents[0];
   cachedEvents[alias] = fetchedEvent;
   return fetchedEvent;
 };
