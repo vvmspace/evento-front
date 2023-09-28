@@ -44,7 +44,9 @@ export const getServerSideProps: GetServerSideProps = async ({
                         event.provider_city_name?.toLowerCase() as string,
                     ),
                   ),
-                ].filter(group => !!group).map((group) => renderGroupUrl(group))}
+                ]
+                  .filter((group) => !!group)
+                  .map((group) => renderGroupUrl(group))}
                 ${events.map((event) => renderEventUrl(event))}
             </urlset>`;
   };

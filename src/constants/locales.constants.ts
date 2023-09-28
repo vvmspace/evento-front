@@ -20,7 +20,6 @@ export const LOCALES: Record<string, Record<string, string>> = {
       "Billets pour concerts, festivals, événements et plus: Berlin, Paris, Madrid, Mexique, etc.",
     top_sort: "price_max_desc",
     currency: "EUR",
-
   },
   am: {
     events: "Միջոցառումներ",

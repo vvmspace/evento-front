@@ -23,11 +23,17 @@ const getEvents = async (group: string) => {
   if (cachedGroups[group]) {
     return cachedGroups[group] as Event[];
   }
-  const everywhere_url = `${process.env.API_PREFIX}/events?use_cache=true&active=true&ssr=true&select=group_alias,group_description,group_name,city_name,provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=12&start_from=${new  Date().toISOString().split("T")[0]}&everywhere=${group}&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
+  const everywhere_url = `${
+    process.env.API_PREFIX
+  }/events?use_cache=true&active=true&ssr=true&select=group_alias,group_description,group_name,city_name,provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=12&start_from=${
+    new Date().toISOString().split("T")[0]
+  }&everywhere=${group}&sort=start_asc&locale=${
+    process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE
+  }`;
   const group_response = await fetch(everywhere_url, {
     next: {
-        revalidate: 24 * 60 * 60,
-    }
+      revalidate: 24 * 60 * 60,
+    },
   });
   const events: Event[] = await group_response.json();
   cachedGroups[group] = events;
@@ -72,32 +78,29 @@ const GroupPage: FC<GroupPageProps> = ({
               t("site_name")
           }
         />
+        <meta property="og:title" content={title} />
         <meta
-          property="og:title"
-            content={title}
-        />
-        <meta
-            property="og:description"
-            content={
-                description ??
-                t("Buy tickets for") +
-                " " +
-                groupName +
-                " " +
-                t("events") +
-                " " +
-                t("in") +
-                " " +
-                new Date().getFullYear() +
-                " " +
-                t("and") +
-                " " +
-                (new Date().getFullYear() + 1) +
-                " " +
-                t("at") +
-                " " +
-                t("site_name")
-            }
+          property="og:description"
+          content={
+            description ??
+            t("Buy tickets for") +
+              " " +
+              groupName +
+              " " +
+              t("events") +
+              " " +
+              t("in") +
+              " " +
+              new Date().getFullYear() +
+              " " +
+              t("and") +
+              " " +
+              (new Date().getFullYear() + 1) +
+              " " +
+              t("at") +
+              " " +
+              t("site_name")
+          }
         />
       </Head>
       <h1>
@@ -122,19 +125,18 @@ export async function getStaticPaths() {
   const response = await fetch(everywhere_url);
   const events: Event[] = await response.json();
 
-  const groups: string[] = [...new Set(events.map((event) =>
-    performGroupAliasFromEvent(event),
-  )),
-      ...new Set(events.map((event) =>
-            event.provider_city_name?.toLowerCase().replaceAll(
-                " ",
-                "%20",
-            ).replaceAll(
-                "&",
-                "%26",
-            ) as string,
-        ))
-  ].filter(group => !!group);
+  const groups: string[] = [
+    ...new Set(events.map((event) => performGroupAliasFromEvent(event))),
+    ...new Set(
+      events.map(
+        (event) =>
+          event.provider_city_name
+            ?.toLowerCase()
+            .replaceAll(" ", "%20")
+            .replaceAll("&", "%26") as string,
+      ),
+    ),
+  ].filter((group) => !!group);
 
   const paths = groups
     .filter((group) => !group.includes("["))

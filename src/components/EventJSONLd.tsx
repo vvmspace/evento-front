@@ -16,20 +16,23 @@ const EventJSONLd = ({ event }: { event: Event }) => {
     validFrom: event.validated_at ?? undefined,
     eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
-    location: (currentLanguage === "fr" && event?.venue) ? {
-        "@type": "Place",
-        name: event.venue,
-        address: {
-            "@type": "PostalAddress",
-            streetAddress: event.provider_internal_venue_address,
-            addressLocality: event.provider_city_name,
-            addressRegion: event.provider_internal_state_name,
-        },
-        url: performUrlFromEvent(event)
-    } : {
-      "@type": "VirtualLocation",
-      url: performUrlFromEvent(event),
-    },
+    location:
+      currentLanguage === "fr" && event?.venue
+        ? {
+            "@type": "Place",
+            name: event.venue,
+            address: {
+              "@type": "PostalAddress",
+              streetAddress: event.provider_internal_venue_address,
+              addressLocality: event.provider_city_name,
+              addressRegion: event.provider_internal_state_name,
+            },
+            url: performUrlFromEvent(event),
+          }
+        : {
+            "@type": "VirtualLocation",
+            url: performUrlFromEvent(event),
+          },
     image:
       event.image ??
       (typeof window === "undefined"
