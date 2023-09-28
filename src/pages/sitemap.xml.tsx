@@ -20,13 +20,18 @@ export const getServerSideProps: GetServerSideProps = async ({
     const alias = event.alias;
     return `<url>
                 <loc>${process.env.URL_PREFIX}/${group}/${alias}</loc>
-                <lastmod>${event.updatedAt}</lastmod>
+                <lastmod>${event.updatedAt ?? new Date().toISOString()}</lastmod>
+                <priority>0.8</priority>
+                <changefreq>weekly</changefreq>
             </url>`;
   };
 
   const renderGroupUrl = (group: string) => {
     return `<url>
                 <loc>${process.env.URL_PREFIX}/${group}</loc>
+                <lastmod>${new Date().toISOString()}</lastmod>
+                <priority>0.5</priority>
+                <changefreq>daily</changefreq>
             </url>`;
   };
 
@@ -48,6 +53,12 @@ export const getServerSideProps: GetServerSideProps = async ({
                   .filter((group) => !!group)
                   .map((group) => renderGroupUrl(group))}
                 ${events.map((event) => renderEventUrl(event))}
+                <url>
+                    <loc>${process.env.URL_PREFIX}/</loc>
+                    <lastmod>${new Date().toISOString()}</lastmod>
+                    <priority>1.0</priority>
+                    <changefreq>daily</changefreq>
+                </url>
             </urlset>`;
   };
 
