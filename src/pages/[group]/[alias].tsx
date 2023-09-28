@@ -307,7 +307,8 @@ const EventPage: FC<EventPageProps> = ({
                 cursor: "pointer",
                 textAlign: "center",
                 textDecoration: "none",
-              }}/>) : (<button
+                display: "block",
+              }}>{t("Buy tickets")}</Link>) : (<button
                 onClick={handleAffiliateClick}
                 className={styles.buyButton}
               >
