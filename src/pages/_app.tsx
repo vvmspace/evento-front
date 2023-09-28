@@ -102,6 +102,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
             <LanguageSwitcher
               currentLang={currentLang.code}
               languages={languages}
+              group={pageProps.group ?? undefined}
               link={pageProps.link ?? router.asPath}
               titles={{
                 en:
