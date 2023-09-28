@@ -12,10 +12,21 @@ const EventJSONLd = ({ event }: { event: Event }) => {
     "@type": "Event",
     name: event.name[currentLanguage],
     startDate: event.start,
-    endDate: event.end,
+    endDate: event.end ?? new Date(event.start).setHours(23, 59, 59, 999),
+    validFrom: event.validated_at ?? undefined,
     eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
-    location: {
+    location: (currentLanguage === "fr" && event?.venue) ? {
+        "@type": "Place",
+        name: event.venue,
+        address: {
+            "@type": "PostalAddress",
+            streetAddress: event.provider_internal_venue_address,
+            addressLocality: event.provider_city_name,
+            addressRegion: event.provider_internal_state_name,
+        },
+        url: performUrlFromEvent(event)
+    } : {
       "@type": "VirtualLocation",
       url: performUrlFromEvent(event),
     },
