@@ -10,7 +10,9 @@ import globalStyles from "../../styles/Global.module.css";
 import { t } from "@/libs/t";
 import EventJSONLd from "@/components/EventJSONLd";
 import Link from "next/link";
-import {LOCALES} from "@/constants/locales.constants";
+import { LOCALES } from "@/constants/locales.constants";
+import { useAmp } from "next/amp";
+
 const { event: gEvent } = require("nextjs-google-analytics");
 
 type EventPageProps = {
@@ -31,7 +33,9 @@ const getRelated = async (group: string) => {
   if (cachedRelated[group]) {
     return cachedRelated[group];
   }
-  const everywhere_url = `${process.env.API_PREFIX}/events?use_cache=true&active=true&ssr=true&select=group_alias,provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc&start_from=${
+  const everywhere_url = `${
+    process.env.API_PREFIX
+  }/events?use_cache=true&active=true&ssr=true&select=group_alias,provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc&start_from=${
     new Date().toISOString().split("T")[0]
   }&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const group_response = await fetch(everywhere_url);
@@ -55,63 +59,78 @@ const getEvent = async (alias: string) => {
   return fetchedEvent;
 };
 
-const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName, localeDate, cityName }) => {
+const EventPage: FC<EventPageProps> = ({
+  event,
+  related,
+  group,
+  alias,
+  groupName,
+  localeDate,
+  cityName,
+}) => {
+  const isAmp = useAmp();
   const language = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
 
   const affiliateLink = (event: Event): string => event.link;
 
-  const ABCD: Record<string, () => Record<string, string | number | boolean | Record<string, any> | undefined>> = {
-    "en": () => ({
-      "action": "click",
-      "actionCategory": "click",
-      "action2": "click",
-      "category": group,
-      "label": event.name[language],
-      "value": event.price_min,
+  const ABCD: Record<
+    string,
+    () => Record<
+      string,
+      string | number | boolean | Record<string, any> | undefined
+    >
+  > = {
+    en: () => ({
+      action: "click",
+      actionCategory: "click",
+      action2: "click",
+      category: group,
+      label: event.name[language],
+      value: event.price_min,
     }),
-    "es": () => ({
-        "action": "event_click",
-        "actionCategory": "click",
-        "action2": "event_click",
-        "category": group,
-        "label": event.name[language],
-        "value": event.price_min,
+    es: () => ({
+      action: "event_click",
+      actionCategory: "click",
+      action2: "event_click",
+      category: group,
+      label: event.name[language],
+      value: event.price_min,
     }),
-    "fr": () => ({
-        "action": "click",
-        "actionCategory": "click",
-        "action2": "event_click",
-        "category": group,
-        "label": event.name[language],
-        "value": event.price_min,
-      ...event
+    fr: () => ({
+      action: "click",
+      actionCategory: "click",
+      action2: "event_click",
+      category: group,
+      label: event.name[language],
+      value: event.price_min,
+      ...event,
     }),
-    "am": () => ({
-        "action": "event_click",
-        "actionCategory": "click",
-        "action2": "click",
-        "category": group,
-        "label": event.name[language],
-        "value": event.price_min,
-        ...event
-    })
-  }
+    am: () => ({
+      action: "event_click",
+      actionCategory: "click",
+      action2: "click",
+      category: group,
+      label: event.name[language],
+      value: event.price_min,
+      ...event,
+    }),
+  };
 
   const handleAffiliateClick = () => {
     gEvent(ABCD[language]().action, {
-        action: ABCD[language]().action2,
-        actionCategory: ABCD[language]().actionCategory,
-        category: ABCD[language]().category,
-        label: ABCD[language]().label,
-        value: ABCD[language]().value,
+      action: ABCD[language]().action2,
+      actionCategory: ABCD[language]().actionCategory,
+      category: ABCD[language]().category,
+      label: ABCD[language]().label,
+      value: ABCD[language]().value,
     });
     gEvent("purchase", {
-        action: "purchase",
-        actionCategory: "purchase",
-        category: ABCD[language]().category,
+      action: "purchase",
+      actionCategory: "purchase",
+      category: ABCD[language]().category,
       value: ABCD[language]().value,
       currency: event.price_currency,
-    })
+    });
     const link = affiliateLink(event);
     if (link) {
       window.open(link, "_blank");
@@ -147,8 +166,7 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
     <div className={styles.eventWrapper}>
       <Head>
         <title>
-          {event.title[language]} |{" "}
-          {cityName} | {localeDate}
+          {event.title[language]} | {cityName} | {localeDate}
           {event?.call_for_action?.[language] ?? ""}
         </title>
         <meta name="description" content={event.description[language] ?? ""} />
@@ -164,13 +182,26 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
         <EventJSONLd event={event} />
         <div className={styles.card}>
           <div className={styles.image}>
-            <img
-              src={
-                event.image ??
-                `/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png`
-              }
-              alt={event.name[language]}
-            />
+            {isAmp ? (
+              <amp-img
+                src={
+                  event.image ??
+                  `/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png`
+                }
+                width="300"
+                height="300"
+                layout="responsive"
+                alt={event.name[language]}
+              />
+            ) : (
+              <img
+                src={
+                  event.image ??
+                  `/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png`
+                }
+                alt={event.name[language]}
+              />
+            )}
           </div>
           <div className={styles.description}>
             {event.description[language]
@@ -224,10 +255,13 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
                 </p>
                 <p className={styles.date}>
                   {t("Start")}:{" "}
-                  {new Date(event.start).toLocaleTimeString(LOCALES[language as string]?.locale ?? language, {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {new Date(event.start).toLocaleTimeString(
+                    LOCALES[language as string]?.locale ?? language,
+                    {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    },
+                  )}
                 </p>
               </>
             )}
@@ -240,10 +274,14 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
                   {event.provider_internal_venue_address
                     ? event.provider_internal_venue_address + ", "
                     : ""}
-                  <strong>{event.city_name && event.city_name[language] || event.provider_city_name
-                    && event.provider_city_name
-                      || ""}</strong>{" "}
-                  {event.venue || event.provider_internal_venue_name ?`, ${event.venue || event.provider_internal_venue_name}` : ''}
+                  <strong>
+                    {(event.city_name && event.city_name[language]) ||
+                      (event.provider_city_name && event.provider_city_name) ||
+                      ""}
+                  </strong>{" "}
+                  {event.venue || event.provider_internal_venue_name
+                    ? `, ${event.venue || event.provider_internal_venue_name}`
+                    : ""}
                 </p>
               </>
             )}
@@ -261,6 +299,19 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
               <button
                 onClick={handleAffiliateClick}
                 className={styles.buyButton}
+                style={
+                  isAmp
+                    ? {
+                        width: "100%",
+                        height: "3.5rem",
+                        lineHeight: "3.5rem",
+                        fontSize: "2rem",
+                        backgroundColor: "#006fbb",
+                        color: "#fff",
+                        cursor: "pointer",
+                      }
+                    : {}
+                }
               >
                 {t("Buy tickets")}
               </button>
@@ -271,7 +322,8 @@ const EventPage: FC<EventPageProps> = ({ event, related, group, alias, groupName
       {related.length > 0 && (
         <div className={styles.relatedEvents}>
           <h2 className={styles.groupTitle}>
-            {groupName} {t("tickets")} {new Date().getFullYear()},{" "}{new Date().getFullYear() + 1}
+            {groupName} {t("tickets")} {new Date().getFullYear()},{" "}
+            {new Date().getFullYear() + 1}
           </h2>
           <div className={globalStyles.eventCardsList}>
             {related.map((event) => (
@@ -315,13 +367,15 @@ export const getStaticProps = async (context: {
 
   const related = await getRelated(group);
 
-    const groupName = event?.group_name?.[language] ?? group
-        .replaceAll("-", " ")
-        .split(" ")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(" ");
+  const groupName =
+    event?.group_name?.[language] ??
+    group
+      .replaceAll("-", " ")
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
-    return {
+  return {
     props: {
       event,
       related,
@@ -329,14 +383,21 @@ export const getStaticProps = async (context: {
       alias,
       groupName,
       locale: language,
-        cityName: event.city_name?.[language] ?? event.provider_city_name,
-        localeDate: new Date(event.start).toLocaleDateString(LOCALES[language as string]?.locale ?? language, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-        })
+      cityName: event.city_name?.[language] ?? event.provider_city_name,
+      localeDate: new Date(event.start).toLocaleDateString(
+        LOCALES[language as string]?.locale ?? language,
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        },
+      ),
     },
   };
 };
 
 export default EventPage;
+
+export const config = {
+  amp: "hybrid",
+};

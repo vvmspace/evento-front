@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { CSSProperties, FC, useState } from "react";
 import styles from "./../components/Layout/Layout.module.css";
 import { AppProps } from "next/app";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import Head from "next/head";
 import LanguageSwitcher from "@/components/Layout/LanguageSwitcher/LanguageSwitcher";
 import { t } from "@/libs/t";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import { useAmp } from "next/amp";
 
 const languages = [
   {
@@ -41,6 +42,7 @@ const languages = [
 ];
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
+  const isAmp = useAmp();
   const [currentLang] = useState(
     languages.find(
       (lang) => lang.code === process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE,
@@ -48,12 +50,30 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
   );
   const router = useRouter();
 
+  const ampLogoStyle: CSSProperties = {
+    fontSize: "2.5rem",
+    fontWeight: "bold",
+    textDecoration: "none",
+    textTransform: "uppercase",
+    color: "#006fbb",
+  };
   const renderSiteName = () => {
     if (router.pathname === "/") {
-      return <span className={globalStyles.logoWrapper}>{t("site_name")}</span>;
+      return (
+        <span
+          className={globalStyles.logoWrapper}
+          style={isAmp ? ampLogoStyle : {}}
+        >
+          {t("site_name")}
+        </span>
+      );
     }
     return (
-      <Link className={globalStyles.logoWrapper} href="/">
+      <Link
+        className={globalStyles.logoWrapper}
+        style={isAmp ? ampLogoStyle : {}}
+        href="/"
+      >
         {t("site_name")}
       </Link>
     );

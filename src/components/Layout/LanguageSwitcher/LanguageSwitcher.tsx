@@ -1,9 +1,9 @@
 // components/Layout/LanguageSwitcher.tsx
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import styles from "@/components/Layout/Layout.module.css";
 import { Language } from "@/types/language.type";
+import { useAmp } from "next/amp";
 
 type LanguageSwitcherProps = {
   currentLang: string;
@@ -16,8 +16,9 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   currentLang,
   languages,
   titles,
-    link
+  link,
 }) => {
+  const isAmp = useAmp();
   const [flags, setFlags] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
@@ -38,7 +39,22 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         const flag = flags[lang.code];
         if (lang.code === currentLang) {
           return (
-            <span key={lang.code} className={styles.langButtonActive}>
+            <span
+              key={lang.code}
+              style={
+                isAmp
+                  ? {
+                      display: "inline-block",
+                      textDecoration: "none",
+                      color: "#006fbb",
+                      fontWeight: "bold",
+                      fontSize: "1.5rem",
+                      margin: "0 0.5rem",
+                    }
+                  : {}
+              }
+              className={styles.langButtonActive}
+            >
               {flag}
               <span className={styles.langCode}>{lang.code}</span>
             </span>
@@ -51,6 +67,21 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
               passHref
               title={titles[lang.code]}
               className={styles.langButton}
+              style={
+                isAmp
+                  ? {
+                      display: "inline-block",
+                      textDecoration: "none",
+                      color: "#006fbb",
+                      fontWeight: "bold",
+                      fontSize: "1.5rem",
+                      padding: "0 0.5rem",
+                      margin: "0 0.5rem",
+                      borderRadius: "5px",
+                      boxShadow: "1px 1px 1px 1px #ccc",
+                    }
+                  : {}
+              }
             >
               {flag}
               <span className={styles.langCode}>{lang.code}</span>

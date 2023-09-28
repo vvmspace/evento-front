@@ -3,7 +3,8 @@ import Link from "next/link";
 import styles from "./EventCard.module.css";
 import { Event } from "@/models/event.model";
 import EventJSONLd from "@/components/EventJSONLd";
-import {LOCALES} from "@/constants/locales.constants";
+import { LOCALES } from "@/constants/locales.constants";
+import { useAmp } from "next/amp";
 
 type EventCardProps = {
   event: Event;
@@ -36,12 +37,16 @@ export const performUrlFromEvent = (event: Event) => {
 };
 
 const EventCard: React.FC<EventCardProps> = ({ event }) => {
+  const isAmp = useAmp();
   const currentLanguage = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
-  const localeDate = new Date(event.start).toLocaleDateString(LOCALES[currentLanguage as string]?.locale ?? currentLanguage, {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const localeDate = new Date(event.start).toLocaleDateString(
+    LOCALES[currentLanguage as string]?.locale ?? currentLanguage,
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    },
+  );
 
   return (
     <Link
@@ -49,42 +54,77 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
       className={styles.fullCardLink}
       title={event.title[currentLanguage]}
       passHref
+      style={isAmp ? { display: "block", textDecoration: "none" } : {}}
     >
       <div className={styles.card}>
         <div className={styles.cardContent}>
           <div>
-            <img
-              className={styles.cardImage}
-              src={
-                event.image ??
-                (`/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png` as string)
-              }
-              alt={`${event.title[currentLanguage] ?? event.name["en"]} ${localeDate}`}
-            />
+            {isAmp ? (
+              <amp-img
+                src={
+                  event.image ??
+                  (`/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png` as string)
+                }
+                alt={`${
+                  event.title[currentLanguage] ?? event.name["en"]
+                } ${localeDate}`}
+                width="300"
+                height="300"
+                layout="responsive"
+              />
+            ) : (
+              <img
+                className={styles.cardImage}
+                src={
+                  event.image ??
+                  (`/images/placeholder_${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}.png` as string)
+                }
+                alt={`${
+                  event.title[currentLanguage] ?? event.name["en"]
+                } ${localeDate}`}
+              />
+            )}
           </div>
           <h2 className={styles.cardTitle}>
             {event.name[currentLanguage] ?? event.name["en"]}
           </h2>
-          {/*<p className={styles.cardDescription}>*/}
-          {/*  {event?.call_for_action[currentLanguage] ?? event?.call_for_action["en"] ?? ""}*/}
-          {/*</p>*/}
           <p className={styles.cardStartDate}>
-            {localeDate}
-            ,{" "}
-            {new Date(event.start).toLocaleTimeString(LOCALES[currentLanguage as string]?.locale ?? currentLanguage, {
-              hour: "numeric",
-              minute: "numeric",
-            })}
+            {localeDate},{" "}
+            {new Date(event.start).toLocaleTimeString(
+              LOCALES[currentLanguage as string]?.locale ?? currentLanguage,
+              {
+                hour: "numeric",
+                minute: "numeric",
+              },
+            )}
           </p>
           <p className={styles.cardAddress}>
-            <strong>{event.city_name?.[currentLanguage] ?? event.provider_city_name}</strong>{" "}
+            <strong>
+              {event.city_name?.[currentLanguage] ?? event.provider_city_name}
+            </strong>{" "}
             {event.venue ||
               event.provider_internal_venue_name ||
               event.provider_internal_venue_address}
           </p>
         </div>
         <div className={styles.cardFooter}>
-          <p className={styles.cardPrice}>
+          <p
+            className={styles.cardPrice}
+            style={
+              isAmp
+                ? {
+                    textAlign: "center",
+                    cursor: "pointer",
+                    width: "100%",
+                    height: "3.5rem",
+                    lineHeight: "3.5rem",
+                    fontSize: "2rem",
+                    backgroundColor: "#006fbb",
+                    color: "#fff",
+                  }
+                : {}
+            }
+          >
             {(event.price_min &&
               event.price_min !== event.price_max &&
               `${event.price_min} - `) ||
