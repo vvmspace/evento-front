@@ -4,14 +4,12 @@ import Link from "next/link";
 import styles from "@/components/Layout/Layout.module.css";
 import { Language } from "@/types/language.type";
 import { useAmp } from "next/amp";
-import group from "@/pages/[group]";
 
 type LanguageSwitcherProps = {
   currentLang: string;
   languages: Language[];
   titles: { [key: string]: string };
   link?: string;
-  group?: string;
 };
 
 const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
@@ -19,7 +17,6 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   languages,
   titles,
   link,
-  group,
 }) => {
   const isAmp = useAmp();
   const [flags, setFlags] = useState<{ [key: string]: string }>({});
@@ -66,7 +63,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           return (
             <Link
               key={lang.code}
-              href={`https://${lang.domain}${link && !link?.includes('[') ? link : group && !group?.includes('[') ? group : ''}`}
+              href={`https://${lang.domain}${link ?? ""}`}
               passHref
               title={titles[lang.code]}
               className={styles.langButton}
