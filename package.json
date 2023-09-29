@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "dev": "locale=fr next dev",
-    "dev01": "PORT=3001 locale=fr next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
