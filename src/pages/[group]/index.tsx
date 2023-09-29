@@ -35,10 +35,7 @@ const getEvents = async (group: string) => {
       revalidate: 24 * 60 * 60,
     },
   });
-  const events: Event[] = await group_response.json().catch(() => {
-    console.log("Error fetching events for group", group);
-    return [];
-  });
+  const events: Event[] = await group_response.json();
   cachedGroups[group] = events;
   return events as Event[];
 };
@@ -125,9 +122,7 @@ const GroupPage: FC<GroupPageProps> = ({
 
 export async function getStaticPaths() {
   const everywhere_url = `${process.env.API_PREFIX}/events?use_cache=true&ssr=true&size=10000&select=group_alias,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc`;
-  const response = await fetch(everywhere_url).catch(() => {
-    throw new Error("Error fetching events " + everywhere_url);
-  });
+  const response = await fetch(everywhere_url);
   const events: Event[] = await response.json();
 
   const groups: string[] = [
