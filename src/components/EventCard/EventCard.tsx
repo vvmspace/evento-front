@@ -50,7 +50,7 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
 
   return (
     <Link
-      href={performUrlFromEvent(event) + (isAmp ? "?amp=1" : "")}
+      href={performUrlFromEvent(event)}
       className={styles.fullCardLink}
       title={event.title[currentLanguage]}
       passHref
