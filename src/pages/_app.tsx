@@ -86,7 +86,7 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
           rel="canonical"
           href={`${
             process.env.URL_PREFIX || process.env.NEXT_PUBLIC_URL_PREFIX
-          }${pageProps.link ?? router.asPath}`}
+          }${pageProps.link ?? router.asPath.replaceAll('?amp=1', '')}`}
         />
         <link
           rel="amphtml"
