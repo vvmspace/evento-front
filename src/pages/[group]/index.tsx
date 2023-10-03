@@ -144,7 +144,7 @@ export async function getStaticPaths() {
       params: { group },
     }));
 
-  return { paths, fallback: true };
+  return { paths, fallback: 'blocking' };
 }
 
 export async function getStaticProps(context: { params: { group: string } }) {
