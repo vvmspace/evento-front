@@ -96,32 +96,50 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }) => {
         />
       </Head>
       <div className={globalStyles.container}>
-        <header className={styles.header}>
-          <div>{renderSiteName()}</div>
-          <div>
-            <LanguageSwitcher
-              currentLang={currentLang.code}
-              languages={languages}
-              link={pageProps.link ?? router.asPath}
-              titles={{
-                en:
-                  pageProps.event?.title?.en ||
-                  "Tickets for Concerts, Festivals, Sports, Theatre and More",
-                es:
-                  pageProps.event?.title?.es ||
-                  "Entradas para Conciertos, Festivales, Deportes, Teatro y Más",
-                fr:
-                  pageProps.event?.title?.fr ||
-                  "Billets pour Concerts, Festivals, Sports, Théâtre et Plus",
-              }}
-            />
+        <header>
+          <div className={styles.header}>
+            <div>{renderSiteName()}</div>
+            <div>
+              <LanguageSwitcher
+                currentLang={currentLang.code}
+                languages={languages}
+                link={pageProps.link ?? router.asPath}
+                titles={{
+                  en:
+                    pageProps.event?.title?.en ||
+                    "Tickets for Concerts, Festivals, Sports, Theatre and More",
+                  es:
+                    pageProps.event?.title?.es ||
+                    "Entradas para Conciertos, Festivales, Deportes, Teatro y Más",
+                  fr:
+                    pageProps.event?.title?.fr ||
+                    "Billets pour Concerts, Festivals, Sports, Théâtre et Plus",
+                }}
+              />
+            </div>
           </div>
         </header>
         <main>
           <GoogleAnalytics trackPageViews />
           <Component {...pageProps} />
         </main>
-        <footer className={styles.footer}>{currentLang.footerText}</footer>
+        <footer className={styles.footer}>
+          {pageProps.groups && (
+              <div className={styles.groups}>
+                {pageProps.groups.map((group: {
+                  alias: string;
+                  name: string;
+                }) => (
+                    <Link
+                        href={`/${group.alias}`}
+                        key={group.alias}
+                        locale={currentLang.code}
+                        className={styles.groupLink}
+                    >{group?.name || ''}</Link>
+                ))}
+              </div>
+          )}
+          {currentLang.footerText}</footer>
       </div>
     </>
   );

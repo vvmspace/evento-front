@@ -171,6 +171,25 @@ export async function getStaticProps(context: { params: { group: string } }) {
       process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es"
     ] ?? "";
 
+  const groups_aliases = [
+    ...new Set(
+        events.map((event) => event.group_alias || performGroupAliasFromEvent(event)),
+    ),
+  ].filter((group) => !!group);
+
+  console.log(groups_aliases);
+
+  const groups = groups_aliases.map((group_alias) => {
+    const group = events.find((event) => event.group_alias === group_alias);
+    return {
+      alias: group_alias,
+      name: group?.group_name?.[process.env?.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es" as "es" | "en" | "fr" | "am"] ?? group?.group_alias?.replaceAll("-", " ")
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+    };
+  }).filter((group) => !!group.name);
+
   return {
     props: {
       group,
@@ -178,6 +197,7 @@ export async function getStaticProps(context: { params: { group: string } }) {
       events,
       groupName,
       groupDescription,
+      groups,
       title: `${t(groupName)} ${t("Tickets")}`,
       description: `${t(groupName ?? group)} ${t(
         "Tickets",
