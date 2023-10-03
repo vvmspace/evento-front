@@ -29,7 +29,7 @@ const cachedRelated: {
   [key: string]: Event[];
 } = {};
 
-const getRelated = async (group: string) => {
+const getEverywhere = async (group: string, alias: string = '') => {
   if (cachedRelated[group]) {
     return cachedRelated[group];
   }
@@ -40,7 +40,8 @@ const getRelated = async (group: string) => {
   }&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const group_response = await fetch(everywhere_url);
   console.log("everywhere_url", everywhere_url);
-  const related: Event[] = await group_response.json();
+  const by_group_alias: Event[] = await group_response.json();
+  const related = by_group_alias.filter((event) => event.alias !== alias);
   cachedRelated[group] = related;
   return related;
 };
@@ -338,7 +339,7 @@ const EventPage: FC<EventPageProps> = ({
 };
 
 export const getStaticPaths = async () => {
-  const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&size=10000&select=group_alias,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
+  const everywhere_url = `${process.env.API_PREFIX}/events?ssr=true&size=10000&select=group_alias,group_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&sort=start_asc&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const response = await fetch(everywhere_url);
   const events: Event[] = await response.json();
   const paths = events.map((event) => ({
@@ -364,7 +365,10 @@ export const getStaticProps = async (context: {
     };
   }
 
-  const related = await getRelated(group);
+  const alias_mask = alias.split('-202')[0];
+  console.log('alias_mask', alias_mask);
+  const related_by_alias = await getEverywhere(alias_mask, alias);
+  const related = related_by_alias.length > 0 ? related_by_alias : await getEverywhere(group, alias);
 
   const groupName =
     event?.group_name?.[language] ??
