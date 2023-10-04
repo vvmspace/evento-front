@@ -39,7 +39,7 @@ const getEverywhere = async (group: string, alias: string = '') => {
     new Date().toISOString().split("T")[0]
   }&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const group_response = await fetch(everywhere_url);
-  console.log("everywhere_url", everywhere_url);
+  // console.log("everywhere_url", everywhere_url);
   const by_group_alias: Event[] = await group_response.json();
   const related = by_group_alias.filter((event) => event.alias !== alias);
   cachedRelated[group] = related;
@@ -365,8 +365,11 @@ export const getStaticProps = async (context: {
     };
   }
 
-  const alias_mask = alias.split('-202')[0];
-  console.log('alias_mask', alias_mask);
+  const alias_mask_full = alias.split('-202')[0];
+  const alias_mask_split = alias_mask_full.split('-');
+    const alias_mask = alias_mask_split[0]?.length >= 5 ? alias_mask_split[0] : alias_mask_split[0] + '-' + alias_mask_split[1];
+
+  // console.log('alias_mask', alias_mask);
   const related_by_alias = await getEverywhere(alias_mask, alias);
   const related = related_by_alias.length > 0 ? related_by_alias : await getEverywhere(group, alias);
 

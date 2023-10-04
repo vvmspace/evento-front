@@ -177,7 +177,7 @@ export async function getStaticProps(context: { params: { group: string } }) {
     ),
   ].filter((group) => !!group);
 
-  console.log(groups_aliases);
+  // console.log(groups_aliases);
 
   const groups = groups_aliases.map((group_alias) => {
     const group = events.find((event) => event.group_alias === group_alias);

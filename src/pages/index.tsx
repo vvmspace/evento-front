@@ -92,7 +92,7 @@ export async function getStaticProps() {
   }).filter((group) => !!group.name);
 
 
-  console.log("groups", groups);
+  // console.log("groups", groups);
   return {
     props: {
       locale: DEFAULT_LANGUAGE,
