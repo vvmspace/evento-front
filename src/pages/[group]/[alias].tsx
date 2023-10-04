@@ -41,9 +41,15 @@ const getEverywhere = async (group: string, alias: string = '') => {
   const group_response = await fetch(everywhere_url);
   // console.log("everywhere_url", everywhere_url);
   const by_group_alias: Event[] = await group_response.json();
-  const related = by_group_alias.filter((event) => event.alias !== alias);
-  cachedRelated[group] = related;
-  return related;
+  try {
+    const related = by_group_alias.filter((event) => event.alias !== alias);
+    cachedRelated[group] = related;
+    return related;
+  } catch (e) {
+    console.log("e", e);
+    console.log("by_group_alias", by_group_alias);
+    return [];
+  }
 };
 
 const cachedEvents: Record<string, Partial<Event>> = {};
