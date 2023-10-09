@@ -1,6 +1,8 @@
 import globalStyles from "../styles/Global.module.css";
 import { FC } from "react";
-import EventCard, { performGroupAliasFromEvent } from "../components/EventCard/EventCard";
+import EventCard, {
+  performGroupAliasFromEvent,
+} from "../components/EventCard/EventCard";
 import { Event } from "@/models/event.model";
 import { LOCALES } from "@/constants/locales.constants";
 import Head from "next/head";
@@ -20,6 +22,16 @@ const HomePage: FC<Props> = ({ latest, top, title }) => {
     <>
       <Head>
         <title>{title}</title>
+        <meta
+          name={"description"}
+          content={`${t("Tickets")} ${t("for")} ${top[0]?.name?.[
+            DEFAULT_LANGUAGE as "es" | "en" | "fr" | "am"
+          ]}, ${t("concerts")}, ${top[1]?.name?.[
+            DEFAULT_LANGUAGE as "es" | "en" | "fr" | "am"
+          ]}${t("festivals")}, ${t("theater")}, ${t(
+            "sports",
+          )} ${new Date().getFullYear()})}`}
+        />
       </Head>
       <h1>{t("New events")}</h1>
       <div className={globalStyles.eventCardsList}>
@@ -76,21 +88,29 @@ export async function getStaticProps() {
 
   const groups_aliases = [
     ...new Set(
-        all_events.map((event) => event.group_alias || performGroupAliasFromEvent(event)),
+      all_events.map(
+        (event) => event.group_alias || performGroupAliasFromEvent(event),
+      ),
     ),
   ].filter((group) => !!group);
 
-  const groups = groups_aliases.map((group_alias) => {
-    const group = all_events.find((event) => event.group_alias === group_alias);
-    return {
-      alias: group_alias,
-      name: group?.group_name?.[DEFAULT_LANGUAGE as "es" | "en" | "fr" | "am"] ?? group?.group_alias?.replaceAll("-", " ")
-          .split(" ")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" "),
-    };
-  }).filter((group) => !!group.name);
-
+  const groups = groups_aliases
+    .map((group_alias) => {
+      const group = all_events.find(
+        (event) => event.group_alias === group_alias,
+      );
+      return {
+        alias: group_alias,
+        name:
+          group?.group_name?.[DEFAULT_LANGUAGE as "es" | "en" | "fr" | "am"] ??
+          group?.group_alias
+            ?.replaceAll("-", " ")
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" "),
+      };
+    })
+    .filter((group) => !!group.name);
 
   // console.log("groups", groups);
   return {

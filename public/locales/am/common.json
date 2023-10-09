@@ -20,5 +20,15 @@
   "Top events": "Թոփ միջոցառումներ",
   "Buy tickets for": "Գնել տոմսեր համար",
   "and": "և",
-  "at": "մեկնարկին"
+  "at": "մեկնարկին",
+  "Tickets": "Տոմսեր",
+  "Tickets for": "Տոմսեր",
+
+  "Event is expired": "Միջոցառումը ավարտված է",
+  "Event is not available yet": "Միջոցառումը դեռ հասանելի չէ",
+  "Event is not available": "Միջոցառումը հասանելի չէ",
+  "concerts": "կոնցերտներ",
+  "theaters": "թատրոններ",
+  "sports": "սպորտ",
+  "festivals": "ֆեստիվալներ"
 }
