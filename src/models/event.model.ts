@@ -69,4 +69,5 @@ export interface Event {
   sub_genre?: string;
   timezone?: string;
   venue?: string;
+  createdAt?: Date;
 }
