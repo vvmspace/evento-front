@@ -6,11 +6,7 @@ import { t } from "@/libs/t";
 const renderHTML = (rawHTML: string) =>
   React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
 
-const EventJSONLd = ({
-  event,
-}: {
-  event: Event;
-}) => {
+const EventJSONLd = ({ event }: { event: Event }) => {
   const currentLanguage = process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE ?? "es";
   const jevent = {
     "@context": "https://schema.org",
@@ -62,7 +58,7 @@ const EventJSONLd = ({
       price: event.price_min || event.price_max,
       availability: "https://schema.org/InStock",
       validFrom: event.validated_at,
-      validThrough: event.end,
+      validThrough: event.start,
     },
     performer: {
       "@type": "PerformingGroup",
