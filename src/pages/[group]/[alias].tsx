@@ -29,14 +29,14 @@ const cachedRelated: {
   [key: string]: Event[];
 } = {};
 
-const getEverywhere = async (group: string, alias: string = '') => {
+const getEverywhere = async (group: string, alias: string = "", from: Date = new Date()) => {
   if (cachedRelated[group]) {
     return cachedRelated[group];
   }
   const everywhere_url = `${
     process.env.API_PREFIX
   }/events?use_cache=true&active=true&ssr=true&select=group_alias,provider_city_name,country,genre,updatedAt,image,name,alias,start,price_min,price_max,title,call_for_action,venue,provider_id,provider_internal_venue_address,price_currency&ssr=true&size=4&everywhere=${group}&sort=start_asc&start_from=${
-    new Date().toISOString().split("T")[0]
+      (from || new Date()).toISOString().split("T")[0]
   }&locale=${process.env.NEXT_PUBLIC_DOMAIN_LANGUAGE}`;
   const group_response = await fetch(everywhere_url);
   // console.log("everywhere_url", everywhere_url);
@@ -303,24 +303,33 @@ const EventPage: FC<EventPageProps> = ({
               {t("Tickets price to")}: {event.price_max} {event.price_currency}
             </p>
             <div className={styles.buttonWrapper}>
-
-              {isAmp ? (<Link href={event?.link} rel={'nofollow'} style={{
-                width: "100%",
-                height: "3.5rem",
-                lineHeight: "3.5rem",
-                fontSize: "2rem",
-                backgroundColor: "#006fbb",
-                color: "#fff",
-                cursor: "pointer",
-                textAlign: "center",
-                textDecoration: "none",
-                display: "block",
-              }}>{t("Buy tickets")}</Link>) : (<button
-                onClick={handleAffiliateClick}
-                className={styles.buyButton}
-              >
-                {t("Buy tickets")}
-              </button>)}
+              {isAmp ? (
+                <Link
+                  href={event?.link}
+                  rel={"nofollow"}
+                  style={{
+                    width: "100%",
+                    height: "3.5rem",
+                    lineHeight: "3.5rem",
+                    fontSize: "2rem",
+                    backgroundColor: "#006fbb",
+                    color: "#fff",
+                    cursor: "pointer",
+                    textAlign: "center",
+                    textDecoration: "none",
+                    display: "block",
+                  }}
+                >
+                  {t("Buy tickets")}
+                </Link>
+              ) : (
+                <button
+                  onClick={handleAffiliateClick}
+                  className={styles.buyButton}
+                >
+                  {t("Buy tickets")}
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -353,7 +362,7 @@ export const getStaticPaths = async () => {
   }));
   return {
     paths,
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 };
 
@@ -371,13 +380,20 @@ export const getStaticProps = async (context: {
     };
   }
 
-  const alias_mask_full = alias.split('-202')[0];
-  const alias_mask_split = alias_mask_full.split('-');
-    const alias_mask = alias_mask_split[0]?.length >= 5 ? alias_mask_split[0] : alias_mask_split[0] + '-' + alias_mask_split[1];
+  const alias_mask_full = alias.split("-202")[0];
+  const alias_mask_split = alias_mask_full.split("-");
+  const alias_mask =
+    alias_mask_split[0]?.length >= 5
+      ? alias_mask_split[0]
+      : alias_mask_split[0] + "-" + alias_mask_split[1];
 
   // console.log('alias_mask', alias_mask);
-  const related_by_alias = await getEverywhere(alias_mask, alias);
-  const related = related_by_alias.length > 0 ? related_by_alias : await getEverywhere(group, alias);
+  const related_by_alias_upcoming = await getEverywhere(alias_mask, alias, event.start);
+  const related_by_alias = related_by_alias_upcoming.length > 0 ? related_by_alias_upcoming : await getEverywhere(alias_mask, alias);
+  const related =
+    related_by_alias.length > 0
+      ? related_by_alias
+      : await getEverywhere(group, alias);
 
   const groupName =
     event?.group_name?.[language] ??
