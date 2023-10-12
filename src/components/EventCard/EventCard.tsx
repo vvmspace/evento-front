@@ -26,6 +26,8 @@ export const performGroupAliasFromEvent = (event: Event): string => {
     .replaceAll(" ", "%20")
     .replaceAll("&", "%26");
 };
+
+export const performUrl = (uri: string) => process.env.NEXT_PUBLIC_URL_PREFIX + uri;
 export const performUrlFromEvent = (event: Event) => {
   return (
     (typeof window === "undefined"
@@ -88,6 +90,10 @@ const EventCard: React.FC<EventCardProps> = ({ event }) => {
           <h2 className={styles.cardTitle}>
             {event.name[currentLanguage] ?? event.name["en"]}
           </h2>
+          <p className={styles.cardDescription}>
+            {event.group_name?.[currentLanguage] ?? event.group_name?.["en"]}{" "}
+              {event.genre} {event.sub_genre}
+          </p>
           <p className={styles.cardStartDate}>
             {localeDate},{" "}
             {new Date(event.start).toLocaleTimeString(

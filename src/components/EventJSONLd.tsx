@@ -1,6 +1,6 @@
 import React from "react";
 import { Event } from "@/models/event.model";
-import { performUrlFromEvent } from "@/components/EventCard/EventCard";
+import {performUrl, performUrlFromEvent} from "@/components/EventCard/EventCard";
 import { t } from "@/libs/t";
 
 const renderHTML = (rawHTML: string) =>
@@ -69,6 +69,7 @@ const EventJSONLd = ({ event }: { event: Event }) => {
       "@type": "Organization",
       name: event.provider_id,
       sameAs: event.provider_id,
+      url: performUrl("/" + event.provider_id)
     },
   };
   return renderHTML(
